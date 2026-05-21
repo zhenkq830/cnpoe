@@ -2,6 +2,9 @@
  * 流放工坊 — 双语 Regex 引擎
  * 支持 简体中文模式(CN) 和 高效英文模式(EN)
  * 输出格式: "term1|term2|term3" (双引号, | = OR, 空格 = AND)
+ *
+ * Copyright (c) 2025 流放工坊 | cnpoe.com
+ * 核心逻辑参考 poe2.re 开源项目，中文适配部分为独立开发。
  */
 import { getAllItemMods, getModById, getCategoryGroups, waystoneMods, properties, rarities, itemClasses, moveSpeeds, ilvlRegex } from '../data/affixesData';
 

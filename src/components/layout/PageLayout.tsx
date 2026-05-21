@@ -1,3 +1,8 @@
+/**
+ * 流放工坊 (PoE2 Exile Workshop)
+ * Copyright (c) 2025 cnpoe.com
+ * All Rights Reserved.
+ */
 import { useState, useCallback } from 'react';
 import type { ReactNode } from 'react';
 import Navbar from './Navbar';
@@ -22,7 +27,7 @@ function Footer() {
     <footer className="mt-auto border-t border-poe-border bg-poe-darker/50">
       <div className="max-w-5xl mx-auto px-4 py-6">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          {/* Left */}
+          {/* Left: copyright */}
           <div className="text-xs text-poe-muted text-center sm:text-left">
             <p className="font-bold text-poe-text mb-1">流放工坊</p>
             <p>PoE2 中文玩家工具站 — 开源项目</p>
@@ -62,6 +67,14 @@ function Footer() {
             <p className="font-mono text-[10px] text-poe-gold/50">{typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ : 'dev'}</p>
             <p>如有问题或建议 · 欢迎加群反馈</p>
           </div>
+        </div>
+
+        {/* Copyright bar */}
+        <div className="mt-4 pt-3 border-t border-poe-border/50 text-center">
+          <p className="text-[10px] text-poe-muted/70">
+            © 2025 流放工坊 | cnpoe.com All Rights Reserved.
+            本网站代码及词缀数据未经允许禁止商业复制、二次贩卖或用于盈利目的。
+          </p>
         </div>
       </div>
     </footer>

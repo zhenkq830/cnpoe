@@ -1,7 +1,13 @@
+/**
+ * 流放工坊 (PoE2 Exile Workshop)
+ * Copyright (c) 2025 cnpoe.com
+ * All Rights Reserved.
+ */
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAppStore } from '../../store/useAppStore';
 import QQGroupModal from '../QQGroupModal';
+import CopyrightModal from '../CopyrightModal';
 
 const NAV = [
   { to: '/', label: '首页', icon: '🏠' },
@@ -15,6 +21,7 @@ export default function Navbar() {
   const loc = useLocation();
   const { theme, toggleTheme, sidebarOpen, setSidebarOpen } = useAppStore();
   const [qqOpen, setQqOpen] = useState(false);
+  const [copyrightOpen, setCopyrightOpen] = useState(false);
 
   return (
     <nav className="sticky top-0 z-50 bg-poe-darker/95 backdrop-blur border-b border-poe-border">
@@ -46,8 +53,17 @@ export default function Navbar() {
           })}
         </div>
 
-        {/* Right: QQ + theme */}
+        {/* Right: copyright + QQ + theme */}
         <div className="flex items-center gap-2">
+          {/* About / Copyright */}
+          <button
+            onClick={() => setCopyrightOpen(true)}
+            className="hidden sm:inline-flex text-xs text-poe-muted hover:text-poe-gold-light transition-colors px-2"
+            title="关于本站 / 版权说明"
+          >
+            关于本站
+          </button>
+
           {/* QQ Group button */}
           <button
             onClick={() => setQqOpen(true)}
@@ -69,6 +85,7 @@ export default function Navbar() {
       </div>
 
       <QQGroupModal open={qqOpen} onClose={() => setQqOpen(false)} />
+      <CopyrightModal open={copyrightOpen} onClose={() => setCopyrightOpen(false)} />
     </nav>
   );
 }

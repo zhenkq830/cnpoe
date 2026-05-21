@@ -53,6 +53,11 @@ export default function RegexForgePage() {
       {tab === 'maps' && <MapMods />}
       {tab === 'core' && <CoreItems />}
       {tab === 'custom' && <CustomRegex />}
+
+      {/* 版权提示 */}
+      <p className="mt-8 text-center text-[10px] text-poe-muted/50">
+        © 2025 流放工坊 | cnpoe.com — 正则数据源自 poe2.re 及 PoE2 社区，请勿商用
+      </p>
     </div>
   );
 }
