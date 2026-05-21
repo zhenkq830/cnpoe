@@ -133,7 +133,11 @@ export function buildRegex(input: Partial<BuildInput>): { regex: string; shortRe
   if (termsFinal.length > 0) {
     if (i.highlight) {
       full = `"${termsFinal.join(sep)}"`;
+    } else if (i.logic === 'and') {
+      // 排除+和: !"a.*b" = NOT(a AND b) = 排除同时包含a和b的物品
+      full = `!"${termsFinal.join('.*')}"`;
     } else {
+      // 排除+或: !a !b = NOT(a) AND NOT(b) = 排除任一包含a或b的物品
       full = termsFinal.map(t => `!${t.includes(' ') ? t : t}`).join(' ');
     }
   }
@@ -141,6 +145,8 @@ export function buildRegex(input: Partial<BuildInput>): { regex: string; shortRe
   if (shortTerms.length > 0) {
     if (i.highlight) {
       short = `"${shortTerms.join(sep)}"`;
+    } else if (i.logic === 'and') {
+      short = `!"${shortTerms.join('.*')}"`;
     } else {
       short = shortTerms.map(t => `!${t.includes(' ') ? t : t}`).join(' ');
     }
