@@ -40,7 +40,7 @@ export default function HomePage() {
 
       {/* Footer */}
       <div className="text-center text-xs text-poe-muted pt-4 border-t border-poe-border">
-        <p>流放工坊 — 开源项目 | 数据参考 <a href="https://poe2.re" className="text-poe-gold-light hover:underline">poe2.re</a> &amp; <a href="https://www.pathofexile.com" className="text-poe-gold-light hover:underline">PoE2 官方 API</a></p>
+        <p>流放工坊 — PoE2 中文玩家工具站</p>
       </div>
     </div>
   );

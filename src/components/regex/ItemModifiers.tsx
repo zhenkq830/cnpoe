@@ -1,25 +1,44 @@
 import { useMemo, useState } from 'react';
 import { buildRegex } from '../../engine/regexEngine';
-import { getAllItemMods, getCategoryGroups, getModById } from '../../data/affixesData';
+import { getAllItemMods, getAvailableMods, itemClasses } from '../../data/affixesData';
 import type { LangMode } from '../../engine/regexEngine';
 import { useAppStore } from '../../store/useAppStore';
 import RegexOutput from './RegexOutput';
 import Card from '../ui/Card';
+import ControlBar from './ControlBar';
 
-const RES_IDS = ['fireRes','coldRes','lightRes','chaosRes','allRes','maxResFire','maxResCold','maxResLight'];
 const ALL = getAllItemMods();
-const GROUPS = getCategoryGroups();
+const EQ_TYPES = itemClasses.filter(c =>
+  ['bows','crossbows','quarterstaves','oneHandMaces','twoHandMaces','staves',
+   'wands','sceptres','spears','boots','gloves','bodyArmours','helmets',
+   'shields','foci','quivers','rings','amulets','belts'].includes(c.id)
+);
 
 export default function ItemModifiers() {
   const { regexInput: f, setRegexInput: set } = useAppStore();
   const lang = (f.lang || 'cn') as LangMode;
-  const result = useMemo(() => buildRegex(f), [f]);
-  const [activeCat, setActiveCat] = useState<string>('点伤');
+  // 装备选择仅用于过滤 UI 词缀, 不加入正则
+  const result = useMemo(() => buildRegex({ ...f, classIds: [] }), [f]);
 
-  const cats = Object.keys(GROUPS);
+  // 装备选择
+  const selectedEq = f.classIds || [];
+  const toggleEq = (id: string) => {
+    const next = selectedEq.includes(id) ? selectedEq.filter(x => x !== id) : [...selectedEq, id];
+    set({ classIds: next });
+  };
+
+  // 可用词缀 — 按装备部位取前后缀交集
+  const available = getAvailableMods(selectedEq);
+  const prefixes = available
+    ? ALL.filter(m => available.prefixes.includes(m.id))
+    : ALL.filter(m => m.affix === 'prefix');
+  const suffixes = available
+    ? ALL.filter(m => available.suffixes.includes(m.id))
+    : ALL.filter(m => m.affix === 'suffix');
+
   const allSelected = [...(f.modIds || []), ...(f.resistances || [])];
-  const toggle = (id: string) => {
-    const isRes = RES_IDS.includes(id);
+  const toggleMod = (id: string) => {
+    const isRes = ['fireRes','coldRes','lightRes','chaosRes','allRes','maxResFire','maxResCold','maxResLight'].includes(id);
     if (isRes) {
       const arr = f.resistances || [];
       set({ resistances: arr.includes(id) ? arr.filter(x => x !== id) : [...arr, id] });
@@ -29,71 +48,69 @@ export default function ItemModifiers() {
     }
   };
 
+  const ModButton = ({ m }: { m: typeof ALL[0] }) => {
+    const a = allSelected.includes(m.id);
+    return (
+      <button key={m.id} onClick={() => toggleMod(m.id)}
+        className={`px-3 py-1 rounded-md text-xs font-medium text-left transition-all ${
+          a ? 'bg-poe-gold/20 text-poe-gold-light border border-poe-gold/40'
+            : 'bg-poe-dark/30 text-poe-muted border border-poe-border hover:text-poe-text hover:border-poe-muted/50'
+        }`}>
+        {m.label}
+      </button>
+    );
+  };
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
       <div className="space-y-4">
-        {/* Language toggle */}
+        {/* Language + Logic */}
         <Card>
-          <div className="flex items-center gap-3">
-            <span className="text-xs text-poe-muted">语言模式:</span>
-            <button onClick={() => set({ lang: 'cn' })}
-              className={`px-3 py-1 rounded-md text-xs font-medium transition-all ${lang === 'cn' ? 'bg-poe-gold/20 text-poe-gold-light border border-poe-gold/40' : 'bg-poe-dark/50 text-poe-muted border border-poe-border'}`}>简体中文</button>
-            <button onClick={() => set({ lang: 'en' })}
-              className={`px-3 py-1 rounded-md text-xs font-medium transition-all ${lang === 'en' ? 'bg-poe-gold/20 text-poe-gold-light border border-poe-gold/40' : 'bg-poe-dark/50 text-poe-muted border border-poe-border'}`}>高效英文</button>
+          <ControlBar lang={lang} logic={(f.logic||'or') as 'or'|'and'} onLang={v=>set({lang:v})} onLogic={v=>set({logic:v})} onReset={selectedEq.length>0 ? () => set({ classIds:[], modIds:[], resistances:[] }) : undefined} />
+        </Card>
+
+        {/* 装备部位 */}
+        <Card title="选择装备部位（不选会显示所有词缀）">
+          <div className="flex flex-wrap gap-1">
+            {EQ_TYPES.map(c => {
+              const a = selectedEq.includes(c.id);
+              return (
+                <button key={c.id} onClick={() => toggleEq(c.id)}
+                  className={`px-3 py-1 rounded-md text-xs font-medium transition-all ${
+                    a ? 'bg-poe-gold/20 text-poe-gold-light border border-poe-gold/40'
+                      : 'bg-poe-dark/30 text-poe-muted border border-poe-border hover:text-poe-text'
+                  }`}>{c.label}</button>
+              );
+            })}
           </div>
         </Card>
 
-        {/* Category tabs */}
-        <div className="flex flex-wrap gap-1">
-          {cats.map(cat => {
-            const a = activeCat === cat;
-            const count = (GROUPS[cat] || []).length;
-            return (
-              <button key={cat} onClick={() => setActiveCat(cat)}
-                className={`px-2.5 py-1 rounded-md text-xs font-medium transition-all ${a ? 'bg-poe-gold/20 text-poe-gold-light border border-poe-gold/40' : 'bg-poe-dark/50 text-poe-muted border border-poe-border hover:text-poe-text'}`}>
-                {cat} ({count})
-              </button>
-            );
-          })}
-        </div>
+        {/* 前缀 */}
+        <Card title={`前缀 (${prefixes.length})`}>
+          <div className="flex flex-wrap gap-1 max-h-48 overflow-y-auto">
+            {prefixes.map(m => <ModButton key={m.id} m={m} />)}
+          </div>
+        </Card>
 
-        {/* Current category mods */}
-        {GROUPS[activeCat] && (
-          <Card title={activeCat}>
-            <div className="flex flex-wrap gap-1.5 max-h-[60vh] overflow-y-auto">
-              {(GROUPS[activeCat] || []).map(modId => {
-                const mod = getModById(modId);
-                if (!mod) return null;
-                const a = allSelected.includes(modId);
-                return (
-                  <button key={modId} onClick={() => toggle(modId)}
-                    className={`px-3 py-1.5 rounded-md text-xs font-medium text-left transition-all ${
-                      a ? 'bg-poe-gold/20 text-poe-gold-light border border-poe-gold/40'
-                        : 'bg-poe-dark/50 text-poe-muted border border-poe-border hover:text-poe-text hover:border-poe-muted/50'
-                    }`}>
-                    {mod.label}
-                    {RES_IDS.includes(modId) && (
-                      <span className="ml-1 text-[10px] text-poe-muted">(抗性)</span>
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-          </Card>
-        )}
+        {/* 后缀 */}
+        <Card title={`后缀 (${suffixes.length})`}>
+          <div className="flex flex-wrap gap-1 max-h-48 overflow-y-auto">
+            {suffixes.map(m => <ModButton key={m.id} m={m} />)}
+          </div>
+        </Card>
 
-        {/* Selected summary */}
+        {/* 已选 */}
         {allSelected.length > 0 && (
           <Card title={`已选 (${allSelected.length})`}>
             <div className="flex flex-wrap gap-1">
               {allSelected.map(id => {
-                const mod = getModById(id);
+                const mod = ALL.find(m => m.id === id);
                 if (!mod) return null;
                 return (
-                  <span key={id}
-                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] bg-poe-gold/10 text-poe-gold-light border border-poe-gold/20">
+                  <span key={id} className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] bg-poe-gold/10 text-poe-gold-light border border-poe-gold/20">
+                    <span className="text-[9px] text-poe-muted">{mod.affix==='prefix'?'前':'后'}</span>
                     {mod.label}
-                    <button onClick={() => toggle(id)} className="text-poe-muted hover:text-poe-red ml-0.5">×</button>
+                    <button onClick={() => toggleMod(id)} className="text-poe-muted hover:text-poe-red ml-0.5">×</button>
                   </span>
                 );
               })}

@@ -8,11 +8,18 @@
  */
 import { getAllItemMods, getModById, getCategoryGroups, waystoneMods, properties, rarities, itemClasses, moveSpeeds, ilvlRegex } from '../data/affixesData';
 
-export type LangMode = 'en' | 'cn';
+export type LangMode = 'en' | 'cn' | 'tc';
+export type LogicMode = 'or' | 'and';
 const FLAT_IDS = ['flat_phys','flat_fire','flat_cold','flat_light','flat_chaos'];
+
+/** 简体→繁体字符转换 */
+const SC2TC: Record<string,string> = {'护':'護','闪':'閃','伤':'傷','击':'擊','头':'頭','链':'鍊','带':'帶','宝':'寶','权':'權','长':'長','战':'戰','单':'單','双':'雙','锤':'錘','斗':'鬥','电':'電','晕':'暈','阈':'閾','环':'環','诅':'詛','却':'卻','剂':'劑','唤':'喚','类':'類','术':'術','动':'動','点':'點','缓':'緩','积':'積','冻':'凍','额':'額','缀':'綴','质':'質','级':'級','围':'圍','门':'門','範':'范','選':'选','擇':'择','項':'项','標':'标','籤':'签','萬':'万','與':'与','復':'复','體':'体','機':'机','對':'对','關':'关','係':'系','應':'应','發':'发','開':'开','無':'无','時':'时','書':'书','會':'会','個':'个','們':'们','為':'为','現':'现','領':'领','風':'风','實':'实','學':'学','進':'进','過':'过','運':'运','還':'还','這':'这','兩':'两','嚴':'严','靈':'灵','變':'变','葉':'叶','導':'导','響':'响','爾':'尔','盡':'尽','義':'义','親':'亲','許':'许','論':'论','識':'识','調':'调','負':'负','責':'责','費':'费','車':'车','轉':'转','輪':'轮','軟':'软','較':'较','輕':'轻','軸':'轴','輯':'辑','輸':'输','達':'达','違':'违','遠':'远','遲':'迟','適':'适','遺':'遗','郵':'邮','鄰':'邻','鑑':'鉴','銳':'锐','鍵':'键','鎮':'镇','鏡':'镜','鐘':'钟','鐵':'铁','銀':'银','銅':'铜','鋼':'钢','錢':'钱','錯':'错','鎊':'镑','鑽':'钻','錄':'录','際':'际','陸':'陆','陳':'陈','陰':'阴','陽':'阳','階':'阶','隊':'队','難':'难','險':'险','隨':'随','隱':'隐','雖':'虽','靜':'静','頁':'页','頂':'顶','須':'须','順':'顺','預':'预','頻':'频','題':'题','顏':'颜','願':'愿','顧':'顾','顯':'显'};
+function toTC(s: string): string { return s.split('').map(c => SC2TC[c] || c).join(''); }
 
 export interface BuildInput {
   lang: LangMode;
+  logic: LogicMode;
+  highlight: boolean;
   classIds: string[];
   rarities: string[];
   hasQuality: boolean;
@@ -27,13 +34,15 @@ export interface BuildInput {
 }
 
 export function defaultInput(): BuildInput {
-  return { lang: 'cn', classIds: [], rarities: [], hasQuality: false, hasSockets: false, ilvlMin: 0, ilvlMax: 0, moveSpeed: 0, resistances: [], modIds: [], mapModIds: [], flatDmgMin: 0, customText: '' };
+  return { lang: 'cn', logic: 'or', highlight: true, classIds: [], rarities: [], hasQuality: false, hasSockets: false, ilvlMin: 0, ilvlMax: 0, moveSpeed: 0, resistances: [], modIds: [], mapModIds: [], flatDmgMin: 0, customText: '' };
 }
 
 // ========================
 export function buildRegex(input: Partial<BuildInput>): { regex: string; shortRegex: string; explanation: string[]; length: number } {
   const i = { ...defaultInput(), ...input };
-  const cn = i.lang === 'cn';
+  const cn = i.lang === 'cn' || i.lang === 'tc';
+  const tc = i.lang === 'tc';
+  const T = (s: string) => tc ? toTC(s) : s;
   const terms: string[] = [];
 
   // Quality / Sockets
@@ -115,18 +124,38 @@ export function buildRegex(input: Partial<BuildInput>): { regex: string; shortRe
   // Custom
   if (i.customText.trim()) terms.push(i.customText.trim());
 
+  // 繁体转换
+  const termsFinal = tc ? terms.map(toTC) : terms;
+
   // Assemble
-  const full = terms.length > 0 ? `"${terms.join('|')}"` : '';
-  const shortTerms = compress(terms, i);
-  const short = shortTerms.length > 0 ? `"${shortTerms.join('|')}"` : '';
+  const sep = i.logic === 'and' ? '" "' : '|';
+  let full = '', short = '';
+  if (termsFinal.length > 0) {
+    if (i.highlight) {
+      full = `"${termsFinal.join(sep)}"`;
+    } else {
+      full = termsFinal.map(t => `!${t.includes(' ') ? t : t}`).join(' ');
+    }
+  }
+  const shortTerms = compress(termsFinal, i);
+  if (shortTerms.length > 0) {
+    if (i.highlight) {
+      short = `"${shortTerms.join(sep)}"`;
+    } else {
+      short = shortTerms.map(t => `!${t.includes(' ') ? t : t}`).join(' ');
+    }
+  }
   const explanation = explain(terms, i, il.explain);
 
   return { regex: full, shortRegex: short.length <= full.length ? short : full, explanation, length: full.length };
 }
 
 function compress(terms: string[], input: Partial<BuildInput>): string[] {
-  const joined = terms.join('|');
-  if (`"${joined}"`.length <= 48) return terms;
+  const isAnd = input.logic === 'and';
+  const jSep = isAnd ? '" "' : '|';
+  const wSep = isAnd ? ' ' : '|';
+  const joined = terms.join(wSep);
+  if (isAnd ? joined.length <= 48 : `"${joined}"`.length <= 48) return terms;
   const cn = input.lang === 'cn';
   const p: string[][] = [[],[],[],[],[],[]];
   for (const t of terms) {
@@ -139,22 +168,22 @@ function compress(terms: string[], input: Partial<BuildInput>): string[] {
     else p[3].push(t);
   }
   const result = [...p[0], ...p[1], ...p[2], ...p[3].slice(0, 2), ...p[4], ...p[5]];
-  const rj = result.join('|');
-  return `"${rj}"`.length <= 48 ? result : [...p[0], ...p[1], ...p[2], ...p[3].slice(0, 2)];
+  const rj = result.join(wSep);
+  return (isAnd ? rj.length : `"${rj}"`.length) <= 48 ? result : [...p[0], ...p[1], ...p[2], ...p[3].slice(0, 2)];
 }
 
 function explain(terms: string[], input: Partial<BuildInput>, ilvlExplain: string): string[] {
-  const cn = input.lang === 'cn';
+  const cn = input.lang === 'cn' || input.lang === 'tc';
   const lines: string[] = [];
   for (const t of terms) {
     const mod = getAllItemMods().find(m => cn ? m.cn === t : m.en === t);
     if (mod) {
       const extra = (input.flatDmgMin && FLAT_IDS.includes(mod.id)) ? ` ≥ ${input.flatDmgMin}` : '';
-      lines.push(`${mod.label}${extra} — 匹配 "${mod.example}"`);
+      lines.push(`${mod.label}${extra} — 匹配 "${mod.label}" 词缀`);
       continue;
     }
     const wm = waystoneMods.find(m => cn ? m.cnRegex === t : m.enRegex === t);
-    if (wm) { lines.push(`引路石: ${wm.label} — 匹配 "${wm.cnExample}"`); continue; }
+    if (wm) { lines.push(`引路石${wm.affix==='prefix'?'前缀':'后缀'}: ${wm.label}`); continue; }
     if (t.includes('移动速度')) {
       const ms = moveSpeeds.find(m => m.value === (input.moveSpeed || 0));
       lines.push(`移动速度 —≥${ms?.label || input.moveSpeed + '%'} 移速词缀`);

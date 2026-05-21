@@ -36,6 +36,10 @@ export default function Navbar() {
             <span className="text-poe-gold-light">流放</span>
             <span className="text-poe-text">工坊</span>
           </Link>
+          <a href="https://space.bilibili.com/3493297450388177" target="_blank" rel="noopener noreferrer"
+            className="hidden sm:inline text-[11px] text-poe-gold hover:text-poe-gold-light transition-colors ml-1">
+            B站 狮子歌哥烦恼风
+          </a>
         </div>
 
         {/* Center: Nav links (desktop) */}

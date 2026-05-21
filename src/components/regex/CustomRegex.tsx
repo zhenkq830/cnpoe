@@ -3,8 +3,10 @@ import { buildRegex, getLengthColor } from '../../engine/regexEngine';
 import type { LangMode } from '../../engine/regexEngine';
 import { useAppStore } from '../../store/useAppStore';
 import RegexOutput from './RegexOutput';
+import DiagnosePanel from './DiagnosePanel';
 import Button from '../ui/Button';
 import Card from '../ui/Card';
+import ControlBar from './ControlBar';
 import { useCopy } from '../../hooks/useCopy';
 
 export default function CustomRegex() {
@@ -40,13 +42,7 @@ export default function CustomRegex() {
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
       <div className="space-y-4">
         <Card>
-          <div className="flex items-center gap-3 mb-3">
-            <span className="text-xs text-poe-muted">语言模式:</span>
-            <button onClick={() => set({ lang: 'cn' })}
-              className={`px-3 py-1 rounded-md text-xs font-medium transition-all ${lang === 'cn' ? 'bg-poe-gold/20 text-poe-gold-light border border-poe-gold/40' : 'bg-poe-dark/50 text-poe-muted border border-poe-border'}`}>简体中文</button>
-            <button onClick={() => set({ lang: 'en' })}
-              className={`px-3 py-1 rounded-md text-xs font-medium transition-all ${lang === 'en' ? 'bg-poe-gold/20 text-poe-gold-light border border-poe-gold/40' : 'bg-poe-dark/50 text-poe-muted border border-poe-border'}`}>高效英文</button>
-          </div>
+          <ControlBar lang={lang} logic={(f.logic||'or') as 'or'|'and'} onLang={v=>set({lang:v})} onLogic={v=>set({logic:v})} />
         </Card>
 
         <Card title="自定义正则">
@@ -67,7 +63,7 @@ export default function CustomRegex() {
 
         <Card title="正则速查">
           <div className="text-xs font-mono text-poe-muted space-y-1">
-            <p><code className="text-poe-gold-light">|</code> — 或 (OR)</p>
+            <p><code className="text-poe-gold-light">|</code> — 或 (或)</p>
             <p><code className="text-poe-gold-light">\d</code> — 任意数字</p>
             <p><code className="text-poe-gold-light">\d+</code> — 一个或多个数字</p>
             <p><code className="text-poe-gold-light">.*</code> — 任意数量字符</p>
@@ -98,6 +94,9 @@ export default function CustomRegex() {
             <p className="text-poe-muted text-xs mt-1">支持中文和英文关键词，左侧输入后在下方测试匹配效果</p>
           </div>
         )}
+
+        {/* 一键诊断所有词缀 */}
+        <DiagnosePanel text={testText} />
       </div>
     </div>
   );

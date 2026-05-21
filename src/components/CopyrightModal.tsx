@@ -43,11 +43,7 @@ export default function CopyrightModal({ open, onClose }: Props) {
             正则工坊核心引擎参考并致谢：
           </p>
           <p>
-            <a href="https://poe2.re" className="text-poe-gold-light hover:underline">poe2.re</a>
-            <span className="text-poe-muted mx-1">·</span>
-            <a href="https://github.com/veiset/poe2.re" className="text-poe-gold-light hover:underline">GitHub</a>
-            <span className="text-poe-muted mx-1">·</span>
-            <a href="https://poe2db.tw" className="text-poe-gold-light hover:underline">poe2db.tw</a>
+            <span className="text-poe-muted">词缀数据参考社区资源并独立整理验证</span>
           </p>
           <div className="pt-2 border-t border-poe-border">
             <p className="text-poe-gold-light/80 text-center">

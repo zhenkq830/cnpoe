@@ -11,7 +11,7 @@ type TabId = 'vendor' | 'modifiers' | 'maps' | 'core' | 'custom';
 const TABS: { id: TabId; label: string; icon: string }[] = [
   { id: 'vendor', label: '商人搜索', icon: '🏪' },
   { id: 'modifiers', label: '装备词缀', icon: '⚡' },
-  { id: 'maps', label: '引路石', icon: '🗺' },
+  { id: 'maps', label: '引路石', icon: '/waystone.png' },
   { id: 'core', label: '核心物品', icon: '💎' },
   { id: 'custom', label: '自定义测试', icon: '🔧' },
 ];
@@ -19,9 +19,12 @@ const TABS: { id: TabId; label: string; icon: string }[] = [
 export default function RegexForgePage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const tab = (searchParams.get('tab') as TabId) || 'vendor';
-  const setTab = (t: TabId) => setSearchParams(t === 'vendor' ? {} : { tab: t });
+  const setTab = (t: TabId) => {
+    if (t !== tab) resetRegexInput();
+    setSearchParams(t === 'vendor' ? {} : { tab: t });
+  };
   const { regexInput: f, resetRegexInput } = useAppStore();
-  const lang = (f.lang || 'cn') as 'en' | 'cn';
+  const lang = (f.lang || 'cn') as 'en' | 'cn' | 'tc';
 
   return (
     <div className="space-y-6">
@@ -30,7 +33,7 @@ export default function RegexForgePage() {
         <div>
           <h1 className="text-xl font-bold text-poe-text">正则工坊</h1>
           <p className="text-xs text-poe-muted mt-1">
-            {lang === 'cn' ? '简体中文模式 — 使用游戏内中文文本匹配' : '高效英文模式 — 对齐 poe2.re 验证模式'}
+            {lang === 'en' ? '英文模式' : '中文模式'}
           </p>
         </div>
         <Button size="sm" variant="secondary" onClick={resetRegexInput}>重置</Button>
@@ -41,7 +44,7 @@ export default function RegexForgePage() {
         {TABS.map(t => (
           <button key={t.id} onClick={() => setTab(t.id)}
             className={`flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap ${tab === t.id ? 'bg-poe-gold/15 text-poe-gold-light border border-poe-gold/30' : 'text-poe-muted hover:text-poe-text border border-transparent'}`}>
-            <span className="text-base">{t.icon}</span>
+            {t.icon.startsWith('/') ? <img src={t.icon} alt="" className="w-4 h-4 object-contain" /> : <span className="text-base">{t.icon}</span>}
             <span className="hidden sm:inline">{t.label}</span>
           </button>
         ))}
@@ -56,7 +59,7 @@ export default function RegexForgePage() {
 
       {/* 版权提示 */}
       <p className="mt-8 text-center text-[10px] text-poe-muted/50">
-        © 2025 流放工坊 | cnpoe.com — 正则数据源自 poe2.re 及 PoE2 社区，请勿商用
+        © 2025 流放工坊 | cnpoe.com — 请勿商用
       </p>
     </div>
   );

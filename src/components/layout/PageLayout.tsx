@@ -31,11 +31,6 @@ function Footer() {
           <div className="text-xs text-poe-muted text-center sm:text-left">
             <p className="font-bold text-poe-text mb-1">流放工坊</p>
             <p>PoE2 中文玩家工具站 — 开源项目</p>
-            <p className="mt-1">
-              <a href="https://poe2.re" className="text-poe-gold-light hover:underline">poe2.re</a>
-              {' · '}
-              <a href="https://www.pathofexile.com" className="text-poe-gold-light hover:underline">PoE2 官方</a>
-            </p>
           </div>
 
           {/* Center: QQ groups */}

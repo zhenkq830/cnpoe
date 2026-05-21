@@ -7,6 +7,7 @@ import RegexOutput from './RegexOutput';
 import { MinInput } from '../ui/RangeInput';
 import IlvlInput from '../ui/IlvlInput';
 import Card from '../ui/Card';
+import ControlBar from './ControlBar';
 
 const RES_IDS = ['fireRes', 'coldRes', 'lightRes', 'chaosRes'];
 const FLAT_IDS = ['flat_phys','flat_fire','flat_cold','flat_light','flat_chaos'];
@@ -23,19 +24,9 @@ export default function VendorSearch() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
       <div className="space-y-4">
-        {/* Language toggle */}
+        {/* Language + Logic toggle */}
         <Card>
-          <div className="flex items-center gap-3">
-            <span className="text-xs text-poe-muted">语言模式:</span>
-            <button onClick={() => set({ lang: 'cn' })}
-              className={`px-3 py-1 rounded-md text-xs font-medium transition-all ${lang === 'cn' ? 'bg-poe-gold/20 text-poe-gold-light border border-poe-gold/40' : 'bg-poe-dark/50 text-poe-muted border border-poe-border'}`}>
-              简体中文
-            </button>
-            <button onClick={() => set({ lang: 'en' })}
-              className={`px-3 py-1 rounded-md text-xs font-medium transition-all ${lang === 'en' ? 'bg-poe-gold/20 text-poe-gold-light border border-poe-gold/40' : 'bg-poe-dark/50 text-poe-muted border border-poe-border'}`}>
-              高效英文
-            </button>
-          </div>
+          <ControlBar lang={lang} logic={(f.logic||'or') as 'or'|'and'} onLang={v=>set({lang:v})} onLogic={v=>set({logic:v})} />
         </Card>
 
         <Card title="物品基底">
