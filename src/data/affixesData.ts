@@ -1,314 +1,490 @@
 /**
- * affixesData.ts — PoE2 双语词缀数据 v3 (poe2db.tw 对齐版)
- * 每个词缀均有"真实游戏文本"验证。
+ * affixesData.ts — PoE2 词缀数据
  * Copyright (c) 2025 流放工坊 | cnpoe.com
  */
 
-// ============================================================
-export interface AffixDef { id:string; label:string; category:string; affix:'prefix'|'suffix'; en:string; cn:string; example:string; }
+export interface AffixDef { id:string; label:string; affix:'prefix'|'suffix'; en:string; cn:string; tc:string; example:string; }
 export interface WaystoneMod { id:string; affix:'prefix'|'suffix'; label:string; enRegex:string; cnRegex:string; }
 export interface ClassDef { id:string; label:string; enAbbr:string; cnText:string; }
 export interface RarityDef { id:string; label:string; en:string; cn:string; }
 export interface MoveSpeedDef { value:number; label:string; en:string; cn:string; }
 export interface PresetDef { id:string; name:string; desc:string; icon:string; params:Record<string,unknown>; }
+export interface TabletMod { id:string; label:string; enRegex:string; cnRegex:string; }
 
-// ============================================================
-// 装备词缀 (基于 poe2db.tw + 40件真实装备验证)
-// 分类: 前缀=伤害/生命/护盾/技能/偷取/回复等, 后缀=抗性/属性/速度/暴击/命中等
-// ============================================================
+// Auto-generated from txt files
+// Auto-generated from txt files
+// Auto-generated from txt files
+// Auto-generated from txt files
+// Auto-generated from txt files
+// Auto-generated from txt files
 const ALL_MODS: AffixDef[] = [
-  // ========== 前缀 ==========
-  // -- 点伤 --
-  { id:'flat_phys',  label:'附加物理伤害',        category:'伤害',affix:'prefix',en:'adds.*phys', cn:'附加.*物理伤害',              example:'攻击附加 16 - 22 物理伤害' },
-  { id:'flat_fire',  label:'附加火焰伤害',        category:'伤害',affix:'prefix',en:'adds.*fire', cn:'附加.*火焰伤害',              example:'攻击附加 X - Y 火焰伤害' },
-  { id:'flat_cold',  label:'附加冰霜伤害',        category:'伤害',affix:'prefix',en:'adds.*cold', cn:'附加.*冰霜伤害',              example:'攻击附加 22 - 35 基础冰霜伤害' },
-  { id:'flat_light', label:'附加闪电伤害',        category:'伤害',affix:'prefix',en:'adds.*light',cn:'附加.*闪电伤害',              example:'攻击附加 1 - 58 基础闪电伤害' },
-  { id:'flat_chaos', label:'附加混沌伤害',        category:'伤害',affix:'prefix',en:'adds.*chaos',cn:'附加.*混沌伤害',              example:'攻击附加 X - Y 混沌伤害' },
-  // -- 攻击附加元素 (戒指/箭袋专用, 不同于武器点伤) --
-  { id:'flat_ele_att',label:'攻击附加元素伤害',   category:'伤害',affix:'prefix',en:'adds.*ele',  cn:'攻击附加',             example:'攻击附加 17 - 26 物理伤害' },
-  // -- 伤害% --
-  { id:'physDmg',    label:'物理伤害提高%',       category:'伤害',affix:'prefix',en:'ph.*da',      cn:'物理伤害提高',         example:'物理伤害提高 170%' },
-  { id:'eleDmg',     label:'元素伤害提高%',       category:'伤害',affix:'prefix',en:'ele.*da',     cn:'元素伤害提高',         example:'元素伤害提高 40%' },
-  { id:'spellDmg',   label:'法术伤害提高%',       category:'伤害',affix:'prefix',en:'spell.*da',   cn:'法术伤害提高',         example:'法术伤害提高 76%' },
-  { id:'fireDmg',    label:'火焰伤害提高%',       category:'伤害',affix:'prefix',en:'\\d f.+da',   cn:'火焰伤害提高',         example:'火焰伤害提高 35%' },
-  { id:'coldDmg',    label:'冰霜伤害提高%',       category:'伤害',affix:'prefix',en:'\\d co.+da',  cn:'冰霜伤害提高',         example:'冰霜伤害提高 35%' },
-  { id:'lightDmg',   label:'闪电伤害提高%',       category:'伤害',affix:'prefix',en:'\\d l.+da',   cn:'闪电伤害提高',         example:'闪电伤害提高 35%' },
-  { id:'chaosDmg',   label:'混沌伤害提高%',       category:'伤害',affix:'prefix',en:'\\d ch.+da',  cn:'混沌伤害提高',         example:'混沌伤害提高 30%' },
-  { id:'areaDmg',    label:'范围伤害提高%',       category:'伤害',affix:'prefix',en:'area.*dmg',   cn:'范围伤害提高',         example:'范围伤害提高 20%' },
-  { id:'minionDmg',  label:'召唤物伤害提高%',     category:'伤害',affix:'prefix',en:'minion.*dmg', cn:'召唤.*伤害提高',       example:'召唤生物伤害提高 35%' },
-  { id:'bowSkillDmg',label:'弓类技能伤害提高%',   category:'伤害',affix:'prefix',en:'bow.*dmg',    cn:'弓类技能伤害提高',     example:'弓类技能伤害提高 40%' },
-  { id:'gainExtra',  label:'获得额外伤害%',       category:'伤害',affix:'prefix',en:'gain.*extra', cn:'额外.*伤害',           example:'获得相当于伤害 29% 的额外冰霜伤害' },
-  // -- 投射物 --
-  { id:'projCount',  label:'投射物数量',          category:'攻击',affix:'prefix',en:'projectile',  cn:'投射物',       example:'所有投射物技能等级 +2' },
-  // -- 生命/魔力/护盾 --
-  { id:'maxLife',      label:'最大生命',          category:'防御',affix:'prefix',en:'\\d.+life',   cn:'最大生命',                   example:'+48 最大生命' },
-  { id:'maxMana',      label:'最大魔力',          category:'防御',affix:'prefix',en:'\\d.+mana',   cn:'最大魔力',                   example:'+62 最大魔力' },
-  { id:'energyShield', label:'能量护盾',          category:'防御',affix:'prefix',en:'energy',      cn:'能量护盾',                   example:'+29 最大能量护盾' },
-  { id:'incArmour',    label:'护甲提高%',         category:'防御',affix:'prefix',en:'armour.*\\d', cn:'护甲提高',                   example:'护甲提高 30%' },
-  { id:'incEvasion',   label:'闪避提高%',         category:'防御',affix:'prefix',en:'evasion.*\\d',cn:'闪避提高',                   example:'闪避提高 30%' },
-  { id:'incES',        label:'能量护盾提高%',     category:'防御',affix:'prefix',en:'en.*sh.*\\d', cn:'能量护盾提高',               example:'该装备的能量护盾提高 110%' },
-  { id:'incArmourES',  label:'护甲与能量护盾提高%',category:'防御',affix:'prefix',en:'arm.*en',     cn:'护甲.*能量护盾',             example:'护甲与能量护盾提高 20%' },
-  { id:'incEvasionES', label:'闪避与能量护盾提高%',category:'防御',affix:'prefix',en:'evasion.*en', cn:'闪避.*能量护盾',             example:'闪避与能量护盾提高 33%' },
-  { id:'incArmourEvasion',label:'护甲与闪避提高%',category:'防御',affix:'prefix',en:'arm.*evasion',cn:'护甲.*闪避',                 example:'护甲与闪避提高 20%' },
-  { id:'flatEvasion',  label:'闪避值',            category:'防御',affix:'prefix',en:'evasion.*rat',cn:'闪避值',                     example:'+124 点闪避值' },
-  // -- 精魂 --
-  { id:'spirit', label:'最大精魂', category:'通用',affix:'prefix',en:'spiri', cn:'精魂', example:'+50 精魂' },
-  // -- 偷取 --
-  { id:'lifeLeech', label:'物理偷取生命', category:'偷取',affix:'prefix',en:'phys.*leech',      cn:'偷.*命',        example:'物理攻击伤害转化为生命偷取' },
-  { id:'manaLeech', label:'物理偷取魔力', category:'偷取',affix:'prefix',en:'phys.*leech.*mana', cn:'偷.*魔',        example:'物理攻击伤害转化为魔力偷取' },
-  // -- 技能等级 --
-  { id:'skillLevel',   label:'所有技能等级+',    category:'技能',affix:'prefix',en:'^\\+.*ills$',  cn:'所有.*技能',            example:'所有投射物技能等级 +2' },
-  { id:'fireSkill',    label:'火焰技能等级+',    category:'技能',affix:'prefix',en:'fire.*gem',    cn:'火焰.*技能',            example:'所有火焰法术技能等级 +5' },
-  { id:'coldSkill',    label:'冰霜技能等级+',    category:'技能',affix:'prefix',en:'cold.*gem',    cn:'冰霜.*技能',            example:'冰霜技能等级 +2' },
-  { id:'lightSkill',   label:'闪电技能等级+',    category:'技能',affix:'prefix',en:'light.*gem',   cn:'闪电.*技能',            example:'闪电技能等级 +2' },
-  { id:'physSkill',    label:'物理技能等级+',    category:'技能',affix:'prefix',en:'phys.*gem',    cn:'物理.*技能',            example:'所有物理法术技能等级 +5' },
-  { id:'chaosSkill',   label:'混沌技能等级+',    category:'技能',affix:'prefix',en:'chaos.*gem',   cn:'混沌.*技能',            example:'混沌技能等级 +2' },
-  { id:'meleeSkill',   label:'近战技能等级+',    category:'技能',affix:'prefix',en:'melee.*gem',   cn:'近战.*技能',            example:'近战技能等级 +2' },
-  { id:'minionSkill',  label:'召唤技能等级+',    category:'技能',affix:'prefix',en:'minion.*gem',  cn:'召唤.*技能',            example:'所有召唤生物技能等级 +2' },
-  { id:'bowSkill',     label:'弓类技能等级+',    category:'技能',affix:'prefix',en:'bow.*gem',     cn:'弓.*技能',              example:'弓类技能等级 +2' },
-  // -- 回复 --
-  { id:'regenLife', label:'每秒生命回复',  category:'回复',affix:'prefix',en:'regen.*life', cn:'再生|回复.*命', example:'生命每秒再生 24.9' },
-  { id:'regenMana', label:'魔力回复速度%', category:'回复',affix:'prefix',en:'mana.*regen', cn:'魔力再生',      example:'魔力再生率提高 60%' },
-  // -- 其他前缀 --
-  { id:'rarityFind',  label:'物品稀有度提高%', category:'通用',affix:'prefix',en:'d rari',       cn:'物品稀有度提高',         example:'物品稀有度提高 16%' },
-  { id:'lightRadius', label:'照亮范围提高%',   category:'通用',affix:'prefix',en:'light.*rad',   cn:'照亮范围',               example:'照亮范围提高 15%' },
-  { id:'reducedAttr', label:'属性需求降低%',   category:'属性',affix:'prefix',en:'attr.*req',    cn:'属性需求降低',           example:'属性需求降低 35%' },
-  { id:'minionLife',  label:'召唤物最大生命',  category:'召唤',affix:'prefix',en:'minion.*life', cn:'召唤.*生命',             example:'召唤生物最大生命 +40' },
-  { id:'aoeEffect',   label:'技能范围扩大%',   category:'通用',affix:'prefix',en:'area.*effect', cn:'效果范围|效果区域',       example:'技能效果范围扩大 20%' },
-
-  // ========== 后缀 ==========
-  // -- 抗性 --
-  { id:'fireRes',    label:'火焰抗性+%',    category:'抗性',affix:'suffix',en:'fi.+res',        cn:'火焰抗性',             example:'火焰抗性 +38%' },
-  { id:'coldRes',    label:'冰霜抗性+%',    category:'抗性',affix:'suffix',en:'co.+res',        cn:'冰霜抗性',             example:'冰霜抗性 +44%' },
-  { id:'lightRes',   label:'闪电抗性+%',    category:'抗性',affix:'suffix',en:'li.+res',        cn:'闪电抗性',             example:'闪电抗性 +30%' },
-  { id:'chaosRes',   label:'混沌抗性+%',    category:'抗性',affix:'suffix',en:'ch.+res',        cn:'混沌抗性',             example:'混沌抗性 +15%' },
-  { id:'allRes',     label:'所有元素抗性+%',category:'抗性',affix:'suffix',en:'all.*ele.*res',  cn:'元素抗性',             example:'所有元素抗性 +13%' },
-  { id:'maxResFire', label:'最大火焰抗性+%',category:'抗性',affix:'suffix',en:'max.*fire.*res', cn:'最大火焰抗性',         example:'最大火焰抗性 +3%' },
-  { id:'maxResCold', label:'最大冰霜抗性+%',category:'抗性',affix:'suffix',en:'max.*cold.*res', cn:'最大冰霜抗性',         example:'最大冰霜抗性 +3%' },
-  { id:'maxResLight',label:'最大闪电抗性+%',category:'抗性',affix:'suffix',en:'max.*light.*r',  cn:'最大闪电抗性',         example:'最大闪电抗性 +3%' },
-  // -- 属性 --
-  { id:'strength',     label:'力量',         category:'属性',affix:'suffix',en:'strength',     cn:'力量',                example:'+25 力量' },
-  { id:'dexterity',    label:'敏捷',         category:'属性',affix:'suffix',en:'dexterity',    cn:'敏捷',                example:'+9 敏捷' },
-  { id:'intelligence', label:'智慧',         category:'属性',affix:'suffix',en:'intelligence', cn:'智慧',                example:'+35 智慧' },
-  { id:'allAttr',      label:'所有属性',     category:'属性',affix:'suffix',en:'all.*attr',    cn:'所有属性',            example:'+10 所有属性' },
-  // -- 速度 --
-  { id:'attackSpeed', label:'攻击速度提高%', category:'速度',affix:'suffix',en:'ck spe',  cn:'攻击速度提高',             example:'攻击速度提高 14%' },
-  { id:'castSpeed',   label:'施法速度提高%', category:'速度',affix:'suffix',en:'st spe',  cn:'施法速度提高',             example:'施法速度提高 15%' },
-  { id:'projSpeed',   label:'投射物速度提高%',category:'攻击',affix:'suffix',en:'proj.*speed', cn:'投射物速度提高',       example:'投射物速度提高 35%' },
-  // -- 暴击 --
-  { id:'critChance', label:'暴击率提高%',    category:'暴击',affix:'suffix',en:'crit.*chan',  cn:'暴击率提高',             example:'攻击暴击率提高 29%' },
-  { id:'critMulti',  label:'暴击伤害加成%',  category:'暴击',affix:'suffix',en:'crit.*multi', cn:'暴击伤害加成',           example:'攻击伤害的暴击伤害加成 37%' },
-  { id:'spellCrit',  label:'法术暴击率提高%',category:'暴击',affix:'suffix',en:'spell.*crit', cn:'法术暴击率',             example:'法术暴击率提高 40%' },
-  // -- 其他后缀 --
-  { id:'stunThresh',  label:'晕眩阈值',       category:'通用',affix:'suffix',en:'stun.*thresh', cn:'晕眩',                 example:'+317 晕眩阈值' },
-  { id:'accuracy',    label:'命中值',         category:'通用',affix:'suffix',en:'accuracy',     cn:'命中',                 example:'+52 命中值' },
-  { id:'curseEffect', label:'诅咒效果提高%',  category:'通用',affix:'suffix',en:'curse.*effect',cn:'诅咒效果提高',         example:'诅咒效果提高 15%' },
-  { id:'auraEffect',  label:'光环效果提高%',  category:'通用',affix:'suffix',en:'aura.*effect', cn:'光环效果提高',         example:'光环效果提高 10%' },
-  { id:'minionSpeed', label:'召唤物攻速/施速%',category:'召唤',affix:'suffix',en:'minion.*speed',cn:'召唤.*速度',           example:'召唤生物速度提高 20%' },
-  { id:'cooldown',    label:'冷却回复速度%',  category:'通用',affix:'suffix',en:'cooldown',    cn:'冷却',                 example:'冷却回复速度加快 30%' },
-  { id:'movespeed',   label:'移动速度提高%',  category:'速度',affix:'suffix',en:'movement',    cn:'移动速度提高',         example:'移动速度提高 35%' },
+  { id:"m001", label:"X%元素抗性上限", affix:"suffix", en:"", cn:".*[0-9.]+%元素抗性上限", tc:"[0-9.]+%.*最大火焰抗性", example:"1001" },
+  { id:"m002", label:"X%冰霜抗性上限", affix:"suffix", en:"", cn:".*[0-9.]+%冰霜抗性上限", tc:"減少.*[0-9.]+%能力值需求", example:"1117" },
+  { id:"m003", label:"X%暴击伤害加成", affix:"suffix", en:"", cn:".*[0-9.]+%暴击伤害加成", tc:"[0-9.]+%.*的暴擊傷害加成", example:"1233" },
+  { id:"m004", label:"X%法术物理伤害提高", affix:"prefix", en:"", cn:".*[0-9.]+%法术物理伤害提高", tc:"增加.*[0-9.]+%法術物理傷害", example:"1349" },
+  { id:"m005", label:"X%法术物理伤害提高伤害物理", affix:"prefix", en:"", cn:".*[0-9.]+%法术物理伤害提高伤害物理", tc:"增加.*[0-9.]+%法術物理傷害", example:"1463" },
+  { id:"m006", label:"X%混沌抗性上限", affix:"suffix", en:"", cn:".*[0-9.]+%混沌抗性上限", tc:"額外.*[0-9.]+%.*物理傷害減免", example:"1589" },
+  { id:"m007", label:"X%火焰抗性上限", affix:"suffix", en:"", cn:".*[0-9.]+%火焰抗性上限", tc:"[0-9.]+%.*全元素抗性", example:"1705" },
+  { id:"m008", label:"X%的几率穿透一个敌人", affix:"suffix", en:"", cn:".*[0-9.]+%的几率穿透一个敌人", tc:"有.*[0-9.]+%.*機率穿透一個敵人", example:"1821" },
+  { id:"m009", label:"X%的护甲同样作用于元素伤害", affix:"suffix", en:"", cn:".*[0-9.]+%的护甲同样作用于元素伤害", tc:"[0-9.]+%.*的護甲值也會套用至元素傷害", example:"1953" },
+  { id:"m010", label:"X%的溢出几率发射一支额外箭矢", affix:"suffix", en:"", cn:".*[0-9.]+%的溢出几率发射一支额外箭矢", tc:"[0-9.]+%.*滿溢機率發射額外一枚箭矢", example:"2108" },
+  { id:"m011", label:"X%闪电抗性上限", affix:"suffix", en:"", cn:".*[0-9.]+%闪电抗性上限", tc:"[0-9.]+%.*最大閃電抗性", example:"2266" },
+  { id:"m012", label:"X%陷阱暴击伤害加成", affix:"suffix", en:"", cn:".*[0-9.]+%陷阱暴击伤害加成", tc:"[0-9.]+%.*陷阱暴擊傷害加成", example:"2382" },
+  { id:"m013", label:"X%额外物理伤害减免", affix:"suffix", en:"", cn:".*[0-9.]+%额外物理伤害减免", tc:"增加.*[0-9.]+%.*能量護盾充能率", example:"2518" },
+  { id:"m014", label:"X-X物理荆棘伤害", affix:"prefix", en:"", cn:".*[0-9]+.*-.*[0-9]+.*物理荆棘伤害", tc:"[0-9]+.*至.*[0-9]+.*荊棘傷害", example:"2640" },
+  { id:"m015", label:"X全属性", affix:"suffix", en:"", cn:".*[0-9]+.*全属性", tc:"[0-9]+.*點全部能力值", example:"2765" },
+  { id:"m016", label:"X力量", affix:"suffix", en:"", cn:".*[0-9]+.*力量", tc:"[0-9]+.*點力量", example:"2861" },
+  { id:"m017", label:"X命中值", affix:"prefix", en:"", cn:".*[0-9]+.*命中值", tc:"[0-9]+.*命中值", example:"2961" },
+  { id:"m018", label:"X命中值照亮范围扩大X%", affix:"suffix", en:"", cn:".*[0-9]+.*命中值照亮范围扩大.*[0-9.]+%", tc:"增加.*[0-9.]+%光線範圍", example:"3057" },
+  { id:"m019", label:"X护甲", affix:"prefix", en:"", cn:".*[0-9]+.*护甲", tc:"[0-9]+.*護甲值", example:"3185" },
+  { id:"m020", label:"X敏捷", affix:"suffix", en:"", cn:".*[0-9]+.*敏捷", tc:"[0-9]+.*點敏捷", example:"3285" },
+  { id:"m021", label:"X晕眩阈值", affix:"suffix", en:"", cn:".*[0-9]+.*晕眩阈值", tc:"暈眩門檻.*[0-9]+", example:"3385" },
+  { id:"m022", label:"X智慧", affix:"suffix", en:"", cn:".*[0-9]+.*智慧", tc:"[0-9]+.*點智慧", example:"3491" },
+  { id:"m023", label:"X最大生命", affix:"prefix", en:"", cn:".*[0-9]+.*最大生命", tc:"[0-9]+.*最大生命", example:"3591" },
+  { id:"m024", label:"X最大能量护盾", affix:"prefix", en:"", cn:".*[0-9]+.*最大能量护盾", tc:"[0-9]+.*最大能量護盾", example:"3689" },
+  { id:"m025", label:"X最大魔力", affix:"prefix", en:"", cn:".*[0-9]+.*最大魔力", tc:"[0-9]+.*最大魔力", example:"3815" },
+  { id:"m026", label:"X点闪避值", affix:"prefix", en:"", cn:".*[0-9]+.*点闪避值", tc:"[0-9]+.*閃避值", example:"3913" },
+  { id:"m027", label:"X精魂", affix:"prefix", en:"", cn:".*[0-9]+.*精魂", tc:"[0-9]+.*精魂", example:"4033" },
+  { id:"m028", label:"你受到的中毒持续时间降低X%", affix:"suffix", en:"", cn:"你受到的中毒持续时间降低.*[0-9.]+%", tc:"減少.*[0-9.]+%.*中毒持續時間", example:"4133" },
+  { id:"m029", label:"你被冰缓的持续时间缩短X%", affix:"suffix", en:"", cn:"你被冰缓的持续时间缩短.*[0-9.]+%", tc:"增加.*[0-9.]+%找到的物品稀有度", example:"4288" },
+  { id:"m030", label:"你被冻结的持续时间缩短X%", affix:"suffix", en:"", cn:"你被冻结的持续时间缩短.*[0-9.]+%", tc:"減少.*[0-9.]+%你身上的感電持續時間", example:"4440" },
+  { id:"m031", label:"你被感电的持续时间缩短X%", affix:"suffix", en:"", cn:"你被感电的持续时间缩短.*[0-9.]+%", tc:"減少.*[0-9.]+%.*感電持續時間", example:"4578" },
+  { id:"m032", label:"你被点燃的持续时间缩短X%", affix:"suffix", en:"", cn:"你被点燃的持续时间缩短.*[0-9.]+%", tc:"減少[0-9.]+%.*你身上的流血持續時間", example:"4716" },
+  { id:"m033", label:"使用的咒符充能降低X%", affix:"suffix", en:"", cn:"使用的咒符充能降低.*[0-9.]+%", tc:"減少.*[0-9.]+%.*護符充能使用", example:"4868" },
+  { id:"m034", label:"使用的药剂充能降低X%", affix:"suffix", en:"", cn:"使用的药剂充能降低.*[0-9.]+%", tc:"減少.*[0-9.]+%.*藥劑充能使用", example:"5000" },
+  { id:"m035", label:"冰霜伤害提高X%", affix:"prefix", en:"", cn:"冰霜伤害提高.*[0-9.]+%", tc:"增加.*[0-9.]+%冰冷傷害", example:"5132" },
+  { id:"m036", label:"冰霜抗性X%", affix:"suffix", en:"", cn:"冰霜抗性.*[0-9.]+%", tc:"[0-9.]+%.*冰冷抗性", example:"5240" },
+  { id:"m037", label:"冻结积蓄值提高X%", affix:"suffix", en:"", cn:"冻结积蓄值提高.*[0-9.]+%", tc:"增加.*[0-9.]+%.*冰凍累積", example:"5350" },
+  { id:"m038", label:"受到流血的持续时间缩短X%", affix:"suffix", en:"", cn:"受到流血的持续时间缩短.*[0-9.]+%", tc:"減少.*[0-9.]+%.*流血持續時間", example:"5476" },
+  { id:"m039", label:"召唤生物的最大生命提高X%", affix:"suffix", en:"", cn:"召唤生物的最大生命提高.*[0-9.]+%", tc:"召喚物增加.*[0-9.]+%.*最大生命", example:"5628" },
+  { id:"m040", label:"咒符效果的持续时间延长X%", affix:"prefix", en:"", cn:"咒符效果的持续时间延长.*[0-9.]+%", tc:"增加.*[0-9.]+%藥劑魔力恢復率", example:"5752" },
+  { id:"m041", label:"在场的友军每秒再生X点生命", affix:"suffix", en:"", cn:"在场的友军每秒再生.*[0-9]+.*点生命", tc:"處於你存在範圍中的友方每秒回復.*[0-9]+.*生命", example:"5890" },
+  { id:"m042", label:"在场的友军的所有元素抗性X%", affix:"suffix", en:"", cn:"在场的友军的所有元素抗性.*[0-9.]+%", tc:"[0-9.]+%.*處於你存在範圍中的友方全元素抗性", example:"6034" },
+  { id:"m043", label:"在场的友军的攻击速度加快X%", affix:"suffix", en:"", cn:"在场的友军的攻击速度加快.*[0-9.]+%", tc:"處於你存在範圍中的友方增加.*[0-9.]+%.*攻擊速度", example:"6182" },
+  { id:"m044", label:"在场的友军的施法速度加快X%", affix:"suffix", en:"", cn:"在场的友军的施法速度加快.*[0-9.]+%", tc:"處於你存在範圍中的友方增加.*[0-9.]+%.*施放速度", example:"6330" },
+  { id:"m045", label:"在场的友军的暴击伤害加成提高X%", affix:"suffix", en:"", cn:"在场的友军的暴击伤害加成提高.*[0-9.]+%", tc:"處於你存在範圍中的友方增加.*[0-9.]+%.*暴擊傷害加成", example:"6478" },
+  { id:"m046", label:"在场的友军的暴击几率提高X%", affix:"suffix", en:"", cn:"在场的友军的暴击几率提高.*[0-9.]+%", tc:"處於你存在範圍中的友方增加.*[0-9.]+%.*暴擊率", example:"6632" },
+  { id:"m047", label:"在场的友军造成的伤害提高X%", affix:"prefix", en:"", cn:"在场的友军造成的伤害提高.*[0-9.]+%", tc:"增加.*[0-9.]+%處於你存在範圍中的友方所造成的傷害", example:"6766" },
+  { id:"m048", label:"在场的友军附加X-X攻击冰霜伤害", affix:"prefix", en:"", cn:"在场的友军附加.*[0-9]+.*-.*[0-9]+.*攻击冰霜伤害", tc:"處於你存在範圍中的友方造成.*[0-9]+.*至.*[0-9]+.*額外攻擊冰冷傷害", example:"6914" },
+  { id:"m049", label:"在场的友军附加X-X攻击火焰伤害", affix:"prefix", en:"", cn:"在场的友军附加.*[0-9]+.*-.*[0-9]+.*攻击火焰伤害", tc:"處於你存在範圍中的友方造成.*[0-9]+.*至.*[0-9]+.*額外攻擊火焰傷害", example:"7053" },
+  { id:"m050", label:"在场的友军附加X-X攻击物理伤害", affix:"prefix", en:"", cn:"在场的友军附加.*[0-9]+.*-.*[0-9]+.*攻击物理伤害", tc:"處於你存在範圍中的友方造成.*[0-9]+.*至.*[0-9]+.*額外攻擊物理傷害", example:"7192" },
+  { id:"m051", label:"在场的友军附加X-X攻击闪电伤害", affix:"prefix", en:"", cn:"在场的友军附加.*[0-9]+.*-.*[0-9]+.*攻击闪电伤害", tc:"處於你存在範圍中的友方造成.*[0-9]+.*至.*[0-9]+.*額外攻擊閃電傷害", example:"7331" },
+  { id:"m052", label:"在场范围扩大X%", affix:"suffix", en:"", cn:"在场范围扩大.*[0-9.]+%", tc:"增加.*[0-9.]+%存在範圍的效果範圍", example:"7470" },
+  { id:"m053", label:"对你的击中的暴击伤害加成降低X%", affix:"suffix", en:"", cn:"对你的击中的暴击伤害加成降低.*[0-9.]+%", tc:"獲得等同.*[0-9.]+%.*閃避值的偏斜值", example:"7578" },
+  { id:"m054", label:"将所受伤害的X%吸纳为生命", affix:"suffix", en:"", cn:"将所受伤害的.*[0-9.]+%吸纳为生命", tc:"承受的.*[0-9.]+%.*傷害補償為生命", example:"7739" },
+  { id:"m055", label:"将所受伤害的X%吸纳为魔力", affix:"suffix", en:"", cn:"将所受伤害的.*[0-9.]+%吸纳为魔力", tc:"承受的.*[0-9.]+%.*傷害補償為魔力", example:"7891" },
+  { id:"m056", label:"属性需求降低X%", affix:"suffix", en:"", cn:"属性需求降低.*[0-9.]+%", tc:"減少.*[0-9.]+%能力值需求", example:"8043" },
+  { id:"m057", label:"弓类技能伤害提高X%", affix:"prefix", en:"", cn:"弓类技能伤害提高.*[0-9.]+%", tc:"增加.*[0-9.]+%.*弓技能的傷害", example:"8151" },
+  { id:"m058", label:"感电几率提高X%", affix:"suffix", en:"", cn:"感电几率提高.*[0-9.]+%", tc:"增加.*[0-9.]+%.*感電機率", example:"8287" },
+  { id:"m059", label:"所有元素抗性X%", affix:"suffix", en:"", cn:"所有元素抗性.*[0-9.]+%", tc:"[0-9.]+%.*全元素抗性", example:"8395" },
+  { id:"m060", label:"所有冰霜法术技能等级X", affix:"suffix", en:"", cn:"所有冰霜法术技能等级.*[0-9]+.*", tc:"全部冰冷法術技能等級.*[0-9]+", example:"8511" },
+  { id:"m061", label:"所有召唤生物技能等级X", affix:"suffix", en:"", cn:"所有召唤生物技能等级.*[0-9]+.*", tc:"全部召喚物技能等級.*[0-9]+", example:"8649" },
+  { id:"m062", label:"所有投射物技能等级X", affix:"suffix", en:"", cn:"所有投射物技能等级.*[0-9]+.*", tc:"全部投射物技能等級.*[0-9]+", example:"8787" },
+  { id:"m063", label:"所有法术技能等级X", affix:"suffix", en:"", cn:"所有法术技能等级.*[0-9]+.*", tc:"全部法術技能等級.*[0-9]+", example:"8922" },
+  { id:"m064", label:"所有混沌法术技能等级X", affix:"suffix", en:"", cn:"所有混沌法术技能等级.*[0-9]+.*", tc:"全部混沌法術技能等級.*[0-9]+", example:"9054" },
+  { id:"m065", label:"所有火焰法术技能等级X", affix:"suffix", en:"", cn:"所有火焰法术技能等级.*[0-9]+.*", tc:"全部火焰法術技能等級.*[0-9]+", example:"9192" },
+  { id:"m066", label:"所有物理法术技能等级X", affix:"suffix", en:"", cn:"所有物理法术技能等级.*[0-9]+.*", tc:"全部物理法術技能等級.*[0-9]+", example:"9330" },
+  { id:"m067", label:"所有近战技能等级X", affix:"suffix", en:"", cn:"所有近战技能等级.*[0-9]+.*", tc:"全部近戰技能的等級.*[0-9]+", example:"9468" },
+  { id:"m068", label:"所有闪电法术技能等级X", affix:"suffix", en:"", cn:"所有闪电法术技能等级.*[0-9]+.*", tc:"全部閃電法術技能等級.*[0-9]+", example:"9600" },
+  { id:"m069", label:"所有陷阱技能宝石等级提高X", affix:"suffix", en:"", cn:"所有陷阱技能宝石等级提高.*[0-9]+.*", tc:"全部陷阱技能寶石的等級.*[0-9]+", example:"9738" },
+  { id:"m070", label:"投射物速度加快X%", affix:"prefix", en:"", cn:"投射物速度加快.*[0-9.]+%", tc:"增加.*[0-9.]+%投射物速度", example:"9889" },
+  { id:"m071", label:"护甲提高X%", affix:"prefix", en:"", cn:"护甲提高.*[0-9.]+%", tc:"增加.*[0-9.]+%護甲值", example:"10008" },
+  { id:"m072", label:"攻击伤害的暴击伤害加成X%", affix:"suffix", en:"", cn:"攻击伤害的暴击伤害加成.*[0-9.]+%", tc:"增加.*[0-9.]+%攻擊傷害的暴擊傷害加成", example:"10118" },
+  { id:"m073", label:"攻击技能的元素伤害提高X%", affix:"prefix", en:"", cn:"攻击技能的元素伤害提高.*[0-9.]+%", tc:"增加.*[0-9.]+%攻擊元素傷害", example:"10256" },
+  { id:"m074", label:"攻击暴击率提高X%", affix:"suffix", en:"", cn:"攻击暴击率提高.*[0-9.]+%", tc:"增加.*[0-9.]+%攻擊暴擊率", example:"10394" },
+  { id:"m075", label:"攻击每击中一名敌人获得X点生命", affix:"suffix", en:"", cn:"攻击每击中一名敌人获得.*[0-9]+.*点生命", tc:"每個被擊殺的敵人，獲得.*[0-9]+.*魔力", example:"10506" },
+  { id:"m076", label:"攻击速度加快X%", affix:"suffix", en:"", cn:"攻击速度加快.*[0-9.]+%", tc:"增加.*[0-9.]+%.*攻擊速度", example:"10656" },
+  { id:"m077", label:"攻击附加X-X基础冰霜伤害", affix:"prefix", en:"", cn:"攻击附加.*[0-9]+.*-.*[0-9]+.*基础冰霜伤害", tc:"攻擊附加.*[0-9]+.*至.*[0-9]+.*冰冷傷害", example:"10772" },
+  { id:"m078", label:"攻击附加X-X基础火焰伤害", affix:"prefix", en:"", cn:"攻击附加.*[0-9]+.*-.*[0-9]+.*基础火焰伤害", tc:"攻擊附加.*[0-9]+.*至.*[0-9]+.*火焰傷害", example:"10901" },
+  { id:"m079", label:"攻击附加X-X基础闪电伤害", affix:"prefix", en:"", cn:"攻击附加.*[0-9]+.*-.*[0-9]+.*基础闪电伤害", tc:"攻擊附加.*[0-9]+.*至.*[0-9]+.*冰冷傷害", example:"11030" },
+  { id:"m080", label:"攻击附加X-X物理伤害", affix:"prefix", en:"", cn:"攻击附加.*[0-9]+.*-.*[0-9]+.*物理伤害", tc:"攻擊附加.*[0-9]+.*至.*[0-9]+.*物理傷害", example:"11159" },
+  { id:"m081", label:"施法速度加快X%", affix:"suffix", en:"", cn:"施法速度加快.*[0-9.]+%", tc:"增加.*[0-9.]+%.*施放速度", example:"11282" },
+  { id:"m082", label:"易燃强度提高X%", affix:"suffix", en:"", cn:"易燃强度提高.*[0-9.]+%", tc:"增加.*[0-9.]+%易燃幅度", example:"11398" },
+  { id:"m083", label:"晕眩持续时间延长X%", affix:"suffix", en:"", cn:"晕眩持续时间延长.*[0-9.]+%", tc:"增加.*[0-9.]+%.*暈眩持續時間", example:"11514" },
+  { id:"m084", label:"暴击伤害加成提高X%", affix:"suffix", en:"", cn:"暴击伤害加成提高.*[0-9.]+%", tc:"增加.*[0-9.]+%暴擊傷害加成", example:"11636" },
+  { id:"m085", label:"暴击伤害加成提高X%伤害暴击", affix:"suffix", en:"", cn:"暴击伤害加成提高.*[0-9.]+%伤害暴击", tc:"增加.*[0-9.]+%.*攻擊速度", example:"11758" },
+  { id:"m086", label:"暴击几率X%", affix:"suffix", en:"", cn:"暴击几率.*[0-9.]+%", tc:"[0-9.]+%.*暴擊率", example:"11892" },
+  { id:"m087", label:"暴击几率提高X%", affix:"suffix", en:"", cn:"暴击几率提高.*[0-9.]+%", tc:"增加.*[0-9.]+%暴擊率", example:"11994" },
+  { id:"m088", label:"格挡几率提高X%", affix:"prefix", en:"", cn:"格挡几率提高.*[0-9.]+%", tc:"增加.*[0-9.]+%.*格擋率", example:"12102" },
+  { id:"m089", label:"每击中一名敌人获得X点生命", affix:"suffix", en:"", cn:"每击中一名敌人获得.*[0-9]+.*点生命", tc:"每擊中一名敵人，獲得.*[0-9]+.*生命", example:"12218" },
+  { id:"m090", label:"每击败一名敌人获得X点生命", affix:"suffix", en:"", cn:"每击败一名敌人获得.*[0-9]+.*点生命", tc:"每個被擊殺的敵人，獲得.*[0-9]+.*生命", example:"12362" },
+  { id:"m091", label:"每击败一名敌人获得X点魔力", affix:"suffix", en:"", cn:"每击败一名敌人获得.*[0-9]+.*点魔力", tc:"每個被擊殺的敵人，獲得.*[0-9]+.*魔力", example:"12506" },
+  { id:"m092", label:"法术伤害提高X%", affix:"prefix", en:"", cn:"法术伤害提高.*[0-9.]+%", tc:"增加.*[0-9.]+%法術傷害", example:"12650" },
+  { id:"m093", label:"法术暴击伤害加成提高X%", affix:"suffix", en:"", cn:"法术暴击伤害加成提高.*[0-9.]+%", tc:"增加.*[0-9.]+%法術暴擊傷害加成", example:"12758" },
+  { id:"m094", label:"法术暴击率提高X%", affix:"suffix", en:"", cn:"法术暴击率提高.*[0-9.]+%", tc:"增加.*[0-9.]+%.*法術暴擊率", example:"12886" },
+  { id:"m095", label:"混沌伤害提高X%", affix:"prefix", en:"", cn:"混沌伤害提高.*[0-9.]+%", tc:"增加.*[0-9.]+%混沌傷害", example:"12998" },
+  { id:"m096", label:"混沌抗性X%", affix:"suffix", en:"", cn:"混沌抗性.*[0-9.]+%", tc:"[0-9.]+%.*混沌抗性", example:"13106" },
+  { id:"m097", label:"火焰伤害提高X%", affix:"prefix", en:"", cn:"火焰伤害提高.*[0-9.]+%", tc:"增加.*[0-9.]+%火焰傷害", example:"13216" },
+  { id:"m098", label:"火焰抗性X%", affix:"suffix", en:"", cn:"火焰抗性.*[0-9.]+%", tc:"[0-9.]+%.*火焰抗性", example:"13324" },
+  { id:"m099", label:"照亮范围扩大X%", affix:"suffix", en:"", cn:"照亮范围扩大.*[0-9.]+%", tc:"增加.*[0-9.]+%找到的物品稀有度", example:"13434" },
+  { id:"m100", label:"物品稀有度提高X%", affix:"suffix", en:"", cn:"物品稀有度提高.*[0-9.]+%", tc:"增加.*[0-9.]+%找到的物品稀有度", example:"13542" },
+  { id:"m101", label:"物理伤害提高X%", affix:"prefix", en:"", cn:"物理伤害提高.*[0-9.]+%", tc:"增加.*[0-9.]+%物理傷害", example:"13682" },
+  { id:"m102", label:"物理伤害的X%转化为生命偷取", affix:"suffix", en:"", cn:"物理伤害的.*[0-9.]+%转化为生命偷取", tc:"以.*[0-9.]+%.*物理傷害偷取生命", example:"13790" },
+  { id:"m103", label:"物理伤害的X%转化为魔力偷取", affix:"suffix", en:"", cn:"物理伤害的.*[0-9.]+%转化为魔力偷取", tc:"以.*[0-9.]+%.*物理傷害偷取魔力", example:"13924" },
+  { id:"m104", label:"物理攻击伤害的X%转化为生命偷取", affix:"suffix", en:"", cn:"物理攻击伤害的.*[0-9.]+%转化为生命偷取", tc:"以.*[0-9.]+%.*物理攻擊傷害偷取生命", example:"14058" },
+  { id:"m105", label:"物理攻击伤害的X%转化为魔力偷取", affix:"suffix", en:"", cn:"物理攻击伤害的.*[0-9.]+%转化为魔力偷取", tc:"以.*[0-9.]+%.*物理攻擊傷害偷取魔力", example:"14198" },
+  { id:"m106", label:"生命上限提高X%", affix:"prefix", en:"", cn:"生命上限提高.*[0-9.]+%", tc:"增加.*[0-9.]+%.*最大生命", example:"14338" },
+  { id:"m107", label:"生命每秒再生X", affix:"suffix", en:"", cn:"生命每秒再生.*[0-9]+.*", tc:"[0-9]+.*每秒生命回復", example:"14446" },
+  { id:"m108", label:"精魂提高X%", affix:"prefix", en:"", cn:"精魂提高.*[0-9.]+%", tc:"增加.*[0-9.]+%精魂", example:"14558" },
+  { id:"m109", label:"能量护盾上限提高X%", affix:"prefix", en:"", cn:"能量护盾上限提高.*[0-9.]+%", tc:"增加.*[0-9.]+%最大能量護盾", example:"14668" },
+  { id:"m110", label:"能量护盾充能时间提前X%", affix:"suffix", en:"", cn:"能量护盾充能时间提前.*[0-9.]+%", tc:"能量護盾開始充能速度加快.*[0-9.]+%", example:"14804" },
+  { id:"m111", label:"能量护盾充能率提高X%", affix:"suffix", en:"", cn:"能量护盾充能率提高.*[0-9.]+%", tc:"增加.*[0-9.]+%.*能量護盾充能率", example:"14953" },
+  { id:"m112", label:"药剂生命回复速度加快X%", affix:"prefix", en:"", cn:"药剂生命回复速度加快.*[0-9.]+%", tc:"增加.*[0-9.]+%.*藥劑生命恢復", example:"15099" },
+  { id:"m113", label:"药剂魔力回复速度加快X%", affix:"prefix", en:"", cn:"药剂魔力回复速度加快.*[0-9.]+%", tc:"增加.*[0-9.]+%藥劑生命恢復率", example:"15227" },
+  { id:"m114", label:"获得的咒符充能提高X%", affix:"suffix", en:"", cn:"获得的咒符充能提高.*[0-9.]+%", tc:"增加.*[0-9.]+%.*護符充能獲取", example:"15355" },
+  { id:"m115", label:"获得的药剂充能提高X%", affix:"suffix", en:"", cn:"获得的药剂充能提高.*[0-9.]+%", tc:"增加.*[0-9.]+%.*藥劑充能獲取", example:"15473" },
+  { id:"m116", label:"获得相当于伤害X%的额外冰霜伤害", affix:"prefix", en:"", cn:"获得相当于伤害.*[0-9.]+%的额外冰霜伤害", tc:"獲得相當於傷害.*[0-9.]+%.*的額外冰冷傷害", example:"15591" },
+  { id:"m117", label:"获得相当于伤害X%的额外火焰伤害", affix:"prefix", en:"", cn:"获得相当于伤害.*[0-9.]+%的额外火焰伤害", tc:"獲得相當於傷害.*[0-9.]+%.*的額外火焰傷害", example:"15745" },
+  { id:"m118", label:"获得相当于伤害X%的额外闪电伤害", affix:"prefix", en:"", cn:"获得相当于伤害.*[0-9.]+%的额外闪电伤害", tc:"獲得相當於傷害.*[0-9.]+%.*的額外閃電傷害", example:"15899" },
+  { id:"m119", label:"获得相当于闪避值X%的偏转值", affix:"suffix", en:"", cn:"获得相当于闪避值.*[0-9.]+%的偏转值", tc:"獲得等同.*[0-9.]+%.*閃避值的偏斜值", example:"16053" },
+  { id:"m120", label:"该装备护甲提高X%", affix:"prefix", en:"", cn:"该装备护甲提高.*[0-9.]+%", tc:"增加.*[0-9.]+%護甲值", example:"16208" },
+  { id:"m121", label:"该装备的护甲、闪避和能量护盾提高X%", affix:"prefix", en:"", cn:"该装备的护甲、闪避和能量护盾提高.*[0-9.]+%", tc:"增加.*[0-9.]+%護甲值、閃避和能量護盾", example:"16327" },
+  { id:"m122", label:"该装备的护甲与能量护盾提高X%", affix:"prefix", en:"", cn:"该装备的护甲与能量护盾提高.*[0-9.]+%", tc:"增加.*[0-9.]+%護甲值和能量護盾", example:"16494" },
+  { id:"m123", label:"该装备的护甲与闪避提高X%", affix:"prefix", en:"", cn:"该装备的护甲与闪避提高.*[0-9.]+%", tc:"增加.*[0-9.]+%護甲值和閃避", example:"16652" },
+  { id:"m124", label:"该装备的能量护盾提高X%", affix:"prefix", en:"", cn:"该装备的能量护盾提高.*[0-9.]+%", tc:"增加.*[0-9.]+%能量護盾", example:"16804" },
+  { id:"m125", label:"该装备的闪避与能量护盾提高X%", affix:"prefix", en:"", cn:"该装备的闪避与能量护盾提高.*[0-9.]+%", tc:"增加.*[0-9.]+%閃避和能量護盾", example:"16953" },
+  { id:"m126", label:"该装备的闪避值提高X%", affix:"prefix", en:"", cn:"该装备的闪避值提高.*[0-9.]+%", tc:"增加.*[0-9.]+%閃避值", example:"17111" },
+  { id:"m127", label:"造成的晕眩积蓄值提高X%", affix:"suffix", en:"", cn:"造成的晕眩积蓄值提高.*[0-9.]+%", tc:"增加.*[0-9.]+%暈眩累積", example:"17250" },
+  { id:"m128", label:"闪电伤害提高X%", affix:"prefix", en:"", cn:"闪电伤害提高.*[0-9.]+%", tc:"增加.*[0-9.]+%閃電傷害", example:"17399" },
+  { id:"m129", label:"闪电抗性X%", affix:"suffix", en:"", cn:"闪电抗性.*[0-9.]+%", tc:"[0-9.]+%.*閃電抗性", example:"17507" },
+  { id:"m130", label:"闪避值提高X%", affix:"prefix", en:"", cn:"闪避值提高.*[0-9.]+%", tc:"增加.*[0-9.]+%閃避值", example:"17617" },
+  { id:"m131", label:"附加X-X冰霜伤害", affix:"prefix", en:"", cn:"附加.*[0-9]+.*-.*[0-9]+.*冰霜伤害", tc:"附加.*[0-9]+.*至.*[0-9]+.*冰冷傷害", example:"17737" },
+  { id:"m132", label:"附加X-X火焰伤害", affix:"prefix", en:"", cn:"附加.*[0-9]+.*-.*[0-9]+.*火焰伤害", tc:"附加.*[0-9]+.*至.*[0-9]+.*火焰傷害", example:"17854" },
+  { id:"m133", label:"附加X-X物理伤害", affix:"prefix", en:"", cn:"附加.*[0-9]+.*-.*[0-9]+.*物理伤害", tc:"附加.*[0-9]+.*至.*[0-9]+.*物理傷害", example:"17971" },
+  { id:"m134", label:"附加X-X闪电伤害", affix:"prefix", en:"", cn:"附加.*[0-9]+.*-.*[0-9]+.*闪电伤害", tc:"附加.*[0-9]+.*至.*[0-9]+.*閃電傷害", example:"18088" },
+  { id:"m135", label:"陷阱伤害提高X%", affix:"prefix", en:"", cn:"陷阱伤害提高.*[0-9.]+%", tc:"增加.*[0-9.]+%陷阱傷害", example:"18205" },
+  { id:"m136", label:"陷阱暴击率提高X%", affix:"suffix", en:"", cn:"陷阱暴击率提高.*[0-9.]+%", tc:"增加.*[0-9.]+%陷阱的暴擊率", example:"18321" },
+  { id:"m137", label:"额外装填X支弩箭", affix:"suffix", en:"", cn:"额外装填.*[0-9]+.*支弩箭", tc:"裝填.*[0-9]+.*弩箭", example:"18447" },
+  { id:"m138", label:"额外装填一支弩箭", affix:"suffix", en:"", cn:"额外装填一支弩箭", tc:"裝填額外.*[0-9]+.*發弩箭", example:"18583" },
+  { id:"m139", label:"魔力上限提高X%", affix:"prefix", en:"", cn:"魔力上限提高.*[0-9.]+%", tc:"增加.*[0-9.]+%.*最大魔力", example:"18712" },
+  { id:"m140", label:"魔力再生率提高X%", affix:"suffix", en:"", cn:"魔力再生率提高.*[0-9.]+%", tc:"增加.*[0-9.]+%.*魔力回復率", example:"18820" },
 ];
 
-const CAT_GROUPS: Record<string,string[]> = {
-  '前缀 伤害': ['flat_phys','flat_fire','flat_cold','flat_light','flat_chaos','flat_ele_att','physDmg','eleDmg','spellDmg','fireDmg','coldDmg','lightDmg','chaosDmg','areaDmg','minionDmg','projCount','bowSkillDmg','gainExtra'],
-  '前缀 防御': ['maxLife','maxMana','energyShield','incArmour','incEvasion','incES','incArmourES','incEvasionES','incArmourEvasion','flatEvasion','spirit','regenLife','regenMana','minionLife'],
-  '前缀 技能': ['skillLevel','fireSkill','coldSkill','lightSkill','physSkill','chaosSkill','meleeSkill','minionSkill','bowSkill'],
-  '前缀 其他': ['lifeLeech','manaLeech','rarityFind','lightRadius','reducedAttr','aoeEffect'],
-  '后缀 抗性': ['fireRes','coldRes','lightRes','chaosRes','allRes','maxResFire','maxResCold','maxResLight'],
-  '后缀 属性': ['strength','dexterity','intelligence','allAttr'],
-  '后缀 速度': ['attackSpeed','castSpeed','projSpeed','movespeed'],
-  '后缀 暴击': ['critChance','critMulti','spellCrit'],
-  '后缀 其他': ['stunThresh','accuracy','curseEffect','auraEffect','minionSpeed','cooldown'],
+export const ALL_MODS_TC: Record<string,string> = {
+  "ilvl":"物品等級",
+  "normal":"普通",
+  "magic":"魔法",
+  "rare":"稀有",
+  "moveSpeed":"增加.*[0-9.]+%.*移動速度",
+  "quality":"品質.*[0-9]",
+  "sockets":"插槽",
+  "m001": "[0-9.]+%.*全元素抗性",
+  "m002": "[0-9.]+%.*冰冷抗性",
+  "m003": "增加.*[0-9.]+%暴擊傷害加成",
+  "m004": "增加.*[0-9.]+%法術物理傷害",
+  "m005": "增加.*[0-9.]+%法術物理傷害",
+  "m006": "[0-9.]+%.*混沌抗性",
+  "m007": "[0-9.]+%.*火焰抗性",
+  "m008": "有.*[0-9.]+%.*機率穿透一個敵人",
+  "m009": "[0-9.]+%.*的護甲值也會套用至元素傷害",
+  "m010": "[0-9.]+%.*滿溢機率發射額外一枚箭矢",
+  "m011": "[0-9.]+%.*閃電抗性",
+  "m012": "[0-9.]+%.*陷阱暴擊傷害加成",
+  "m013": "額外.*[0-9.]+%.*物理傷害減免",
+  "m014": "[0-9]+.*至.*[0-9]+.*點物理荊棘傷害",
+  "m015": "[0-9.]+%.*全元素抗性",
+  "m016": "[0-9]+.*點力量",
+  "m017": "[0-9]+.*命中值",
+  "m018": "[0-9]+.*命中值增加.*[0-9.]+%光線範圍",
+  "m019": "增加.*[0-9.]+%護甲值",
+  "m020": "[0-9]+.*點敏捷",
+  "m021": "暈眩門檻.*[0-9]+",
+  "m022": "[0-9]+.*點智慧",
+  "m023": "[0-9]+.*最大生命",
+  "m024": "[0-9]+.*最大能量護盾",
+  "m025": "[0-9]+.*最大魔力",
+  "m026": "增加.*[0-9.]+%閃避值",
+  "m027": "[0-9]+.*精魂",
+  "m028": "減少.*[0-9.]+%你身上的中毒持續時間",
+  "m029": "減少.*[0-9.]+%你身上的冰緩持續時間",
+  "m030": "減少.*[0-9.]+%你身上的冰凍持續時間",
+  "m031": "減少.*[0-9.]+%你身上的感電持續時間",
+  "m032": "減少.*[0-9.]+%你身上的點燃持續時間",
+  "m033": "減少.*[0-9.]+%.*護符充能使用",
+  "m034": "減少.*[0-9.]+%.*藥劑充能使用",
+  "m035": "附加.*[0-9]+.*至.*[0-9]+.*冰冷傷害",
+  "m036": "[0-9.]+%.*冰冷抗性",
+  "m038": "減少[0-9.]+%.*你身上的流血持續時間",
+  "m039": "召喚物增加.*[0-9.]+%.*最大生命",
+  "m040": "增加.*[0-9.]+%.*護符效果持續時間",
+  "m041": "處於你存在範圍中的友方每秒回復.*[0-9]+.*生命",
+  "m042": "[0-9.]+%.*處於你存在範圍中的友方全元素抗性",
+  "m043": "處於你存在範圍中的友方增加.*[0-9.]+%.*攻擊速度",
+  "m044": "處於你存在範圍中的友方增加.*[0-9.]+%.*施放速度",
+  "m045": "處於你存在範圍中的友方增加.*[0-9.]+%.*暴擊傷害加成",
+  "m046": "處於你存在範圍中的友方增加.*[0-9.]+%.*暴擊率",
+  "m047": "處於你存在範圍中的友方造成.*[0-9]+.*至.*[0-9]+.*額外攻擊物理傷害",
+  "m048": "處於你存在範圍中的友方造成.*[0-9]+.*至.*[0-9]+.*額外攻擊冰冷傷害",
+  "m049": "處於你存在範圍中的友方造成.*[0-9]+.*至.*[0-9]+.*額外攻擊火焰傷害",
+  "m050": "處於你存在範圍中的友方造成.*[0-9]+.*至.*[0-9]+.*額外攻擊物理傷害",
+  "m051": "處於你存在範圍中的友方造成.*[0-9]+.*至.*[0-9]+.*額外攻擊閃電傷害",
+  "m053": "對你的擊中減少.*[0-9.]+%.*暴擊傷害加成",
+  "m054": "承受的.*[0-9.]+%.*傷害補償為生命",
+  "m055": "承受的.*[0-9.]+%.*傷害補償為魔力",
+  "m057": "增加.*[0-9.]+%.*弓技能的傷害",
+  "m058": "增加.*[0-9.]+%.*感電機率",
+  "m059": "[0-9.]+%.*全元素抗性",
+  "m060": "全部冰冷法術技能等級.*[0-9]+",
+  "m061": "全部召喚物技能等級.*[0-9]+",
+  "m062": "全部投射物技能等級.*[0-9]+",
+  "m063": "全部法術技能等級.*[0-9]+",
+  "m064": "全部混沌法術技能等級.*[0-9]+",
+  "m065": "全部火焰法術技能等級.*[0-9]+",
+  "m066": "全部物理法術技能等級.*[0-9]+",
+  "m067": "全部近戰技能的等級.*[0-9]+",
+  "m068": "全部閃電法術技能等級.*[0-9]+",
+  "m069": "全部陷阱技能寶石的等級.*[0-9]+",
+  "m070": "增加.*[0-9.]+%投射物速度",
+  "m071": "增加.*[0-9.]+%護甲值",
+  "m072": "增加.*[0-9.]+%攻擊傷害的暴擊傷害加成",
+  "m073": "增加.*[0-9.]+%攻擊元素傷害",
+  "m074": "增加.*[0-9.]+%攻擊暴擊率",
+  "m075": "攻擊每擊中一名敵人，獲得.*[0-9]+.*生命",
+  "m076": "增加.*[0-9.]+%.*攻擊速度",
+  "m077": "攻擊附加.*[0-9]+.*至.*[0-9]+.*冰冷傷害",
+  "m078": "攻擊附加.*[0-9]+.*至.*[0-9]+.*火焰傷害",
+  "m079": "攻擊附加.*[0-9]+.*至.*[0-9]+.*閃電傷害",
+  "m080": "攻擊附加.*[0-9]+.*至.*[0-9]+.*物理傷害",
+  "m081": "增加.*[0-9.]+%.*施放速度",
+  "m082": "增加.*[0-9.]+%易燃幅度",
+  "m083": "增加.*[0-9.]+%.*暈眩持續時間",
+  "m084": "增加.*[0-9.]+%暴擊傷害加成",
+  "m085": "增加.*[0-9.]+%暴擊傷害加成",
+  "m086": "增加.*[0-9.]+%暴擊率",
+  "m087": "增加.*[0-9.]+%暴擊率",
+  "m089": "每擊中一名敵人，獲得.*[0-9]+.*生命",
+  "m090": "每擊中一名敵人，獲得.*[0-9]+.*生命",
+  "m091": "每個被擊殺的敵人，獲得.*[0-9]+.*魔力",
+  "m092": "增加.*[0-9.]+%法術傷害",
+  "m093": "增加.*[0-9.]+%法術暴擊傷害加成",
+  "m094": "增加.*[0-9.]+%.*法術暴擊率",
+  "m095": "增加.*[0-9.]+%混沌傷害",
+  "m096": "[0-9.]+%.*混沌抗性",
+  "m097": "附加.*[0-9]+.*至.*[0-9]+.*火焰傷害",
+  "m098": "[0-9.]+%.*火焰抗性",
+  "m100": "增加.*[0-9.]+%找到的物品稀有度",
+  "m101": "[0-9]+.*至.*[0-9]+.*點物理荊棘傷害",
+  "m102": "以.*[0-9.]+%.*物理傷害偷取生命",
+  "m103": "以.*[0-9.]+%.*物理傷害偷取魔力",
+  "m104": "以.*[0-9.]+%.*物理攻擊傷害偷取生命",
+  "m105": "以.*[0-9.]+%.*物理攻擊傷害偷取魔力",
+  "m107": "[0-9]+.*每秒生命回復",
+  "m108": "[0-9]+.*精魂",
+  "m109": "[0-9]+.*最大能量護盾",
+  "m110": "能量護盾開始充能速度加快.*[0-9.]+%",
+  "m111": "增加.*[0-9.]+%.*能量護盾充能率",
+  "m112": "增加.*[0-9.]+%藥劑生命恢復率",
+  "m113": "增加.*[0-9.]+%.*魔力回復率",
+  "m116": "獲得相當於傷害.*[0-9.]+%.*的額外冰冷傷害",
+  "m117": "獲得相當於傷害.*[0-9.]+%.*的額外火焰傷害",
+  "m118": "獲得相當於傷害.*[0-9.]+%.*的額外閃電傷害",
+  "m119": "獲得等同.*[0-9.]+%.*閃避值的偏斜值",
+  "m121": "增加.*[0-9.]+%護甲值、閃避和能量護盾",
+  "m122": "[0-9]+.*護甲值[0-9]+.*最大能量護盾",
+  "m124": "[0-9]+.*最大能量護盾",
+  "m125": "[0-9]+.*閃避值[0-9]+.*最大能量護盾",
+  "m126": "獲得等同.*[0-9.]+%.*閃避值的偏斜值",
+  "m128": "附加.*[0-9]+.*至.*[0-9]+.*閃電傷害",
+  "m129": "[0-9.]+%.*閃電抗性",
+  "m130": "增加.*[0-9.]+%閃避值",
+  "m131": "附加.*[0-9]+.*至.*[0-9]+.*冰冷傷害",
+  "m132": "附加.*[0-9]+.*至.*[0-9]+.*火焰傷害",
+  "m133": "附加.*[0-9]+.*至.*[0-9]+.*物理傷害",
+  "m134": "附加.*[0-9]+.*至.*[0-9]+.*閃電傷害",
+  "m135": "增加.*[0-9.]+%陷阱傷害",
+  "m136": "增加.*[0-9.]+%陷阱的暴擊率",
+  "m137": "裝填額外.*[0-9]+.*發弩箭",
+  "m138": "裝填額外.*[0-9]+.*發弩箭",
+  "m140": "增加.*[0-9.]+%藥劑魔力恢復率",
 };
 
-export function getAllItemMods():AffixDef[]{return ALL_MODS}
-export function getCategoryGroups():Record<string,string[]>{return CAT_GROUPS}
-export function getModById(id:string):AffixDef|undefined{return ALL_MODS.find(m=>m.id===id)}
 
-// ============================================================
-// EQUIP_MOD_MAP — 基于 poe2db.tw 逐页对照整理
-// 格式: 部位ID → { prefixes, suffixes }
-// 同一词缀在不同部位可能前后缀不同 (如 skillLevel: 项链=前缀, 箭袋=后缀)
-// 修改方式: 在对应部位的 prefixes/suffixes 数组中加/删 ID
-// ============================================================
+
+
 export const EQUIP_MOD_MAP: Record<string,{prefixes:string[],suffixes:string[]}> = {
-  // === 武器 ===
-  bows: {prefixes:['physDmg','eleDmg','flat_phys','flat_fire','flat_cold','flat_light','flat_chaos','bowSkillDmg','projCount','projSpeed','skillLevel','bowSkill','lifeLeech','manaLeech'],suffixes:['attackSpeed','critChance','critMulti','accuracy','dexterity','strength']},
-  crossbows: {prefixes:['physDmg','eleDmg','flat_phys','flat_fire','flat_cold','flat_light','projCount','projSpeed'],suffixes:['attackSpeed','critChance','critMulti','accuracy','dexterity','strength']},
-  quarterstaves: {prefixes:['physDmg','eleDmg','flat_phys','flat_cold','flat_light','skillLevel','meleeSkill'],suffixes:['attackSpeed','critChance','critMulti','accuracy','strength','dexterity']},
-  oneHandMaces: {prefixes:['physDmg','flat_phys','areaDmg','meleeSkill'],suffixes:['attackSpeed','critChance','critMulti','accuracy','strength','stunThresh']},
-  twoHandMaces: {prefixes:['physDmg','flat_phys','areaDmg','meleeSkill'],suffixes:['attackSpeed','critChance','critMulti','accuracy','strength','stunThresh']},
-  staves: {prefixes:['spellDmg','eleDmg','fireDmg','coldDmg','lightDmg','flat_fire','flat_cold','flat_light','gainExtra','skillLevel','fireSkill','coldSkill','lightSkill','chaosSkill','regenMana','maxMana','energyShield'],suffixes:['castSpeed','spellCrit','critMulti','intelligence','cooldown']},
-  wands: {prefixes:['spellDmg','eleDmg','fireDmg','coldDmg','lightDmg','chaosDmg','gainExtra','skillLevel','fireSkill','coldSkill','lightSkill','chaosSkill','regenMana','spirit','maxMana'],suffixes:['castSpeed','spellCrit','critMulti','intelligence']},
-  sceptres: {prefixes:['eleDmg','fireDmg','coldDmg','lightDmg','minionDmg','gainExtra','skillLevel','fireSkill','coldSkill','lightSkill','minionSkill','spirit','maxMana'],suffixes:['castSpeed','intelligence','strength']},
-  spears: {prefixes:['physDmg','flat_phys','meleeSkill'],suffixes:['attackSpeed','critChance','critMulti','accuracy','strength','dexterity']},
-
-  // === 防具 ===
-  boots: {prefixes:['maxLife','maxMana','energyShield','incArmour','incEvasion','incES','incArmourES','incEvasionES','regenLife','regenMana','rarityFind','reducedAttr'],suffixes:['movespeed','fireRes','coldRes','lightRes','chaosRes','strength','dexterity','intelligence','stunThresh']},
-  gloves: {prefixes:['maxLife','maxMana','flat_phys','flat_fire','flat_cold','flat_light','lifeLeech','manaLeech','rarityFind'],suffixes:['attackSpeed','castSpeed','fireRes','coldRes','lightRes','chaosRes','strength','dexterity','intelligence','accuracy','stunThresh']},
-  bodyArmours: {prefixes:['maxLife','maxMana','energyShield','incArmour','incEvasion','incES','incArmourES','incEvasionES','incArmourEvasion','flatEvasion','regenLife','spirit','reducedAttr','aoeEffect'],suffixes:['fireRes','coldRes','lightRes','chaosRes','allRes','strength','dexterity','intelligence','stunThresh']},
-  helmets: {prefixes:['maxLife','maxMana','energyShield','incArmour','incEvasion','incES','rarityFind','regenLife','regenMana','spirit','minionSkill','skillLevel'],suffixes:['cooldown','fireRes','coldRes','lightRes','chaosRes','allRes','strength','dexterity','intelligence','accuracy','stunThresh']},
-  shields: {prefixes:['maxLife','energyShield','incArmour','incES','incArmourES','incArmourEvasion','spirit','reducedAttr'],suffixes:['fireRes','coldRes','lightRes','chaosRes','allRes','maxResFire','maxResCold','maxResLight','strength','stunThresh']},
-  foci: {prefixes:['spellDmg','eleDmg','skillLevel','fireSkill','coldSkill','lightSkill','chaosSkill','regenMana','spirit','maxMana','energyShield'],suffixes:['castSpeed','spellCrit','intelligence','cooldown']},
-
-  // === 饰品 ===
-  rings: {prefixes:['maxLife','maxMana','energyShield','flat_phys','flat_fire','flat_cold','flat_light','flat_chaos','flat_ele_att','rarityFind','regenLife','regenMana','spirit','cooldown','gainExtra'],suffixes:['fireRes','coldRes','lightRes','chaosRes','allRes','strength','dexterity','intelligence','allAttr','castSpeed','attackSpeed','accuracy','lifeLeech','manaLeech']},
-  amulets: {prefixes:['maxLife','maxMana','energyShield','spirit','rarityFind','skillLevel','projCount','regenLife','regenMana','minionSkill','aoeEffect','gainExtra'],suffixes:['cooldown','fireRes','coldRes','lightRes','chaosRes','allRes','maxResFire','maxResCold','maxResLight','strength','dexterity','intelligence','allAttr','castSpeed','attackSpeed','critChance','critMulti','accuracy','stunThresh']},
-  belts: {prefixes:['maxLife','maxMana','regenLife','regenMana','rarityFind','incArmour'],suffixes:['cooldown','fireRes','coldRes','lightRes','chaosRes','allRes','strength','dexterity','intelligence','stunThresh']},
-
-  // === 副手/特殊 ===
-  // 无最大生命/魔力; 投射物速度为前缀
-  quivers: {prefixes:['physDmg','flat_phys','flat_fire','flat_cold','flat_light','flat_chaos','eleDmg','bowSkillDmg','projCount','projSpeed'],suffixes:['attackSpeed','critChance','critMulti','accuracy','dexterity','skillLevel']},
-  jewel: {prefixes:[],suffixes:[]},
-  waystone: {prefixes:[],suffixes:[]},
+  amulets: {prefixes:["m023","m106","m025","m139","m024","m071","m130","m109","m017","m100","m027","m092"],suffixes:["m016","m020","m022","m015","m098","m036","m129","m059","m096","m063","m061","m067","m062","m107","m140","m081","m087","m084","m100","m054","m055"]},
+  belts: {prefixes:["m023","m025","m014","m112","m113","m040"],suffixes:["m016","m098","m036","m129","m096","m021","m107","m115","m034","m114","m033"]},
+  bodyArmours: {prefixes:["m023","m019","m014","m027","m026","m024","m124","m123","m122","m125","m121","m126","m120"],suffixes:["m016","m098","m036","m129","m096","m056","m021","m107","m038","m028","m032","m009","m020","m119","m022","m110"]},
+  boots: {prefixes:["m023","m019","m027","m026","m024","m124","m123","m122","m125","m121","m126","m120"],suffixes:["m016","m098","m036","m129","m096","m056","m021","m107","m100","m031","m029","m030","m009","m020","m119","m022","m111"]},
+  bows: {prefixes:["m133","m132","m131","m134","m101","m017","m073"],suffixes:["m020","m056","m062","m102","m103","m090","m091","m089","m076","m086","m003","m018","m010"]},
+  claws: {prefixes:["m133","m132","m131","m134","m101","m017","m073"],suffixes:["m020","m056","m067","m102","m103","m090","m091","m089","m076","m086","m003","m018","m083","m127"]},
+  crossbows: {prefixes:["m133","m132","m131","m134","m101","m017","m073"],suffixes:["m016","m020","m056","m062","m102","m103","m090","m091","m089","m076","m086","m003","m018","m138","m137"]},
+  daggers: {prefixes:["m133","m132","m131","m134","m101","m017","m073"],suffixes:["m020","m022","m056","m067","m102","m103","m090","m091","m089","m076","m086","m003","m018","m083","m127"]},
+  flails: {prefixes:["m133","m132","m131","m134","m101","m017","m073"],suffixes:["m016","m022","m056","m067","m102","m103","m090","m091","m089","m076","m086","m003","m083","m127"]},
+  foci: {prefixes:["m025","m024","m124","m092","m097","m035","m128","m095","m004"],suffixes:["m022","m098","m036","m129","m096","m056","m063","m140","m081","m094","m093","m111","m110"]},
+  gloves: {prefixes:["m023","m025","m019","m080","m078","m077","m079","m017","m026","m024","m124","m123","m122","m125","m121","m126","m120"],suffixes:["m016","m020","m098","m036","m129","m096","m056","m067","m104","m105","m090","m091","m075","m076","m085","m100","m009","m119","m022","m111"]},
+  helmets: {prefixes:["m023","m025","m023","m019","m026","m024","m124","m123","m122","m125","m121","m126","m120","m100"],suffixes:["m016","m022","m098","m036","m129","m096","m056","m061","m107","m087","m100","m099","m009","m020","m119","m111"]},
+  oneHandAxes: {prefixes:["m133","m132","m131","m134","m101","m017","m073"],suffixes:["m016","m056","m067","m102","m103","m090","m091","m089","m076","m086","m003","m099","m083","m127"]},
+  oneHandMaces: {prefixes:["m133","m132","m131","m134","m101","m017","m073"],suffixes:["m016","m056","m067","m102","m103","m090","m091","m089","m076","m086","m003","m099","m083","m127"]},
+  oneHandSwords: {prefixes:["m133","m132","m131","m134","m101","m017","m073"],suffixes:["m016","m020","m056","m067","m102","m103","m090","m091","m089","m076","m086","m003","m099","m083","m127"]},
+  quarterstaves: {prefixes:["m133","m132","m131","m134","m101","m017","m073"],suffixes:["m020","m022","m056","m067","m102","m103","m090","m091","m089","m076","m086","m003","m099","m083","m127"]},
+  quivers: {prefixes:["m080","m078","m077","m079","m017","m070","m057"],suffixes:["m020","m062","m090","m091","m076","m074","m072","m008"]},
+  rings: {prefixes:["m023","m025","m026","m080","m078","m077","m079","m017","m100","m097","m035","m128","m095"],suffixes:["m016","m020","m022","m015","m098","m036","m129","m059","m096","m107","m140","m104","m105","m090","m091","m081","m100","m099"]},
+  sceptres: {prefixes:["m025","m050","m049","m048","m051","m047","m108"],suffixes:["m016","m022","m042","m056","m061","m041","m140","m043","m044","m046","m045","m099","m052","m039"]},
+  shields: {prefixes:["m023","m026","m014","m088","m019","m024","m124","m123","m122","m125","m126","m120"],suffixes:["m020","m098","m036","m129","m096","m056","m021","m007","m002","m011","m006","m001","m119","m016","m022","m059","m111","m009","m053","m013"]},
+  spears: {prefixes:["m133","m132","m131","m134","m101","m017","m073"],suffixes:["m016","m020","m056","m067","m062","m102","m103","m090","m091","m089","m076","m086","m003","m099","m083","m127"]},
+  staves: {prefixes:["m025","m092","m097","m035","m128","m095","m005","m117","m116","m118"],suffixes:["m022","m056","m063","m065","m060","m068","m064","m066","m140","m090","m091","m081","m094","m093","m099","m082","m037","m058"]},
+  talismans: {prefixes:["m133","m132","m131","m134","m101","m017","m073"],suffixes:["m016","m022","m056","m067","m102","m103","m090","m091","m089","m076","m086","m003","m099","m083","m127"]},
+  traps: {prefixes:["m025","m097","m035","m128","m095","m004","m135"],suffixes:["m020","m022","m069","m140","m090","m091","m136","m012","m082","m037","m058"]},
+  twoHandAxes: {prefixes:["m133","m132","m131","m134","m101","m017","m073"],suffixes:["m016","m056","m067","m102","m103","m090","m091","m089","m076","m086","m003","m099","m083","m127"]},
+  twoHandMaces: {prefixes:["m133","m132","m131","m134","m101","m017","m073"],suffixes:["m016","m056","m067","m102","m103","m090","m091","m089","m076","m086","m003","m099","m083","m127"]},
+  twoHandSwords: {prefixes:["m133","m132","m131","m134","m101","m017","m073"],suffixes:["m016","m020","m056","m067","m102","m103","m090","m091","m089","m076","m086","m003","m099","m083","m127"]},
+  wands: {prefixes:["m025","m092","m097","m035","m128","m095","m004","m117","m116","m118"],suffixes:["m022","m056","m063","m065","m060","m068","m064","m066","m140","m090","m091","m081","m094","m093","m099","m082","m037","m058"]},
 };
 
-/** 取选中装备的词缀交集 (返回 {prefixes, suffixes}) */
-export function getAvailableMods(classIds:string[]):{prefixes:string[],suffixes:string[]}|null{
-  if(classIds.length===0)return null;
-  const maps=classIds.map(id=>EQUIP_MOD_MAP[id]).filter(m=>m);
-  if(maps.length===0)return null;
-  // 取每个部位的前后缀交集
-  const pInter=maps.reduce((acc,m)=>acc.filter(id=>m.prefixes.includes(id)),maps[0].prefixes);
-  const sInter=maps.reduce((acc,m)=>acc.filter(id=>m.suffixes.includes(id)),maps[0].suffixes);
-  return {prefixes:pInter,suffixes:sInter};
+export function getAllItemMods(): AffixDef[] { return ALL_MODS; }
+export function getModById(id: string): AffixDef | undefined { return ALL_MODS.find(m => m.id === id); }
+export function getCategoryGroups(): Record<string,string[]> { return {}; }
+export function getAvailableMods(classIds: string[]): {prefixes:string[],suffixes:string[]}|null {
+  if (classIds.length === 0) return null;
+  const maps = classIds.map(id => EQUIP_MOD_MAP[id]).filter(m => m);
+  if (maps.length === 0) return null;
+  const pInter = maps.reduce((acc,m) => acc.filter(id => m.prefixes.includes(id)), maps[0].prefixes);
+  const sInter = maps.reduce((acc,m) => acc.filter(id => m.suffixes.includes(id)), maps[0].suffixes);
+  return { prefixes: pInter, suffixes: sInter };
 }
 
-// ============================================================
-// 引路石
-// ============================================================
-// 引路石词缀 (前缀/后缀, 最短唯一子串)
 export const waystoneMods: WaystoneMod[] = [
-  // === 前缀 ===
-  { id:'ws_extra_fire',  affix:'prefix',label:'怪物额外火焰伤害',   enRegex:'fire$',   cnRegex:'额外.*火焰' },
-  { id:'ws_extra_cold',  affix:'prefix',label:'怪物额外冰霜伤害',   enRegex:'col',     cnRegex:'额外.*冰霜' },
-  { id:'ws_extra_light', affix:'prefix',label:'怪物额外闪电伤害',   enRegex:'tn',      cnRegex:'额外.*闪电' },
-  { id:'ws_extra_chaos', affix:'prefix',label:'怪物额外混沌伤害',   enRegex:'ra ch',   cnRegex:'额外.*混沌' },
-  { id:'ws_mon_dmg',     affix:'prefix',label:'怪物伤害提高',       enRegex:'mage$',   cnRegex:'怪物伤害提高' },
-  { id:'ws_mon_life',    affix:'prefix',label:'怪物生命总增',       enRegex:'fe$',     cnRegex:'怪物生命' },
-  { id:'ws_mon_armour',  affix:'prefix',label:'怪物具有护甲',       enRegex:'oure',    cnRegex:'具.*护甲' },
-  { id:'ws_mon_evasive', affix:'prefix',label:'怪物具有闪避',       enRegex:'e eva',   cnRegex:'具.*闪避' },
-  { id:'ws_mon_es',      affix:'prefix',label:'怪物生命转护盾',     enRegex:'f m',     cnRegex:'生命.*转.*护盾' },
-  { id:'ws_accuracy',    affix:'prefix',label:'怪物命中值提高',     enRegex:'cc',      cnRegex:'命中.*提高' },
-  { id:'ws_charge_steal',affix:'prefix',label:'怪物偷取充能球',     enRegex:'r,',      cnRegex:'偷取.*球' },
-  { id:'ws_less_curse',  affix:'prefix',label:'怪物诅咒效果总降',   enRegex:'curse',   cnRegex:'诅咒.*降' },
-  { id:'ws_enfeeble',    affix:'prefix',label:'周期性衰弱诅咒',     enRegex:'eble',    cnRegex:'衰弱' },
-  { id:'ws_temp_chain',  affix:'prefix',label:'周期性时空锁链',     enRegex:'emp',     cnRegex:'时空锁链' },
-  { id:'ws_ele_weak',    affix:'prefix',label:'周期性元素要害',     enRegex:'kn',      cnRegex:'元素要害' },
-  { id:'ws_ignite_gnd',  affix:'prefix',label:'点燃地面',           enRegex:'ign',     cnRegex:'点燃' },
-  { id:'ws_chill_gnd',   affix:'prefix',label:'冰缓地面',           enRegex:'chi',     cnRegex:'冰缓' },
-  { id:'ws_shock_gnd',   affix:'prefix',label:'感电地面',           enRegex:'cke',     cnRegex:'感电' },
-  { id:'ws_abyss',       affix:'prefix',label:'深渊',               enRegex:'abyss',   cnRegex:'深渊' },
-  { id:'ws_abyss_queen', affix:'prefix',label:'深渊孵化女王',       enRegex:'queen',   cnRegex:'孵化女王' },
-  { id:'ws_abyss_occupy',affix:'prefix',label:'区域被深渊占据',     enRegex:'occupy',  cnRegex:'深渊占据' },
-
-  // === 后缀 ===
-  { id:'ws_rare_mod',    affix:'suffix',label:'稀有怪物额外词缀',   enRegex:'mod',     cnRegex:'额外.*词缀' },
-  { id:'ws_extra_crit',  affix:'suffix',label:'怪物额外暴击暴伤',   enRegex:'extra.*crit',cnRegex:'暴击率|暴击伤害' },
-  { id:'ws_mon_res',     affix:'suffix',label:'怪物元素抗性',       enRegex:'r el',    cnRegex:'怪物.*抗性' },
-  { id:'ws_poison',      affix:'suffix',label:'怪物击中中毒',       enRegex:'ois',     cnRegex:'击中.*中毒' },
-  { id:'ws_bleed',       affix:'suffix',label:'怪物击中流血',       enRegex:'blee',    cnRegex:'击中.*流血' },
-  { id:'ws_ailment_thresh',affix:'suffix',label:'怪物异常/晕眩阈值', enRegex:'lm',     cnRegex:'异常.*阈|晕眩.*阈' },
-  { id:'ws_armour_break',affix:'suffix',label:'怪物粉碎护甲',       enRegex:'eq',      cnRegex:'粉碎.*护' },
-  { id:'ws_stun_buildup',affix:'suffix',label:'怪物晕眩积蓄提高',   enRegex:'un b',    cnRegex:'晕眩.*蓄' },
-  { id:'ws_freeze',      affix:'suffix',label:'怪物冻结/易燃/感电', enRegex:'mm',      cnRegex:'冻结.*蓄|易燃|感电.*率' },
-  { id:'ws_proj',        affix:'suffix',label:'怪物额外投射物',     enRegex:'oj',      cnRegex:'额外.*投射' },
-  { id:'ws_aoe',         affix:'suffix',label:'怪物范围效果扩大',   enRegex:'ect$',    cnRegex:'范围.*扩大' },
-  { id:'ws_minion_pen',  affix:'suffix',label:'召唤物穿透抗性',     enRegex:'minion',  cnRegex:'召唤.*穿透' },
-  { id:'ws_max_res',     affix:'suffix',label:'玩家抗性上限降低',   enRegex:'% ma',    cnRegex:'抗性上限' },
-  { id:'ws_flask_less',  affix:'suffix',label:'玩家药剂充能降低',   enRegex:'sk',      cnRegex:'药剂.*降' },
-  { id:'ws_less_recov',  affix:'suffix',label:'生命护盾回复总降',   enRegex:'recov',   cnRegex:'回复.*总降' },
-  { id:'ws_cooldown',    affix:'suffix',label:'玩家冷却回复总降',   enRegex:'wn',      cnRegex:'冷却.*降' },
-  { id:'ws_crit_less',   affix:'suffix',label:'怪物受到暴伤降低',   enRegex:'tak',     cnRegex:'暴伤.*降|暴击伤害降低' },
-  { id:'ws_mon_spd',     affix:'suffix',label:'怪物攻速施速移速',   enRegex:'tta',     cnRegex:'怪物.*速度' },
-  { id:'ws_soul_eater',  affix:'suffix',label:'源生怪物吞噬灵魂',   enRegex:'soul',    cnRegex:'吞噬灵魂' },
-  { id:'ws_no_dmg',      affix:'suffix',label:'周期性无法造成伤害', enRegex:'no.*dmg',  cnRegex:'不能造成伤害' },
-  { id:'ws_slow_stack',  affix:'suffix',label:'技能速度总降叠加',   enRegex:'slow',    cnRegex:'速度总降' },
-  { id:'ws_vine',        affix:'suffix',label:'怪物施加缓速藤蔓',   enRegex:'vine',    cnRegex:'缓速藤蔓' },
-  { id:'ws_death_mark',  affix:'suffix',label:'击败稀有怪死亡印记', enRegex:'death',   cnRegex:'死亡印记' },
-  { id:'ws_mana_siphon', affix:'suffix',label:'魔力虹吸地面',       enRegex:'siphon',  cnRegex:'虹吸' },
-  { id:'ws_empowered',   affix:'suffix',label:'源生怪物聚魂状态',   enRegex:'empower', cnRegex:'聚魂' },
+  { id:'ws_extra_fire', affix:'prefix',label:'怪物额外火焰伤害', enRegex:'fire$', cnRegex:'额外.*火焰' },
+  { id:'ws_extra_cold', affix:'prefix',label:'怪物额外冰霜伤害', enRegex:'col', cnRegex:'额外.*冰霜' },
+  { id:'ws_extra_light',affix:'prefix',label:'怪物额外闪电伤害', enRegex:'tn', cnRegex:'额外.*闪电' },
+  { id:'ws_extra_chaos',affix:'prefix',label:'怪物额外混沌伤害', enRegex:'ra ch', cnRegex:'额外.*混沌' },
+  { id:'ws_mon_dmg',    affix:'prefix',label:'怪物伤害提高', enRegex:'mage$', cnRegex:'怪物伤害提高' },
+  { id:'ws_mon_life',   affix:'prefix',label:'怪物生命总增', enRegex:'fe$', cnRegex:'怪物生命' },
+  { id:'ws_mon_armour', affix:'prefix',label:'怪物具有护甲', enRegex:'oure', cnRegex:'具.*护甲' },
+  { id:'ws_mon_evasive',affix:'prefix',label:'怪物具有闪避', enRegex:'e eva', cnRegex:'具.*闪避' },
+  { id:'ws_mon_es',     affix:'prefix',label:'怪物生命转护盾', enRegex:'f m', cnRegex:'生命.*转.*护盾' },
+  { id:'ws_accuracy',   affix:'prefix',label:'怪物命中值提高', enRegex:'cc', cnRegex:'命中.*提高' },
+  { id:'ws_charge_steal',affix:'prefix',label:'怪物偷取充能球', enRegex:'r,', cnRegex:'偷取.*球' },
+  { id:'ws_less_curse', affix:'prefix',label:'怪物诅咒效果总降', enRegex:'curse', cnRegex:'诅咒.*降' },
+  { id:'ws_enfeeble',   affix:'prefix',label:'周期性衰弱诅咒', enRegex:'eble', cnRegex:'衰弱' },
+  { id:'ws_temp_chain', affix:'prefix',label:'周期性时空锁链', enRegex:'emp', cnRegex:'时空锁链' },
+  { id:'ws_ele_weak',   affix:'prefix',label:'周期性元素要害', enRegex:'kn', cnRegex:'元素要害' },
+  { id:'ws_ignite_gnd', affix:'prefix',label:'点燃地面', enRegex:'ign', cnRegex:'点燃' },
+  { id:'ws_chill_gnd',  affix:'prefix',label:'冰缓地面', enRegex:'chi', cnRegex:'冰缓' },
+  { id:'ws_shock_gnd',  affix:'prefix',label:'感电地面', enRegex:'cke', cnRegex:'感电' },
+  { id:'ws_rare_count', affix:'prefix',label:'稀有怪物数量提高', enRegex:'rare.*count', cnRegex:'稀有怪物.*数量' },
+  { id:'ws_magic_count',affix:'prefix',label:'魔法怪物数量提高', enRegex:'magic.*count', cnRegex:'魔法怪物.*数量' },
+  { id:'ws_rare_mod',   affix:'suffix',label:'稀有怪物额外词缀', enRegex:'mod', cnRegex:'额外.*词缀' },
+  { id:'ws_extra_crit', affix:'suffix',label:'怪物额外暴击暴伤', enRegex:'extra.*crit',cnRegex:'暴击率|暴击伤害' },
+  { id:'ws_mon_res',    affix:'suffix',label:'怪物元素抗性', enRegex:'r el', cnRegex:'怪物.*抗性' },
+  { id:'ws_poison',     affix:'suffix',label:'怪物击中中毒', enRegex:'ois', cnRegex:'击中.*中毒' },
+  { id:'ws_bleed',      affix:'suffix',label:'怪物击中流血', enRegex:'blee', cnRegex:'击中.*流血' },
+  { id:'ws_ailment_thresh',affix:'suffix',label:'怪物异常/晕眩阈值', enRegex:'lm', cnRegex:'异常.*阈|晕眩.*阈' },
+  { id:'ws_armour_break',affix:'suffix',label:'怪物粉碎护甲', enRegex:'eq', cnRegex:'粉碎.*护' },
+  { id:'ws_stun_buildup',affix:'suffix',label:'怪物晕眩积蓄提高', enRegex:'un b', cnRegex:'晕眩.*蓄' },
+  { id:'ws_freeze',     affix:'suffix',label:'怪物冻结/易燃/感电', enRegex:'mm', cnRegex:'冻结.*蓄|易燃|感电.*率' },
+  { id:'ws_proj',       affix:'suffix',label:'怪物额外投射物', enRegex:'oj', cnRegex:'额外.*投射' },
+  { id:'ws_aoe',        affix:'suffix',label:'怪物范围效果扩大', enRegex:'ect$', cnRegex:'范围.*扩大' },
+  { id:'ws_minion_pen', affix:'suffix',label:'召唤物穿透抗性', enRegex:'minion', cnRegex:'召唤.*穿透' },
+  { id:'ws_max_res',    affix:'suffix',label:'玩家抗性上限降低', enRegex:'% ma', cnRegex:'抗性上限' },
+  { id:'ws_flask_less', affix:'suffix',label:'玩家药剂充能降低', enRegex:'sk', cnRegex:'药剂.*降' },
+  { id:'ws_less_recov', affix:'suffix',label:'生命护盾回复总降', enRegex:'recov', cnRegex:'回复.*总降' },
+  { id:'ws_cooldown',   affix:'suffix',label:'玩家冷却回复总降', enRegex:'wn', cnRegex:'冷却.*降' },
+  { id:'ws_crit_less',  affix:'suffix',label:'怪物受到暴伤降低', enRegex:'tak', cnRegex:'暴伤.*降|暴击伤害降低' },
+  { id:'ws_mon_spd',    affix:'suffix',label:'怪物攻速施速移速', enRegex:'tta', cnRegex:'怪物.*速度' },
+  { id:'ws_soul_eater', affix:'suffix',label:'源生怪物吞噬灵魂', enRegex:'soul', cnRegex:'吞噬灵魂' },
+  { id:'ws_no_dmg',     affix:'suffix',label:'周期性无法造成伤害', enRegex:'no.*dmg', cnRegex:'不能造成伤害' },
+  { id:'ws_slow_stack', affix:'suffix',label:'技能速度总降叠加', enRegex:'slow', cnRegex:'速度总降' },
+  { id:'ws_vine',       affix:'suffix',label:'怪物施加缓速藤蔓', enRegex:'vine', cnRegex:'缓速藤蔓' },
+  { id:'ws_death_mark', affix:'suffix',label:'击败稀有怪死亡印记', enRegex:'death', cnRegex:'死亡印记' },
+  { id:'ws_mana_siphon',affix:'suffix',label:'魔力虹吸地面', enRegex:'siphon', cnRegex:'虹吸' },
+  { id:'ws_empowered',  affix:'suffix',label:'源生怪物聚魂状态', enRegex:'empower', cnRegex:'聚魂' },
+  { id:'ws_mon_dmg2',   affix:'suffix',label:'怪物伤害提高', enRegex:'extra.*dmg', cnRegex:'额外.*伤害|相当于伤害' },
 ];
 
-// ============================================================
-// 物品基底/稀有度/移速/属性
-// ============================================================
+export const tabletTypes: { id:string; label:string; icon:string }[] = [
+  { id:'precursor',label:'先驱石板',icon:'📜'},{ id:'breach',label:'裂隙先驱石板',icon:'🔮'},
+  { id:'expedition',label:'先祖秘藏先驱石板',icon:'🏺'},{ id:'delirium',label:'惊悸迷雾先驱石板',icon:'🌫'},
+  { id:'ritual',label:'驱灵仪式先驱石板',icon:'🕯'},{ id:'domination',label:'霸主先驱石板',icon:'👑'},
+  { id:'abyss',label:'深渊先驱石板',icon:'🕳'},
+];
+
+export const tabletSuffixes: Record<string, TabletMod[]> = { breach:[{id:'bs_rift_magic',label:'裂隙魔法怪物数量提高',enRegex:'rift.*magic',cnRegex:'裂隙.*魔法怪物'},{id:'bs_rift_rare_mon',label:'裂隙额外稀有怪物',enRegex:'rift.*rare',cnRegex:'裂隙.*额外.*稀有'},{id:'bs_rift_density1',label:'裂隙怪物密度提高(5-10)%',enRegex:'density',cnRegex:'裂隙.*密度.*提高'},{id:'bs_rift_speed',label:'裂隙开合速度加快',enRegex:'rift.*speed',cnRegex:'裂隙.*速度.*加快'},{id:'bs_rift_hands',label:'裂隙额外紧握之手',enRegex:'hand',cnRegex:'紧握之手'},{id:'bs_rift_splinter',label:'裂隙碎片数量提高',enRegex:'splinter',cnRegex:'裂隙碎片'},{id:'bs_rift_three',label:'几率三个额外裂隙',enRegex:'three.*rift',cnRegex:'三个.*额外.*裂隙'},{id:'bs_rift_extra',label:'几率额外裂隙',enRegex:'extra.*rift',cnRegex:'额外.*裂隙'}],expedition:[{id:'es_artifact',label:'先祖秘藏神器数量提高',enRegex:'artifact',cnRegex:'神器.*数量'},{id:'es_place_range',label:'炸药放置范围扩大',enRegex:'place.*range',cnRegex:'炸药.*放置.*范围'},{id:'es_remnant',label:'先祖秘藏残骸+',enRegex:'remnant',cnRegex:'残骸'},{id:'es_blast_range',label:'先祖秘藏爆炸范围扩大',enRegex:'blast.*range',cnRegex:'爆炸.*范围'},{id:'es_logbook',label:'符纹怪物日志数量提高',enRegex:'logbook',cnRegex:'日志.*数量'},{id:'es_rare_exp',label:'稀有先祖秘藏怪物数量提高',enRegex:'rare.*exp',cnRegex:'稀有.*先祖.*数量'},{id:'es_remnant_eff',label:'先祖秘藏残骸效果提高',enRegex:'remnant.*eff',cnRegex:'残骸.*效果'},{id:'es_runic_mark',label:'符纹怪物标记数量提高',enRegex:'runic.*mark',cnRegex:'符纹.*标记'}],delirium:[{id:'ds_splinter',label:'梦魇拟像裂片堆叠数量提高',enRegex:'splinter',cnRegex:'裂片.*堆叠'},{id:'ds_duration',label:'惊悸迷雾额外持续时间',enRegex:'duration',cnRegex:'额外.*持续'},{id:'ds_dissipate',label:'惊悸迷雾消散速度减慢',enRegex:'dissipate',cnRegex:'消散.*速度'},{id:'ds_fill_speed',label:'惊悸迷雾填充速度加快',enRegex:'fill.*speed',cnRegex:'填充.*速度'},{id:'ds_pack',label:'惊悸迷雾怪物群规模提高',enRegex:'pack',cnRegex:'迷雾.*怪物群'},{id:'ds_mirror',label:'破溃之镜数量提高',enRegex:'mirror',cnRegex:'破溃之镜'},{id:'ds_pause',label:'稀有怪物暂停迷雾倒计时',enRegex:'pause',cnRegex:'暂停.*倒计时'},{id:'ds_boss',label:'迷雾传奇首领几率总增',enRegex:'boss',cnRegex:'传奇.*首领'}],ritual:[{id:'rs_tribute',label:'祭坛献祭贡品提高',enRegex:'tribute',cnRegex:'贡品.*提高'},{id:'rs_reroll_cost',label:'重置恩典消耗贡品降低',enRegex:'reroll.*cost',cnRegex:'重置.*降低'},{id:'rs_defer_cost',label:'延时恩典消耗贡品降低',enRegex:'defer.*cost',cnRegex:'延时.*降低'},{id:'rs_defer_speed',label:'延时恩典重现速度加快',enRegex:'defer.*speed',cnRegex:'延时.*加快'},{id:'rs_extra_reroll',label:'可额外重置恩典一次',enRegex:'extra.*reroll',cnRegex:'额外.*重置.*恩典'},{id:'rs_free_reroll',label:'重置恩典几率不消耗贡品',enRegex:'free.*reroll',cnRegex:'重置.*几率.*不消耗'},{id:'rs_magic',label:'再生怪物为魔法几率提高',enRegex:'magic',cnRegex:'魔法.*几率.*提高'},{id:'rs_rare',label:'再生怪物为稀有几率提高',enRegex:'rare',cnRegex:'稀有.*几率.*提高'},{id:'rs_omen',label:'驱灵恩典为预兆几率提高',enRegex:'omen',cnRegex:'预兆.*几率'}],precursor:[{id:'ps_waystone',label:'引路石数量提高(30-50)%',enRegex:'waystone',cnRegex:'引路石.*数量'},{id:'ps_rare_mod',label:'稀有怪物额外词缀几率',enRegex:'rare.*mod',cnRegex:'稀有.*怪物.*额外.*词缀'},{id:'ps_shrine',label:'额外神龛几率',enRegex:'shrine',cnRegex:'神龛.*几率'},{id:'ps_shrine_mod',label:'额外神龛(降群规模)',enRegex:'shrine.*pack',cnRegex:'神龛'},{id:'ps_strongbox',label:'额外保险箱几率',enRegex:'strongbox',cnRegex:'保险箱.*几率'},{id:'ps_strongbox_mod',label:'额外保险箱(降群规模)',enRegex:'strongbox.*pack',cnRegex:'保险箱'},{id:'ps_essence',label:'精华几率提高',enRegex:'essence',cnRegex:'精华.*几率'},{id:'ps_azmeri',label:'阿兹莫里之灵几率提高',enRegex:'azmeri',cnRegex:'阿兹莫里之灵.*几率'},{id:'ps_rogue',label:'盗贼流放者几率提高',enRegex:'rogue',cnRegex:'盗贼流放者.*几率'},{id:'ps_ritual_altar',label:'召唤法阵几率提高',enRegex:'altar',cnRegex:'召唤法阵.*几率'},{id:'ps_random_mod',label:'额外随机词缀',enRegex:'random.*mod',cnRegex:'额外.*随机.*词缀'},{id:'ps_boss_mod',label:'传奇怪物额外词缀',enRegex:'boss.*mod',cnRegex:'传奇.*额外.*词缀'}],domination:[{id:'ds_strongbox',label:'额外保险箱',enRegex:'strongbox',cnRegex:'额外.*保险箱'},{id:'ds_shrine',label:'额外神龛',enRegex:'shrine',cnRegex:'额外.*神龛'},{id:'ds_essence',label:'额外精华',enRegex:'essence',cnRegex:'额外.*精华'},{id:'ds_azmeri',label:'额外阿兹莫里之灵',enRegex:'azmeri',cnRegex:'额外.*阿兹莫里之灵'},{id:'ds_boss_waystone',label:'首领引路石数量提高',enRegex:'boss.*waystone',cnRegex:'首领.*引路石'},{id:'ds_boss_exp',label:'首领经验值提高',enRegex:'boss.*exp',cnRegex:'首领.*经验'},{id:'ds_boss_rarity',label:'首领物品稀有度提高',enRegex:'boss.*rarity',cnRegex:'首领.*稀有度'},{id:'ds_boss_quant',label:'首领物品数量提高',enRegex:'boss.*quant',cnRegex:'首领.*数量'}],abyss:[{id:'as_monster',label:'深渊怪物数量总增',enRegex:'abyss.*monster',cnRegex:'深渊.*怪物.*总增'},{id:'as_rare',label:'深渊额外稀有怪物',enRegex:'abyss.*rare',cnRegex:'深渊.*额外.*稀有'},{id:'as_pit',label:'深渊巨坑难度奖励提高',enRegex:'pit',cnRegex:'巨坑.*奖励'},{id:'as_despair',label:'深渊通往绝望深渊几率',enRegex:'despair',cnRegex:'绝望深渊'},{id:'as_extra',label:'额外一个深渊',enRegex:'extra.*abyss',cnRegex:'额外.*深渊'},{id:'as_double_reward',label:'深渊巨坑双倍奖励几率',enRegex:'double.*reward',cnRegex:'双倍.*几率.*奖励'},{id:'as_four',label:'几率四个额外深渊',enRegex:'four.*abyss',cnRegex:'四个.*额外.*深渊'},{id:'as_affix',label:'深渊怪物深渊词缀几率总增',enRegex:'abyss.*affix',cnRegex:'深渊.*词缀'},{id:'as_corrupted',label:'深渊怪物渎灵通货几率',enRegex:'corrupted',cnRegex:'渎灵.*通货'}]};
+
+export const tabletPrefixes: TabletMod[] = [
+  { id:'tp_intensity',label:'怪物强度总增',enRegex:'intensity',cnRegex:'怪物.*强度.*(总增|提高)'},
+  { id:'tp_rarity',label:'物品稀有度提高',enRegex:'rarity',cnRegex:'物品稀有度.*提高'},
+  { id:'tp_pack',label:'怪物群规模提高',enRegex:'pack',cnRegex:'怪物群规模.*提高'},
+  { id:'tp_magic',label:'魔法怪物数量提高',enRegex:'magic.*mon',cnRegex:'魔法怪物.*数量.*提高'},
+  { id:'tp_rare',label:'稀有怪物数量提高',enRegex:'rare.*mon',cnRegex:'稀有怪物.*数量.*提高'},
+  { id:'tp_gold',label:'金币数量提高',enRegex:'gold',cnRegex:'金币.*提高'},
+  { id:'tp_exp',label:'经验值获取提高',enRegex:'exp',cnRegex:'经验.*提高'},
+  { id:'tp_chest',label:'额外稀有宝箱',enRegex:'chest',cnRegex:'额外.*宝箱'},
+  { id:'tp_essence',label:'额外精华',enRegex:'essence',cnRegex:'额外.*精华'},
+  { id:'tp_waystone',label:'引路石数量提高',enRegex:'waystone',cnRegex:'引路石.*数量'},
+  { id:'tp_azmeri',label:'额外阿兹莫里之灵',enRegex:'azmeri',cnRegex:'阿兹莫里之灵'},
+  { id:'tp_rogue',label:'额外盗贼流放者',enRegex:'rogue',cnRegex:'盗贼流放者'},
+  { id:'tp_ritual_altar',label:'额外召唤法阵',enRegex:'altar',cnRegex:'召唤法阵'},
+  { id:'tp_strongbox',  label:'额外保险箱',enRegex:'strongbox',cnRegex:'额外.*保险箱'},
+  { id:'tp_shrine',     label:'额外神龛',enRegex:'shrine',cnRegex:'额外.*神龛'},
+];
+
 export const rarities: RarityDef[] = [
-  { id:'rare',label:'稀有',en:'y: r',cn:'稀有' },
-  { id:'magic',label:'魔法',en:'y: m',cn:'魔法' },
-  { id:'normal',label:'普通',en:'y: n',cn:'普通' },
-];
-export const itemClasses: ClassDef[] = [
-  { id:'amulets',label:'项链',enAbbr:'am',cnText:'项链' },
-  { id:'rings',label:'戒指',enAbbr:'ri',cnText:'戒指' },
-  { id:'belts',label:'腰带',enAbbr:'be',cnText:'腰带' },
-  { id:'wands',label:'法杖',enAbbr:'wa',cnText:'法杖' },
-  { id:'sceptres',label:'权杖',enAbbr:'sc',cnText:'权杖' },
-  { id:'bows',label:'弓',enAbbr:'bow',cnText:'弓' },
-  { id:'crossbows',label:'弩',enAbbr:'cr',cnText:'弩' },
-  { id:'quarterstaves',label:'战斗杖',enAbbr:'qua',cnText:'战斗杖' },
-  { id:'oneHandMaces',label:'单手锤',enAbbr:'on',cnText:'单手锤' },
-  { id:'twoHandMaces',label:'双手锤',enAbbr:'tw',cnText:'双手锤' },
-  { id:'staves',label:'长杖',enAbbr:'st',cnText:'长杖' },
-  { id:'gloves',label:'手套',enAbbr:'gl',cnText:'手套' },
-  { id:'boots',label:'鞋子',enAbbr:'boo',cnText:'鞋子' },
-  { id:'bodyArmours',label:'胸甲',enAbbr:'bod',cnText:'胸甲' },
-  { id:'helmets',label:'头盔/头部',enAbbr:'he',cnText:'(头盔|头部)' },
-  { id:'shields',label:'盾牌',enAbbr:'sh',cnText:'盾牌' },
-  { id:'foci',label:'法器',enAbbr:'fo',cnText:'法器' },
-  { id:'quivers',label:'箭袋',enAbbr:'qui',cnText:'箭袋' },
-  { id:'spears',label:'战矛',enAbbr:'sp',cnText:'战矛' },
-  { id:'jewel',label:'珠宝',enAbbr:'jewel',cnText:'珠宝' },
-  { id:'waystone',label:'引路石',enAbbr:'waystone',cnText:'引路石' },
-];
-export const moveSpeeds: MoveSpeedDef[] = [
-  { value:10,label:'1%+',en:'\\d+% i.+mov',cn:'移动速度提高 \\d+%' },
-  { value:15,label:'15%+',en:'(1[5-9]|[2-9]\\d)% i.+mov',cn:'移动速度提高 (1[5-9]|[2-9]\\d)%' },
-  { value:20,label:'20%+',en:'([2-9]\\d)% i.+mov',cn:'移动速度提高 ([2-9]\\d)%' },
-  { value:25,label:'25%+',en:'(2[5-9]|[3-9]\\d)% i.+mov',cn:'移动速度提高 (2[5-9]|[3-9]\\d)%' },
-  { value:30,label:'30%+',en:'([3-9]\\d)% i.+mov',cn:'移动速度提高 ([3-9]\\d)%' },
-  { value:35,label:'35%+',en:'(3[5-9]|[4-9]\\d)% i.+mov',cn:'移动速度提高 (3[5-9]|[4-9]\\d)%' },
-];
-export const properties = [
-  { id:'quality',label:'品质',en:'y: \\+',cn:'品质.*\\+\\d' },
-  { id:'sockets',label:'插槽',en:'ts: S',cn:'插槽' },
+  { id:"rare",label:"稀有",en:"y: r",cn:"度.*稀有" },
+  { id:"magic",label:"魔法",en:"y: m",cn:"度.*魔法" },
+  { id:"normal",label:"普通",en:"y: n",cn:"度.*普通" },
 ];
 
-// ============================================================
-// ilvlRegex
-// ============================================================
-export function ilvlRegex(min:number,max:number,lang:'en'|'cn'|'tc'='en'):{regex:string|null,explain:string}{
-  if(min===0&&max===0)return{regex:null,explain:''};
-  if(max>0&&min>max)return{regex:null,explain:''};
-  const isCn=lang==='cn'||lang==='tc';
-  const pf=isCn?'物品等级':'m level: ';
+export const itemClasses: ClassDef[] = [
+  { id:"claws",label:"爪",enAbbr:"cl",cnText:"爪" },{ id:"daggers",label:"匕首",enAbbr:"da",cnText:"匕首" },
+  { id:"wands",label:"法杖",enAbbr:"wa",cnText:"法杖" },{ id:"oneHandSwords",label:"单手剑",enAbbr:"sw",cnText:"单手剑" },
+  { id:"oneHandAxes",label:"单手斧",enAbbr:"ax",cnText:"单手斧" },{ id:"oneHandMaces",label:"单手锤",enAbbr:"on",cnText:"单手锤" },
+  { id:"sceptres",label:"短杖",enAbbr:"sc",cnText:"短杖" },{ id:"spears",label:"战矛",enAbbr:"sp",cnText:"战矛" },
+  { id:"flails",label:"连枷",enAbbr:"fl",cnText:"连枷" },
+  { id:"bows",label:"弓",enAbbr:"bow",cnText:"弓" },{ id:"staves",label:"长杖",enAbbr:"st",cnText:"长杖" },
+  { id:"twoHandSwords",label:"双手剑",enAbbr:"2sw",cnText:"双手剑" },{ id:"twoHandAxes",label:"双手斧",enAbbr:"2ax",cnText:"双手斧" },
+  { id:"twoHandMaces",label:"双手锤",enAbbr:"tw",cnText:"双手锤" },{ id:"quarterstaves",label:"节杖",enAbbr:"qua",cnText:"节杖" },
+  { id:"crossbows",label:"战弩",enAbbr:"cr",cnText:"战弩" },{ id:"traps",label:"陷阱",enAbbr:"tr",cnText:"陷阱" },
+  { id:"talismans",label:"魔符",enAbbr:"tal",cnText:"魔符" },
+  { id:"amulets",label:"项链",enAbbr:"am",cnText:"项链" },{ id:"rings",label:"戒指",enAbbr:"ri",cnText:"戒指" },
+  { id:"belts",label:"腰带",enAbbr:"be",cnText:"腰带" },
+  { id:"gloves",label:"手套",enAbbr:"gl",cnText:"手套" },{ id:"boots",label:"鞋子",enAbbr:"boo",cnText:"鞋子" },
+  { id:"bodyArmours",label:"胸甲",enAbbr:"bod",cnText:"胸甲" },{ id:"helmets",label:"头部",enAbbr:"he",cnText:"头部" },
+  { id:"quivers",label:"箭袋",enAbbr:"qui",cnText:"箭袋" },{ id:"shields",label:"盾牌",enAbbr:"sh",cnText:"盾牌" },
+  { id:"foci",label:"法器",enAbbr:"fo",cnText:"法器" },
+  { id:"jewel",label:"珠宝",enAbbr:"jewel",cnText:"珠宝" },{ id:"waystone",label:"引路石",enAbbr:"waystone",cnText:"引路石" },
+];
+
+export const moveSpeeds: MoveSpeedDef[] = [
+  { value:10,label:"1%+",en:"[0-9]+% i.+mov",cn:"移动速度提高.*[0-9]+%" },
+  { value:15,label:"15%+",en:"(1[5-9]|[2-9][0-9])% i.+mov",cn:"移动速度提高.*(1[5-9]|[2-9][0-9])%" },
+  { value:20,label:"20%+",en:"([2-9][0-9])% i.+mov",cn:"移动速度提高.*([2-9][0-9])%" },
+  { value:25,label:"25%+",en:"(2[5-9]|[3-9][0-9])% i.+mov",cn:"移动速度提高.*(2[5-9]|[3-9][0-9])%" },
+  { value:30,label:"30%+",en:"([3-9][0-9])% i.+mov",cn:"移动速度提高.*([3-9][0-9])%" },
+  { value:35,label:"35%+",en:"(3[5-9]|[4-9][0-9])% i.+mov",cn:"移动速度提高.*(3[5-9]|[4-9][0-9])%" },
+];
+
+export const properties = [
+  { id:"quality",label:"品质",en:"y: \+",cn:"品质.*[0-9]" },
+  { id:"sockets",label:"插槽",en:"ts: S",cn:"插槽" },
+];
+
+export function ilvlRegex(min:number,max:number,lang:"en"|"cn"|"tc"="en"):{regex:string|null,explain:string}{
+  if(min===0&&max===0)return{regex:null,explain:""};
+  if(max>0&&min>max)return{regex:null,explain:""};
+  const isCn=lang==="cn"||lang==="tc";
+  const pf=lang==="tc"?"物品等級: ":isCn?"物品等级: ":"m level: ";
   const efMax=max===0?99:max;
-  if(min===0&&efMax>=99)return{regex:`${pf}(\\d{1,2})`,explain:isCn?'任意物品等级':'Any Item Level'};
-  if(min>0&&min===efMax)return{regex:`${pf}${min}`,explain:isCn?`物品等级 = ${min}`:`Item Level = ${min}`};
+  if(min===0&&efMax>=99)return{regex:pf+"([0-9]{1,2})",explain:isCn?"任意物品等级":"Any Item Level"};
+  if(min>0&&min===efMax)return{regex:pf+min,explain:isCn?("物品等级 = "+min):("Item Level = "+min)};
   const rangeRegex=buildNumberRange(min,efMax);
-  const explain=isCn?`物品等级 ${min}${max>0?' ~ '+efMax:'+'}`:`Item Level ${min}${max>0?'~'+efMax:'+'}`;
-  return{regex:`${pf}${rangeRegex}`,explain};
+  const explain=isCn?("物品等级 "+min+(max>0?" ~ "+efMax:"+")):("Item Level "+min+(max>0?"~"+efMax:"+"));
+  return{regex:pf+rangeRegex+'\\b',explain};
 }
 function buildNumberRange(min:number,max:number):string{
-  if(max-min<=5&&max<=99){const vals:string[]=[];for(let i=min;i<=max;i++)vals.push(String(i));return`(${vals.join('|')})`;}
+  if(max-min<=5&&max<=99){const vals:string[]=[];for(let i=min;i<=max;i++)vals.push(String(i));return"("+vals.join("|")+")";}
+  // 紧凑分组: [1-9]|1[0-9]|[2-8][0-9]|9[0-9] 风格
   const parts:string[]=[];
-  if(min<=9){const end=Math.min(max,9);parts.push(min===0&&end===9?'\\d':min===end?String(min):`[${min}-${end}]`);min=10;}
-  if(min<=99&&min>=10){const minTens=Math.floor(min/10),maxTens=Math.min(Math.floor(max/10),9);
-    if(minTens===maxTens){const mo=min%10,mxo=max%10;parts.push(mo===0&&mxo===9?`${minTens}\\d`:mo===mxo?`${min}`:`${minTens}[${mo}-${mxo}]`);}
-    else{parts.push(min%10===0?`${minTens}\\d`:`${minTens}[${min%10}-9]`);for(let t=minTens+1;t<maxTens;t++)parts.push(`${t}\\d`);parts.push(max%10===9?`${maxTens}\\d`:`${maxTens}[0-${max%10}]`);}
+  if(min<=9){const end=Math.min(max,9);if(min===1&&end===9)parts.push("[1-9]");else parts.push(min===end?String(min):"["+min+"-"+end+"]");min=10;}
+  if(min<=99&&min>=10){const mt=Math.floor(min/10),mx=Math.min(Math.floor(max/10),9);
+    if(mt===mx){const mo=min%10,mxo=max%10;parts.push(mo===0&&mxo===9?mt+"[0-9]":mt+"["+mo+"-"+mxo+"]");}
+    else if(mx-mt>=3)parts.push(mt+"["+min%10+"-9]|["+(mt+1)+"-"+(mx-1)+"][0-9]|"+mx+"[0-"+max%10+"]");
+    else if(mx-mt===2)parts.push(mt+"["+min%10+"-9]|"+(mt+1)+"[0-9]|"+mx+"[0-"+max%10+"]");
+    else parts.push(mt+"["+min%10+"-9]|"+mx+"[0-"+max%10+"]");
     min=100;}
-  if(max>=100)parts.push('\\d{3,}');
-  return parts.length===1?parts[0]:`(${parts.join('|')})`;
+  if(max>=100)parts.push("[0-9]{3,}");
+  return parts.length===1?parts[0]:"("+parts.join("|")+")";
 }
 
-// ============================================================
-// 预设
-// ============================================================
-export const presets: PresetDef[] = [
-  { id:'bad_suffixes',name:'全部后缀',desc:waystoneMods.filter(m=>m.affix==='suffix').length+'个后缀一键全选',icon:'⚠',params:{mapModIds:waystoneMods.filter(m=>m.affix==='suffix').map(m=>m.id)}},
-  { id:'good_prefixes',name:'全部前缀',desc:waystoneMods.filter(m=>m.affix==='prefix').length+'个前缀一键全选',icon:'✅',params:{mapModIds:waystoneMods.filter(m=>m.affix==='prefix').map(m=>m.id)}},
-  { id:'life_ms_boots',name:'生命移速鞋',desc:'鞋子+生命+25%+移速+品质',icon:'👢',params:{classIds:['boots'],moveSpeed:25,modIds:['maxLife'],hasQuality:true,ilvlMin:70}},
-  { id:'phys_weapon',name:'高物理武器',desc:'弓/弩/战矛+物理伤+点伤+攻速',icon:'⚔',params:{classIds:['bows','crossbows','spears'],rarities:['rare','magic'],modIds:['physDmg','flat_phys','attackSpeed'],hasQuality:true,ilvlMin:65}},
-  { id:'caster',name:'施法装备',desc:'法杖/权杖+施速+精魂+全抗',icon:'✨',params:{classIds:['wands','sceptres','foci','rings','amulets'],modIds:['castSpeed','spirit','maxLife','spellDmg'],resistances:['fireRes','coldRes','lightRes','chaosRes']}},
-  { id:'ssf_vendor',name:'独狼商人',desc:'饰品+防具+生命+三抗+移速',icon:'🛡',params:{classIds:['rings','amulets','belts','boots','gloves','helmets','bodyArmours'],rarities:['rare','magic'],modIds:['maxLife'],resistances:['fireRes','coldRes','lightRes'],moveSpeed:20,ilvlMin:60}},
-];
+export const presets: PresetDef[] = [];

@@ -35,7 +35,7 @@ export default function RegexOutput({ regex, shortRegex, explanation, lang }: Pr
               {lang === 'en' ? '英文正则' : '中文正则'}
             </span>
             <span className={`text-xs font-mono font-bold ${cls}`}>
-              {len}/50 {getLengthLabel(len)}
+              {len}/250 {getLengthLabel(len)}
             </span>
             {shortRegex && shortRegex !== regex && shortRegex.length < regex.length && (
               <span className="text-[10px] px-1.5 py-0.5 rounded bg-poe-gold/10 text-poe-gold border border-poe-gold/30">
@@ -50,7 +50,7 @@ export default function RegexOutput({ regex, shortRegex, explanation, lang }: Pr
 
         <div className="p-4 space-y-3">
           <code className={`block w-full font-mono text-sm leading-relaxed break-all p-3 rounded-lg ${
-            len > 50 ? 'bg-red-500/5 border border-red-500/20 text-red-300'
+            len > 250 ? 'bg-red-500/5 border border-red-500/20 text-red-300'
             : 'bg-poe-dark/50 border border-poe-border text-poe-green'
           }`}>
             {display}
@@ -59,10 +59,10 @@ export default function RegexOutput({ regex, shortRegex, explanation, lang }: Pr
           <div className="h-1.5 bg-poe-dark rounded-full overflow-hidden">
             <div className={`h-full rounded-full transition-all ${
               getLengthColor(len) === 'green' ? 'bg-poe-green' : getLengthColor(len) === 'yellow' ? 'bg-poe-yellow' : 'bg-poe-red'
-            }`} style={{ width: `${Math.min(100, (len / 50) * 100)}%` }} />
+            }`} style={{ width: `${Math.min(100, (len / 250) * 100)}%` }} />
           </div>
           <div className="flex justify-between text-[10px] text-poe-muted">
-            <span>0</span><span>25</span><span>50</span>
+            <span>0</span><span>125</span><span>250</span>
           </div>
 
           {shortRegex && shortRegex !== regex && (

@@ -9,7 +9,13 @@ export default defineConfig({
     __APP_VERSION__: JSON.stringify(`v${new Date().toISOString().slice(0, 10).replace(/-/g, '.')}`),
   },
   build: {
-    minify: 'esbuild',
+    minify: 'terser',
+    terserOptions: {
+      compress: { drop_console: false, drop_debugger: true },
+      mangle: { toplevel: true },
+      format: { comments: false },
+    },
+    sourcemap: false,
     rollupOptions: {
       output: {
         manualChunks: {

@@ -1,17 +1,16 @@
 import { useMemo, useState } from 'react';
 import { buildRegex } from '../../engine/regexEngine';
-import { getAllItemMods, getAvailableMods, itemClasses } from '../../data/affixesData';
+import { getAllItemMods, getAvailableMods, itemClasses, rarities, moveSpeeds } from '../../data/affixesData';
 import type { LangMode } from '../../engine/regexEngine';
 import { useAppStore } from '../../store/useAppStore';
 import RegexOutput from './RegexOutput';
 import Card from '../ui/Card';
 import ControlBar from './ControlBar';
+import IlvlInput from '../ui/IlvlInput';
 
 const ALL = getAllItemMods();
 const EQ_TYPES = itemClasses.filter(c =>
-  ['bows','crossbows','quarterstaves','oneHandMaces','twoHandMaces','staves',
-   'wands','sceptres','spears','boots','gloves','bodyArmours','helmets',
-   'shields','foci','quivers','rings','amulets','belts'].includes(c.id)
+  !['jewel','waystone'].includes(c.id)
 );
 
 export default function ItemModifiers() {
@@ -23,8 +22,7 @@ export default function ItemModifiers() {
   // 装备选择
   const selectedEq = f.classIds || [];
   const toggleEq = (id: string) => {
-    const next = selectedEq.includes(id) ? selectedEq.filter(x => x !== id) : [...selectedEq, id];
-    set({ classIds: next });
+    set({ classIds: selectedEq.includes(id) ? [] : [id], modIds: [], resistances: [] });
   };
 
   // 可用词缀 — 按装备部位取前后缀交集
@@ -70,7 +68,7 @@ export default function ItemModifiers() {
         </Card>
 
         {/* 装备部位 */}
-        <Card title="选择装备部位（不选会显示所有词缀）">
+        <Card title="选择装备部位（点击取消选择）">
           <div className="flex flex-wrap gap-1">
             {EQ_TYPES.map(c => {
               const a = selectedEq.includes(c.id);
@@ -82,6 +80,42 @@ export default function ItemModifiers() {
                   }`}>{c.label}</button>
               );
             })}
+          </div>
+        </Card>
+
+        {/* 物品属性筛选 */}
+        <Card title="物品属性">
+          <div className="space-y-2">
+            {/* 稀有度 */}
+            <div className="flex flex-wrap gap-1.5">
+              {rarities.map(r => {
+                const a = f.rarities?.includes(r.id);
+                return <button key={r.id} onClick={() => set({ rarities: a ? (f.rarities||[]).filter((x:string)=>x!==r.id) : [...(f.rarities||[]), r.id] })}
+                  className={`px-2 py-0.5 rounded text-[10px] font-medium transition-all ${a ? 'bg-poe-gold/20 text-poe-gold-light border border-poe-gold/40' : 'bg-poe-dark/30 text-poe-muted border border-poe-border hover:text-poe-text'}`}>{r.label}</button>;
+              })}
+            </div>
+            {/* 品质 插槽 */}
+            <div className="flex items-center gap-4">
+              <label className="flex items-center gap-1 cursor-pointer">
+                <input type="checkbox" className="accent-poe-gold w-3 h-3" checked={f.hasQuality||false} onChange={e=>set({hasQuality:e.target.checked})}/>
+                <span className="text-xs text-poe-muted">品质</span>
+              </label>
+              <label className="flex items-center gap-1 cursor-pointer">
+                <input type="checkbox" className="accent-poe-gold w-3 h-3" checked={f.hasSockets||false} onChange={e=>set({hasSockets:e.target.checked})}/>
+                <span className="text-xs text-poe-muted">插槽</span>
+              </label>
+            </div>
+            {/* 物品等级 */}
+            <IlvlInput ilvlMin={f.ilvlMin||0} ilvlMax={f.ilvlMax||0} onChange={(min,max)=>set({ilvlMin:min,ilvlMax:max})}/>
+            {/* 移动速度 */}
+            <div className="flex flex-wrap gap-1">
+              <span className="text-[10px] text-poe-muted mr-1">移速 ≥</span>
+              {moveSpeeds.map(m => {
+                const a = f.moveSpeed === m.value;
+                return <button key={m.value} onClick={() => set({ moveSpeed: a ? 0 : m.value })}
+                  className={`px-2 py-0.5 rounded text-[10px] font-medium transition-all ${a ? 'bg-poe-gold/20 text-poe-gold-light border border-poe-gold/40' : 'bg-poe-dark/30 text-poe-muted border border-poe-border hover:text-poe-text'}`}>{m.label}</button>;
+              })}
+            </div>
           </div>
         </Card>
 

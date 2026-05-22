@@ -27,9 +27,10 @@ export default function ControlBar({ lang, logic, highlight, showHighlight, onLa
       <button onClick={() => onLogic('or')}
         className={`px-3 py-1 rounded-md text-xs font-medium transition-all ${logic !== 'and' ? 'bg-poe-gold/20 text-poe-gold-light border border-poe-gold/40' : 'bg-poe-dark/50 text-poe-muted border border-poe-border'}`}>或</button>
       <button onClick={() => onLogic('and')}
-        className={`px-3 py-1 rounded-md text-xs font-medium transition-all ${logic === 'and' ? 'bg-poe-green/20 text-poe-green border border-poe-green/40' : 'bg-poe-dark/50 text-poe-muted border border-poe-border'}`}>和</button>
-      <span className="text-[10px] text-poe-muted/60 hidden sm:inline">
-        {logic === 'and' ? '— 必须同时满足' : '— 满足任一即可'}
+        disabled={highlight === false}
+        className={`px-3 py-1 rounded-md text-xs font-medium transition-all ${highlight === false ? 'opacity-40 cursor-not-allowed border border-red-500/20 text-poe-muted line-through' : logic === 'and' ? 'bg-poe-green/20 text-poe-green border border-poe-green/40' : 'bg-poe-dark/50 text-poe-muted border border-poe-border'}`}>和</button>
+      <span className="text-[10px] text-poe-gold/70 hidden sm:inline w-[130px] inline-block">
+        {highlight === false ? '— 排除模式仅支持「或」' : logic === 'and' ? '— 必须同时满足' : '— 满足任一即可'}
       </span>
 
       {showHighlight && onHighlight && (
@@ -38,10 +39,10 @@ export default function ControlBar({ lang, logic, highlight, showHighlight, onLa
           <span className="text-xs text-poe-muted">显示:</span>
           <button onClick={() => onHighlight(true)}
             className={`px-3 py-1 rounded-md text-xs font-medium transition-all ${highlight !== false ? 'bg-poe-gold/20 text-poe-gold-light border border-poe-gold/40' : 'bg-poe-dark/50 text-poe-muted border border-poe-border'}`}>高亮</button>
-          <button onClick={() => onHighlight(false)}
+          <button onClick={() => { onHighlight(false); onLogic('or'); }}
             className={`px-3 py-1 rounded-md text-xs font-medium transition-all ${highlight === false ? 'bg-poe-red/20 text-poe-red border border-poe-red/40' : 'bg-poe-dark/50 text-poe-muted border border-poe-border'}`}>排除</button>
-          <span className="text-[10px] text-poe-muted/60 hidden sm:inline">
-            {highlight === false ? '— 隐藏包含所选词缀的图' : '— 高亮包含所选词缀的图'}
+          <span className="text-[10px] text-poe-gold/70 hidden sm:inline w-[120px] inline-block">
+            {highlight === false ? '— 排除仅支持或' : '— 高亮包含所选词缀的图'}
           </span>
         </>
       )}

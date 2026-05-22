@@ -1,27 +1,25 @@
 import { useSearchParams } from 'react-router-dom';
 import { useAppStore } from '../store/useAppStore';
-import VendorSearch from '../components/regex/VendorSearch';
 import ItemModifiers from '../components/regex/ItemModifiers';
 import MapMods from '../components/regex/MapMods';
-import CoreItems from '../components/regex/CoreItems';
+import TabletMods from '../components/regex/TabletMods';
 import CustomRegex from '../components/regex/CustomRegex';
 import Button from '../components/ui/Button';
 
-type TabId = 'vendor' | 'modifiers' | 'maps' | 'core' | 'custom';
+type TabId = 'modifiers' | 'maps' | 'tablet' | 'custom';
 const TABS: { id: TabId; label: string; icon: string }[] = [
-  { id: 'vendor', label: '商人搜索', icon: '🏪' },
   { id: 'modifiers', label: '装备词缀', icon: '⚡' },
   { id: 'maps', label: '引路石', icon: '/waystone.png' },
-  { id: 'core', label: '核心物品', icon: '💎' },
+  { id: 'tablet', label: '石板', icon: '/tablet.png' },
   { id: 'custom', label: '自定义测试', icon: '🔧' },
 ];
 
 export default function RegexForgePage() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const tab = (searchParams.get('tab') as TabId) || 'vendor';
+  const tab = (searchParams.get('tab') as TabId) || 'modifiers';
   const setTab = (t: TabId) => {
     if (t !== tab) resetRegexInput();
-    setSearchParams(t === 'vendor' ? {} : { tab: t });
+    setSearchParams(t === 'modifiers' ? {} : { tab: t });
   };
   const { regexInput: f, resetRegexInput } = useAppStore();
   const lang = (f.lang || 'cn') as 'en' | 'cn' | 'tc';
@@ -51,10 +49,9 @@ export default function RegexForgePage() {
       </nav>
 
       {/* Content */}
-      {tab === 'vendor' && <VendorSearch />}
       {tab === 'modifiers' && <ItemModifiers />}
       {tab === 'maps' && <MapMods />}
-      {tab === 'core' && <CoreItems />}
+      {tab === 'tablet' && <TabletMods />}
       {tab === 'custom' && <CustomRegex />}
 
       {/* 版权提示 */}

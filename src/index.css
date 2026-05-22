@@ -34,7 +34,14 @@ html:not(.dark) .bg-poe-card { background-color: #ffffff; }
 html:not(.dark) .bg-poe-dark\/50 { background-color: #f0f0ea; }
 html:not(.dark) .bg-poe-dark\/30 { background-color: #f0f0ec; }
 html:not(.dark) .bg-poe-dark\/80 { background-color: #f2f2ec; }
+html:not(.dark) .bg-poe-darker\/50 { background-color: #dcdcd0; }
 html:not(.dark) .border-poe-border { border-color: #d4d4c4; }
 html:not(.dark) .text-poe-text { color: #1a1a1e; }
-html:not(.dark) .text-poe-muted { color: #6a6a78; }
+html:not(.dark) .text-poe-muted { color: #52525b; }
 html:not(.dark) .text-poe-green { color: #2a8a4a; }
+/* Light mode: override opacity-based utilities with solid readable colors */
+html:not(.dark) .text-poe-muted\/70,
+html:not(.dark) .text-poe-muted\/60 { color: #5c5c66; }
+html:not(.dark) .text-poe-gold\/50,
+html:not(.dark) .text-poe-gold\/30 { color: #9a8a5a; }
+html:not(.dark) .text-poe-gold-light { color: #8a7030; }

@@ -50,7 +50,7 @@ export default function CustomRegex() {
             placeholder={lang === 'cn' ? '例如: "移动速度提高 25%|最大生命 +80"' : 'e.g. "25% i.+mov|\\\\d.+life"'}
             value={pattern} onChange={(e) => set({ customText: e.target.value })} spellCheck={false} />
           <div className="flex items-center justify-between mt-2">
-            <span className={`text-xs font-mono font-bold ${getLengthColor(pattern.length) === 'green' ? 'text-poe-green' : getLengthColor(pattern.length) === 'yellow' ? 'text-poe-yellow' : 'text-poe-red'}`}>{pattern.length}/50</span>
+            <span className={`text-xs font-mono font-bold ${getLengthColor(pattern.length) === 'green' ? 'text-poe-green' : getLengthColor(pattern.length) === 'yellow' ? 'text-poe-yellow' : 'text-poe-red'}`}>{pattern.length}/250</span>
             <Button size="sm" onClick={() => copy(pattern)}>{copied ? '已复制' : '复制'}</Button>
           </div>
         </Card>

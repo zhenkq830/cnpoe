@@ -3,10 +3,9 @@ import { useAppStore } from '../../store/useAppStore';
 
 const SUBNAV: Record<string, { to: string; label: string }[]> = {
   '/regex': [
-    { to: '/regex', label: '商人搜索' },
-    { to: '/regex?tab=modifiers', label: '装备词缀' },
-    { to: '/regex?tab=maps', label: '地图词缀' },
-    { to: '/regex?tab=core', label: '核心物品' },
+    { to: '/regex', label: '装备词缀' },
+    { to: '/regex?tab=maps', label: '引路石' },
+    { to: '/regex?tab=tablet', label: '石板' },
     { to: '/regex?tab=custom', label: '自定义测试' },
   ],
   '/tools': [

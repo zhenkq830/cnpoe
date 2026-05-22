@@ -43,7 +43,34 @@ export default function MapMods() {
       <div className="space-y-4">
         {/* Controls */}
         <Card>
-          <ControlBar lang={lang} logic={(f.logic||'or') as 'or'|'and'} highlight={f.highlight} showHighlight onLang={v=>set({lang:v})} onLogic={v=>set({logic:v})} onHighlight={v=>set({highlight:v})} onReset={mids.length>0 ? ()=>set({mapModIds:[]}) : undefined} />
+          <ControlBar lang={lang} logic={(f.logic||'or') as 'or'|'and'} highlight={f.highlight} showHighlight onLang={v=>set({lang:v})} onLogic={v=>set({logic:v})} onHighlight={v=>set({highlight:v, mapModIds: v ? mids : [], tierMin: v ? f.tierMin : 0, tierMax: v ? f.tierMax : 0})} onReset={mids.length>0 ? ()=>set({mapModIds:[]}) : undefined} />
+        </Card>
+
+        {/* 地图阶级筛选 */}
+        <Card title="地图阶级">
+          <div className="flex items-center gap-3">
+            <span className="text-xs text-poe-muted">最低</span>
+            <input type="number" className="poe-input w-14 text-xs text-center"
+              min={1} max={16} value={f.highlight === false ? '' : (f.tierMin || '')}
+              disabled={f.highlight === false}
+              onChange={e => set({ tierMin: e.target.value ? parseInt(e.target.value) : 0 })} />
+            <span className="text-poe-muted text-xs">~</span>
+            <span className="text-xs text-poe-muted">最高</span>
+            <input type="number" className="poe-input w-14 text-xs text-center"
+              min={1} max={16} value={f.highlight === false ? '' : (f.tierMax || '')}
+              disabled={f.highlight === false}
+              onChange={e => set({ tierMax: e.target.value ? parseInt(e.target.value) : 0 })} />
+            <span className="text-[10px] text-poe-gold/70 inline-block w-[130px]">
+              {f.highlight === false ? '排除模式下不可用' : '不填则筛选所有阶级'}
+            </span>
+            {f.highlight !== false && ((f.tierMin || 0) > 0 || (f.tierMax || 0) > 0) && (
+              <button onClick={() => set({ tierMin: 0, tierMax: 0 })}
+                className="text-[10px] text-poe-muted hover:text-poe-red">清除</button>
+            )}
+          </div>
+          {(f.tierMin || 0) > 0 && (f.tierMax || 0) > 0 && (f.tierMax || 0) < (f.tierMin || 0) && f.highlight !== false && (
+            <p className="mt-2 text-xs text-poe-red">最高阶级不能低于最低阶级，请修改</p>
+          )}
         </Card>
 
         {/* 前缀 */}
