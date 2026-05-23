@@ -115,9 +115,13 @@ export function buildRegex(input: Partial<BuildInput>): { regex: string; shortRe
   if (i.moveSpeed > 0) {
     const ms = moveSpeeds.find(m => m.value === i.moveSpeed);
     if (ms) {
-      terms.push(tc
-        ? `增加.{0,10}${buildNumAtLeast(i.moveSpeed)}%.{0,10}移動速度`
-        : cn ? ms.cn : ms.en);
+      if (tc) {
+        const numMatch = ms.cn.match(/(\([0-9\[\]|.\-]+\))/);
+        const tcNums = numMatch ? numMatch[1] : '[0-9]+';
+        terms.push(`增加.*${tcNums}%.*移動速度`);
+      } else {
+        terms.push(cn ? ms.cn : ms.en);
+      }
     }
   }
 
