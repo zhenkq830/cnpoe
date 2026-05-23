@@ -4,14 +4,14 @@
  * Copyright (c) 2025 流放工坊 | cnpoe.com
  * 核心逻辑参考 poe2.re 开源项目，中文适配部分为独立开发。
  */
-import { getAllItemMods, getModById, getCategoryGroups, waystoneMods, tabletPrefixes, tabletSuffixes, properties, rarities, itemClasses, moveSpeeds, ilvlRegex, ALL_MODS_TC } from '../data/affixesData';
+import { getAllItemMods, getModById, getCategoryGroups, waystoneMods, tabletPrefixes, tabletSuffixes, properties, rarities, itemClasses, moveSpeeds, ilvlRegex, ALL_MODS_TC, WAYSTONE_TC, TABLET_TC } from '../data/affixesData';
 
 export type LangMode = 'en' | 'cn' | 'tc';
 export type LogicMode = 'or' | 'and';
 const FLAT_IDS = ['flat_phys','flat_fire','flat_cold','flat_light','flat_chaos'];
 
 /** 简体→繁体: 字符转换 + 关键词语修正 + 关键词宽松匹配 */
-const SC2TC_CHAR: Record<string,string> = {'护':'護','闪':'閃','伤':'傷','击':'擊','头':'頭','链':'鍊','带':'帶','宝':'寶','权':'權','长':'長','战':'戰','单':'單','双':'雙','锤':'錘','斗':'鬥','电':'電','晕':'暈','阈':'閾','环':'環','诅':'詛','却':'卻','剂':'劑','唤':'喚','类':'類','术':'術','动':'動','点':'點','缓':'緩','积':'積','冻':'凍','额':'額','缀':'綴','质':'質','级':'級','围':'圍','门':'門'};
+const SC2TC_CHAR: Record<string,string> = {'护':'護','闪':'閃','伤':'傷','击':'擊','头':'頭','链':'鍊','带':'帶','宝':'寶','权':'權','长':'長','战':'戰','单':'單','双':'雙','锤':'錘','斗':'鬥','电':'電','晕':'暈','阈':'閾','环':'環','诅':'詛','却':'卻','剂':'劑','唤':'喚','类':'類','术':'術','动':'動','点':'點','缓':'緩','积':'積','冻':'凍','额':'額','缀':'綴','质':'質','级':'級','围':'圍','门':'門','锁':'鎖','时':'時','异':'異','数':'數','灵':'靈','记':'記','复':'復','叠':'疊','夺':'奪','万':'萬','与':'與','体':'體','机':'機','对':'對','关':'關','系':'係','应':'應','发':'發','开':'開','无':'無','书':'書','会':'會','个':'個','们':'們','为':'為','现':'現','领':'領','风':'風','实':'實','学':'學','进':'進','过':'過','运':'運','还':'還','这':'這','两':'兩','严':'嚴','变':'變','叶':'葉','导':'導','响':'響','尔':'爾','尽':'盡','义':'義','亲':'親','许':'許','论':'論','识':'識','调':'調','负':'負','责':'責','费':'費','车':'車','转':'轉','轮':'輪','软':'軟','较':'較','轻':'輕','轴':'軸','辑':'輯','输':'輸','达':'達','违':'違','远':'遠','迟':'遲','适':'適','遗':'遺','邮':'郵','邻':'鄰','鉴':'鑑','锐':'銳','键':'鍵','镇':'鎮','镜':'鏡','钟':'鐘','铁':'鐵','银':'銀','铜':'銅','钢':'鋼','钱':'錢','错':'錯','镑':'鎊','钻':'鑽','录':'錄','际':'際','陆':'陸','陈':'陳','阴':'陰','阳':'陽','阶':'階','队':'隊','难':'難','险':'險','随':'随','隐':'隱','虽':'雖','静':'靜','页':'頁','顶':'頂','须':'須','顺':'順','预':'預','频':'頻','题':'題','颜':'顏','愿':'願','顾':'顧','显':'顯','药':'藥','结':'結','范':'範','经':'經','验':'驗','币':'幣','掷':'擲','选':'選','择':'擇','标':'標','签':'籤','拟':'擬','梦':'夢','魇':'魘','仪':'儀','敌':'敵','杀':'殺','灭':'滅','渔':'漁'};
 const SC2TC_WORD: [RegExp,string][] = [
   [/提高/g,'增加'], [/降低/g,'减少'], [/扩大/g,'增加'], [/缩短/g,'减少'],
   [/冰霜/g,'冰冷'], [/阈值/g,'門檻'], [/积蓄/g,'累積'], [/几率/g,'機率'],
@@ -127,7 +127,7 @@ export function buildRegex(input: Partial<BuildInput>): { regex: string; shortRe
     } else {
       // 查石板前缀
       const tp = tabletPrefixes.find(t => t.id === modId);
-      if (tp) terms.push(cn ? T(tp.cnRegex) : tp.enRegex);
+      if (tp) terms.push(cn ? (tc ? (TABLET_TC[modId] || T(tp.cnRegex)) : tp.cnRegex) : tp.enRegex);
     }
   }
 
@@ -164,11 +164,11 @@ export function buildRegex(input: Partial<BuildInput>): { regex: string; shortRe
   // Waystone / Tablet suffix mods
   for (const mid of i.mapModIds) {
     const wm = waystoneMods.find(m => m.id === mid);
-    if (wm) { terms.push(cn ? T(wm.cnRegex) : wm.enRegex); continue; }
+    if (wm) { terms.push(cn ? (tc ? (WAYSTONE_TC[mid] || T(wm.cnRegex)) : wm.cnRegex) : wm.enRegex); continue; }
     // 查石板后缀(遍历所有石板类型)
     for (const t of Object.values(tabletSuffixes)) {
       const ts = t.find(s => s.id === mid);
-      if (ts) { terms.push(cn ? T(ts.cnRegex) : ts.enRegex); break; }
+      if (ts) { terms.push(cn ? (tc ? (TABLET_TC[mid] || T(ts.cnRegex)) : ts.cnRegex) : ts.enRegex); break; }
     }
   }
 
