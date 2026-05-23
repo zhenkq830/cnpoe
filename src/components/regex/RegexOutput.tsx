@@ -1,5 +1,6 @@
 import { useCopy } from '../../hooks/useCopy';
 import { getLengthColor, getLengthLabel } from '../../engine/regexEngine';
+import DivineGame from '../DivineGame';
 import Button from '../ui/Button';
 
 interface Props {
@@ -17,11 +18,14 @@ export default function RegexOutput({ regex, shortRegex, explanation, lang }: Pr
 
   if (!display) {
     return (
-      <div className="poe-card p-6 text-center">
-        <p className="text-poe-muted text-sm">选择选项来生成正则表达式</p>
-        <p className="text-poe-muted text-xs mt-1">
-          {lang === 'tc' ? '繁体模式' : '简体模式'}
-        </p>
+      <div className="space-y-4">
+        <div className="poe-card p-6 text-center">
+          <p className="text-poe-muted text-sm">选择选项来生成正则表达式</p>
+          <p className="text-poe-muted text-xs mt-1">
+            {lang === 'tc' ? '繁体模式' : '简体模式'}
+          </p>
+        </div>
+        <DivineGame />
       </div>
     );
   }
@@ -91,6 +95,8 @@ export default function RegexOutput({ regex, shortRegex, explanation, lang }: Pr
           </ul>
         </div>
       )}
+
+      <DivineGame />
     </div>
   );
 }
