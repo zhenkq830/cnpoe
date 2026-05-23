@@ -104,6 +104,9 @@ export default function DivineGame() {
     return saved ? parseInt(saved) : 20;
   });
   const [message, setMessage] = useState('');
+  const [memo, setMemo] = useState(() => {
+    try { return localStorage.getItem('divine-memo') || ''; } catch { return ''; }
+  });
   const imgRef = useRef<HTMLImageElement>(null);
   const [scale, setScale] = useState(1);
 
@@ -176,7 +179,7 @@ export default function DivineGame() {
     setMessage('已重置');
   };
 
-  return (
+  return (<>
     <div className="game-area relative">
       <div className="flex items-center justify-between px-2 py-1.5">
         <div className="flex items-center justify-between">
@@ -325,5 +328,26 @@ export default function DivineGame() {
         </div>
       )}
     </div>
-  );
+
+    {/* 备忘录 */}
+    <div className="mx-2">
+      <div className="flex items-center justify-between px-2 py-1.5">
+        <div className="flex items-center gap-2">
+          <span className="text-sm font-bold text-poe-text">备忘录</span>
+          <span className="text-[10px] text-poe-muted">(仅本机保存)</span>
+        </div>
+      </div>
+      <textarea
+        className="text-xs w-full font-mono bg-poe-dark/80 border border-poe-border rounded-lg px-3 py-2 text-poe-text placeholder:text-poe-muted/60 focus:outline-none focus:ring-2 focus:ring-poe-gold/30 focus:border-poe-gold/50 transition-colors resize-y" style={{ height: 400 }}
+        placeholder=""
+        value={memo}
+        onChange={(e) => {
+          setMemo(e.target.value);
+          try { localStorage.setItem('divine-memo', e.target.value); } catch {}
+        }}
+        spellCheck={false}
+      />
+      <p className="text-[9px] text-poe-muted/50 mt-1 text-right">右下角可拖动调节大小</p>
+    </div>
+  </>);
 }

@@ -1,5 +1,8 @@
+import { useCallback } from 'react';
 import { useCopy } from '../../hooks/useCopy';
 import { getLengthColor, getLengthLabel } from '../../engine/regexEngine';
+import { useAppStore } from '../../store/useAppStore';
+import { trackCopy } from '../../utils/track';
 import DivineGame from '../DivineGame';
 import Button from '../ui/Button';
 
@@ -12,7 +15,14 @@ interface Props {
 
 export default function RegexOutput({ regex, shortRegex, explanation, lang }: Props) {
   const { copied, copy } = useCopy();
+  const { regexInput: f } = useAppStore();
   const display = (shortRegex && shortRegex.length < regex.length) ? shortRegex : regex;
+
+  const handleCopy = useCallback(async (text: string) => {
+    const allSelected = [...(f.modIds || []), ...(f.resistances || []), ...(f.mapModIds || [])];
+    trackCopy(allSelected);
+    copy(text);
+  }, [f, copy]);
   const len = display.length;
   const cls = getLengthColor(len) === 'green' ? 'text-poe-green' : getLengthColor(len) === 'yellow' ? 'text-poe-yellow' : 'text-poe-red';
 
@@ -47,7 +57,7 @@ export default function RegexOutput({ regex, shortRegex, explanation, lang }: Pr
               </span>
             )}
           </div>
-          <Button size="sm" onClick={() => copy(display)}>
+          <Button size="sm" onClick={() => handleCopy(display)}>
             {copied ? '已复制' : '复制'}
           </Button>
         </div>
