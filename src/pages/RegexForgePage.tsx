@@ -22,7 +22,7 @@ export default function RegexForgePage() {
     setSearchParams(t === 'modifiers' ? {} : { tab: t });
   };
   const { regexInput: f, resetRegexInput } = useAppStore();
-  const lang = (f.lang || 'cn') as 'en' | 'cn' | 'tc';
+  const lang = (f.lang || 'cn') as 'cn' | 'tc';
 
   return (
     <div className="space-y-6">
@@ -31,7 +31,7 @@ export default function RegexForgePage() {
         <div>
           <h1 className="text-xl font-bold text-poe-text">正则工坊</h1>
           <p className="text-xs text-poe-muted mt-1">
-            {lang === 'en' ? '英文模式' : '中文模式'}
+            {lang === 'tc' ? '繁体模式' : '简体模式'}
           </p>
         </div>
         <Button size="sm" variant="secondary" onClick={resetRegexInput}>重置</Button>

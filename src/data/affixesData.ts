@@ -302,7 +302,7 @@ export const EQUIP_MOD_MAP: Record<string,{prefixes:string[],suffixes:string[]}>
   amulets: {prefixes:["m023","m106","m025","m139","m024","m071","m130","m109","m017","m100","m027","m092"],suffixes:["m016","m020","m022","m015","m098","m036","m129","m059","m096","m063","m061","m067","m062","m107","m140","m081","m087","m084","m100","m054","m055"]},
   belts: {prefixes:["m023","m025","m014","m112","m113","m040"],suffixes:["m016","m098","m036","m129","m096","m021","m107","m115","m034","m114","m033"]},
   bodyArmours: {prefixes:["m023","m019","m014","m027","m026","m024","m124","m123","m122","m125","m121","m126","m120"],suffixes:["m016","m098","m036","m129","m096","m056","m021","m107","m038","m028","m032","m009","m020","m119","m022","m110"]},
-  boots: {prefixes:["m023","m019","m027","m026","m024","m124","m123","m122","m125","m121","m126","m120"],suffixes:["m016","m098","m036","m129","m096","m056","m021","m107","m100","m031","m029","m030","m009","m020","m119","m022","m111"]},
+  boots: {prefixes:["m023","m019","m026","m024","m124","m123","m122","m125","m121","m126","m120"],suffixes:["m016","m098","m036","m129","m096","m056","m021","m107","m100","m031","m029","m030","m009","m020","m119","m022","m111"]},
   bows: {prefixes:["m133","m132","m131","m134","m101","m017","m073"],suffixes:["m020","m056","m062","m102","m103","m090","m091","m089","m076","m086","m003","m018","m010"]},
   claws: {prefixes:["m133","m132","m131","m134","m101","m017","m073"],suffixes:["m020","m056","m067","m102","m103","m090","m091","m089","m076","m086","m003","m018","m083","m127"]},
   crossbows: {prefixes:["m133","m132","m131","m134","m101","m017","m073"],suffixes:["m016","m020","m056","m062","m102","m103","m090","m091","m089","m076","m086","m003","m018","m138","m137"]},
@@ -572,16 +572,15 @@ export const properties = [
   { id:"sockets",label:"插槽",en:"ts: S",cn:"插槽" },
 ];
 
-export function ilvlRegex(min:number,max:number,lang:"en"|"cn"|"tc"="en"):{regex:string|null,explain:string}{
+export function ilvlRegex(min:number,max:number,lang:"cn"|"tc"="cn"):{regex:string|null,explain:string}{
   if(min===0&&max===0)return{regex:null,explain:""};
   if(max>0&&min>max)return{regex:null,explain:""};
-  const isCn=lang==="cn"||lang==="tc";
-  const pf=lang==="tc"?"物品等級: ":isCn?"物品等级: ":"m level: ";
+  const pf=lang==="tc"?"物品等級: ":"物品等级: ";
   const efMax=max===0?99:max;
-  if(min===0&&efMax>=99)return{regex:pf+"([0-9]{1,2})",explain:isCn?"任意物品等级":"Any Item Level"};
-  if(min>0&&min===efMax)return{regex:pf+min,explain:isCn?("物品等级 = "+min):("Item Level = "+min)};
+  if(min===0&&efMax>=99)return{regex:pf+"([0-9]{1,2})",explain:"任意物品等级"};
+  if(min>0&&min===efMax)return{regex:pf+min,explain:"物品等级 = "+min};
   const rangeRegex=buildNumberRange(min,efMax);
-  const explain=isCn?("物品等级 "+min+(max>0?" ~ "+efMax:"+")):("Item Level "+min+(max>0?"~"+efMax:"+"));
+  const explain="物品等级 "+min+(max>0?" ~ "+efMax:"+");
   return{regex:pf+'('+rangeRegex+')\\b',explain};
 }
 function buildNumberRange(min:number,max:number):string{

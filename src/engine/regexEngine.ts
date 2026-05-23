@@ -6,7 +6,7 @@
  */
 import { getAllItemMods, getModById, getCategoryGroups, waystoneMods, tabletPrefixes, tabletSuffixes, properties, rarities, itemClasses, moveSpeeds, ilvlRegex, ALL_MODS_TC, WAYSTONE_TC, TABLET_TC } from '../data/affixesData';
 
-export type LangMode = 'en' | 'cn' | 'tc';
+export type LangMode = 'cn' | 'tc';
 export type LogicMode = 'or' | 'and';
 const FLAT_IDS = ['flat_phys','flat_fire','flat_cold','flat_light','flat_chaos'];
 

@@ -1,7 +1,7 @@
 import type { LangMode, LogicMode } from '../../engine/regexEngine';
 
 interface Props {
-  lang: 'en' | 'cn' | 'tc';
+  lang: 'cn' | 'tc';
   logic: 'or' | 'and';
   highlight?: boolean;
   showHighlight?: boolean;
@@ -19,9 +19,6 @@ export default function ControlBar({ lang, logic, highlight, showHighlight, onLa
         className={`px-3 py-1 rounded-md text-xs font-medium transition-all ${lang === 'cn' ? 'bg-poe-gold/20 text-poe-gold-light border border-poe-gold/40' : 'bg-poe-dark/50 text-poe-muted border border-poe-border'}`}>简体中文</button>
       <button onClick={() => onLang('tc')}
         className={`px-3 py-1 rounded-md text-xs font-medium transition-all ${lang === 'tc' ? 'bg-poe-gold/20 text-poe-gold-light border border-poe-gold/40' : 'bg-poe-dark/50 text-poe-muted border border-poe-border'}`}>繁体中文</button>
-      <button onClick={() => onLang('en')}
-        className={`px-3 py-1 rounded-md text-xs font-medium transition-all ${lang === 'en' ? 'bg-poe-gold/20 text-poe-gold-light border border-poe-gold/40' : 'bg-poe-dark/50 text-poe-muted border border-poe-border'}`}>英文</button>
-
       <span className="text-poe-border mx-1">|</span>
       <span className="text-xs text-poe-muted">逻辑:</span>
       <button onClick={() => onLogic('or')}

@@ -6,7 +6,7 @@ interface Props {
   regex: string;
   shortRegex: string;
   explanation: string[];
-  lang: 'en' | 'cn' | 'tc';
+  lang: 'cn' | 'tc';
 }
 
 export default function RegexOutput({ regex, shortRegex, explanation, lang }: Props) {
@@ -20,7 +20,7 @@ export default function RegexOutput({ regex, shortRegex, explanation, lang }: Pr
       <div className="poe-card p-6 text-center">
         <p className="text-poe-muted text-sm">选择选项来生成正则表达式</p>
         <p className="text-poe-muted text-xs mt-1">
-          {lang === 'en' ? '英文模式' : '中文模式'}
+          {lang === 'tc' ? '繁体模式' : '简体模式'}
         </p>
       </div>
     );
@@ -32,7 +32,7 @@ export default function RegexOutput({ regex, shortRegex, explanation, lang }: Pr
         <div className="flex items-center justify-between px-4 py-3 bg-poe-darker/50 border-b border-poe-border">
           <div className="flex items-center gap-3">
             <span className="text-xs font-semibold text-poe-muted uppercase tracking-wider">
-              {lang === 'en' ? '英文正则' : '中文正则'}
+              {lang === 'tc' ? '繁体正则' : '简体正则'}
             </span>
             <span className={`text-xs font-mono font-bold ${cls}`}>
               {len}/250 {getLengthLabel(len)}
