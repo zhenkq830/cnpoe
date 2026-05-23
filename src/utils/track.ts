@@ -4,11 +4,10 @@ declare global { interface Window { umami?: { track: (event: string, data?: Reco
 
 export function trackCopy(selected: string[]) {
   try {
-    // 总次数
     window.umami?.track('regex_copy', { count: selected.length });
-    // 每条词缀独立事件, 后台可按 name 分组统计
     for (const id of selected) {
-      window.umami?.track('mod_copied', { name: id });
+      // 词缀ID直接进事件名, 后台自动分组统计
+      window.umami?.track('mod|' + id);
     }
   } catch {}
 }
