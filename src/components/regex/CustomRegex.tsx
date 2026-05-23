@@ -47,7 +47,7 @@ export default function CustomRegex() {
 
         <Card title="自定义正则">
           <input type="text" className="poe-input text-sm w-full font-mono"
-            placeholder={lang === 'cn' ? '例如: "移动速度提高 25%|最大生命 +80"' : 'e.g. "25% i.+mov|\\\\d.+life"'}
+            placeholder={lang === 'cn' ? '例如: "移动速度提高 25%|最大生命 +80"' : 'e.g. "25% i.+mov|[0-9]+.+life"'}
             value={pattern} onChange={(e) => set({ customText: e.target.value })} spellCheck={false} />
           <div className="flex items-center justify-between mt-2">
             <span className={`text-xs font-mono font-bold ${getLengthColor(pattern.length) === 'green' ? 'text-poe-green' : getLengthColor(pattern.length) === 'yellow' ? 'text-poe-yellow' : 'text-poe-red'}`}>{pattern.length}/250</span>
@@ -64,8 +64,8 @@ export default function CustomRegex() {
         <Card title="正则速查">
           <div className="text-xs font-mono text-poe-muted space-y-1">
             <p><code className="text-poe-gold-light">|</code> — 或 (或)</p>
-            <p><code className="text-poe-gold-light">\d</code> — 任意数字</p>
-            <p><code className="text-poe-gold-light">\d+</code> — 一个或多个数字</p>
+            <p><code className="text-poe-gold-light">[0-9]</code> — 任意数字</p>
+            <p><code className="text-poe-gold-light">[0-9]+</code> — 一个或多个数字</p>
             <p><code className="text-poe-gold-light">.*</code> — 任意数量字符</p>
             <p><code className="text-poe-gold-light">[abc]</code> — 字符集</p>
           </div>

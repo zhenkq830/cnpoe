@@ -95,7 +95,7 @@ export function buildRegex(input: Partial<BuildInput>): { regex: string; shortRe
       terms.push(cnTerms.join('|'));
     } else if (cn) {
       const cnTerms = activeRes.map(id => getModById(id)?.cn || '').filter(Boolean);
-      terms.push(activeRes.length >= 4 ? '(火焰|冰霜|闪电|混沌)抗性 \\+\\d+%' : cnTerms.join('|'));
+      terms.push(activeRes.length >= 4 ? '(火焰|冰霜|闪电|混沌)抗性 \\+[0-9]+%' : cnTerms.join('|'));
     } else {
       if (activeRes.length >= 4) { terms.push('resi'); }
       else {
@@ -155,7 +155,7 @@ export function buildRegex(input: Partial<BuildInput>): { regex: string; shortRe
     const tMin = i.tierMin || 1;
     const tMax = i.tierMax || 16;
     const tr = tierRangeRegex(tMin, Math.min(tMax, 16));
-    if (tr !== '\\d+') {
+    if (tr !== '[0-9]+') {
       // CN: 用（前缀防止 "15" 中 "5" 被误匹配
       terms.push(cn ? `（${tr} 阶` : `r ${tr}\\)`);
     }
@@ -254,7 +254,7 @@ function explain(terms: string[], input: Partial<BuildInput>, ilvlExplain: strin
 /** 生成 ≥N 的数字正则片段 */
 /** 地图阶级范围 regex (poe2re 格式: r [3-9]\)|1[0-5]\) 对应 tier 3-15) */
 function tierRangeRegex(min: number, max: number): string {
-  if (min <= 1 && max >= 16) return '\\d+';
+  if (min <= 1 && max >= 16) return '[0-9]+';
   const max16 = Math.min(max, 16);
   const parts: string[] = [];
   // 单位数: 1-9
@@ -277,14 +277,14 @@ function tierRangeRegex(min: number, max: number): string {
 }
 
 function buildNumAtLeast(n: number): string {
-  if (n >= 100) return '\\d{3,}';
+  if (n >= 100) return '[0-9]{3,}';
   if (n >= 10) {
     const tens = Math.floor(n / 10);
     const ones = n % 10;
-    if (ones === 0) return `([${tens}-9]\\d|\\d{3,})`;
-    return `(${tens}[${ones}-9]|[${tens + 1}-9]\\d|\\d{3,})`;
+    if (ones === 0) return `([${tens}-9][0-9]|[0-9]{3,})`;
+    return `(${tens}[${ones}-9]|[${tens + 1}-9][0-9]|[0-9]{3,})`;
   }
-  return `([${n}-9]|\\d{2,})`;
+  return `([${n}-9]|[0-9]{2,})`;
 }
 
 export function getLengthColor(len: number): 'green' | 'yellow' | 'red' {
