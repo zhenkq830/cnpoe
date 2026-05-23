@@ -10,7 +10,7 @@ type TabId = 'modifiers' | 'maps' | 'tablet' | 'custom';
 const TABS: { id: TabId; label: string; icon: string }[] = [
   { id: 'modifiers', label: '装备词缀', icon: '⚡' },
   { id: 'maps', label: '引路石', icon: '/waystone.png' },
-  { id: 'tablet', label: '石板', icon: '/tablet.png' },
+  { id: 'tablet', label: '石板', icon: '/tablet1.png' },
   { id: 'custom', label: '自定义测试', icon: '🔧' },
 ];
 

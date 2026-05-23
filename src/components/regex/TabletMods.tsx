@@ -114,7 +114,7 @@ export default function TabletMods() {
         {!selectedTablet && (
           <Card>
             <div className="text-center py-8">
-              <TabletIcon icon="/tablet.png" className="w-10 h-10 mb-3 mx-auto block" />
+              <TabletIcon icon="/tablet1.png" className="w-10 h-10 mb-3 mx-auto block" />
               <p className="text-poe-muted text-sm">请先选择石板类型</p>
             </div>
           </Card>
