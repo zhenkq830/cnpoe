@@ -470,7 +470,7 @@ export function ilvlRegex(min:number,max:number,lang:"en"|"cn"|"tc"="en"):{regex
   if(min>0&&min===efMax)return{regex:pf+min,explain:isCn?("物品等级 = "+min):("Item Level = "+min)};
   const rangeRegex=buildNumberRange(min,efMax);
   const explain=isCn?("物品等级 "+min+(max>0?" ~ "+efMax:"+")):("Item Level "+min+(max>0?"~"+efMax:"+"));
-  return{regex:pf+rangeRegex+'\\b',explain};
+  return{regex:pf+'('+rangeRegex+')\\b',explain};
 }
 function buildNumberRange(min:number,max:number):string{
   if(max-min<=5&&max<=99){const vals:string[]=[];for(let i=min;i<=max;i++)vals.push(String(i));return"("+vals.join("|")+")";}
