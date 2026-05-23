@@ -114,7 +114,11 @@ export function buildRegex(input: Partial<BuildInput>): { regex: string; shortRe
   // MoveSpeed — threshold (≥ value)
   if (i.moveSpeed > 0) {
     const ms = moveSpeeds.find(m => m.value === i.moveSpeed);
-    if (ms) terms.push(tc ? (ALL_MODS_TC["moveSpeed"] || ms.cn) : cn ? ms.cn : ms.en);
+    if (ms) {
+      terms.push(tc
+        ? `增加.{0,10}${buildNumAtLeast(i.moveSpeed)}%.{0,10}移動速度`
+        : cn ? ms.cn : ms.en);
+    }
   }
 
   // Item mods (non-resistance) + 石板前缀
