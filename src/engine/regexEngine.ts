@@ -127,7 +127,7 @@ export function buildRegex(input: Partial<BuildInput>): { regex: string; shortRe
     } else {
       // 查石板前缀
       const tp = tabletPrefixes.find(t => t.id === modId);
-      if (tp) terms.push(cn ? tp.cnRegex : tp.enRegex);
+      if (tp) terms.push(cn ? T(tp.cnRegex) : tp.enRegex);
     }
   }
 
@@ -157,18 +157,18 @@ export function buildRegex(input: Partial<BuildInput>): { regex: string; shortRe
     const tr = tierRangeRegex(tMin, Math.min(tMax, 16));
     if (tr !== '[0-9]+') {
       // CN: 用（前缀防止 "15" 中 "5" 被误匹配
-      terms.push(cn ? `（${tr} 阶` : `r ${tr}\\)`);
+      terms.push(cn ? T(`（${tr} 阶`) : `r ${tr}\\)`);
     }
   }
 
   // Waystone / Tablet suffix mods
   for (const mid of i.mapModIds) {
     const wm = waystoneMods.find(m => m.id === mid);
-    if (wm) { terms.push(cn ? wm.cnRegex : wm.enRegex); continue; }
+    if (wm) { terms.push(cn ? T(wm.cnRegex) : wm.enRegex); continue; }
     // 查石板后缀(遍历所有石板类型)
     for (const t of Object.values(tabletSuffixes)) {
       const ts = t.find(s => s.id === mid);
-      if (ts) { terms.push(cn ? ts.cnRegex : ts.enRegex); break; }
+      if (ts) { terms.push(cn ? T(ts.cnRegex) : ts.enRegex); break; }
     }
   }
 
