@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 
 const MODULES = [
-  { to: '/regex', icon: '⚒', title: '正则工坊', desc: '生成 PoE2 游戏内搜索正则表达式 — 商人筛选、地图词缀、装备词缀、自定义测试', badge: '已上线' },
+  { to: '/regex', icon: '⚒', title: '正则工坊', desc: '生成 PoE2 游戏内搜索正则表达式 — 装备词缀、引路石、石板、自定义测试', badge: '已上线' },
   { to: '/tools', icon: '🔧', title: '工具箱', desc: '伤害计算器、天赋树模拟、词缀权重查询等实用工具', badge: '开发中' },
   { to: '/builds', icon: '📋', title: 'BD构建', desc: '热门 BD 分享、装备搭配推荐、天赋树导入导出', badge: '开发中' },
   { to: '/guide', icon: '📖', title: '攻略中心', desc: '新手入门指南、赛季机制解读、Boss 打法攻略', badge: '开发中' },
