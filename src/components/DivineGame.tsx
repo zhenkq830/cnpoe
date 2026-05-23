@@ -334,12 +334,12 @@ export default function DivineGame() {
       <div className="flex items-center justify-between px-2 py-1.5">
         <div className="flex items-center gap-2">
           <span className="text-sm font-bold text-poe-text">备忘录</span>
-          <span className="text-[10px] text-poe-muted">(仅本机保存)</span>
+          <span className="text-[10px] text-poe-muted">(仅本地保存)</span>
         </div>
       </div>
       <textarea
         className="text-xs w-full font-mono bg-poe-dark/80 border border-poe-border rounded-lg px-3 py-2 text-poe-text placeholder:text-poe-muted/60 focus:outline-none focus:ring-2 focus:ring-poe-gold/30 focus:border-poe-gold/50 transition-colors resize-y" style={{ height: 400 }}
-        placeholder=""
+        placeholder="常用正则可以复制到此处保存，不清理缓存，不开无痕or隐私模式的话会一直保存"
         value={memo}
         onChange={(e) => {
           setMemo(e.target.value);
