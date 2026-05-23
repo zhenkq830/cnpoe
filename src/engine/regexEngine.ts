@@ -70,7 +70,7 @@ export function buildRegex(input: Partial<BuildInput>): { regex: string; shortRe
   const terms: string[] = [];
 
   // Quality / Sockets — TC 模式用 ALL_MODS_TC 查表
-  if (i.hasQuality) { terms.push(tc ? (ALL_MODS_TC['quality']||'品質') : cn ? '品质.*\\\\d' : 'y: \\\\+'); }
+  if (i.hasQuality) { terms.push(tc ? (ALL_MODS_TC['quality']||'品質') : cn ? '品质.*[0-9]' : 'y: \\+'); }
   if (i.hasSockets) { terms.push(tc ? (ALL_MODS_TC['sockets']||'插槽') : cn ? '插槽' : 'ts: S'); }
 
   // Rarities
