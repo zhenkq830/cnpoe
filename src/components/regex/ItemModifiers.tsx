@@ -83,6 +83,11 @@ export default function ItemModifiers() {
           </div>
         </Card>
 
+        {/* 提示 */}
+        <p className="text-[13px] font-bold text-poe-gold-light leading-relaxed">
+          💡 装备词缀很多用不上，核心是物品等级、品质、稀有度、移速就够了。后续会精简列表。
+        </p>
+
         {/* 物品属性筛选 */}
         <Card title="物品属性">
           <div className="space-y-2">
