@@ -73,6 +73,49 @@ export default function MapMods() {
           )}
         </Card>
 
+        {/* 换界石基础属性筛选 */}
+        <Card>
+          <div className="flex items-center justify-between mb-2">
+            <h4 className="text-xs font-semibold text-poe-muted uppercase tracking-wider">基础属性下限</h4>
+            {(!!(f.wsPackMin || f.wsMagicMin || f.wsRareMin || f.wsRarityMin || f.wsDropMin)) && (
+              <button onClick={() => set({ wsPackMin:0, wsMagicMin:0, wsRareMin:0, wsRarityMin:0, wsDropMin:0 })}
+                className="text-[10px] text-poe-muted hover:text-poe-red">重置</button>
+            )}
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            <div className="flex flex-col gap-1">
+              <span className="text-[10px] text-poe-muted">怪物群大小 ≥</span>
+              <input type="number" className="poe-input text-xs text-center w-full"
+                min={0} max={100} value={f.wsPackMin || ''} placeholder="0"
+                onChange={e => set({ wsPackMin: Math.min(100, parseInt(e.target.value) || 0) })} />
+            </div>
+            <div className="flex flex-col gap-1">
+              <span className="text-[10px] text-poe-muted">魔法怪物 ≥</span>
+              <input type="number" className="poe-input text-xs text-center w-full"
+                min={0} max={100} value={f.wsMagicMin || ''} placeholder="0"
+                onChange={e => set({ wsMagicMin: Math.min(100, parseInt(e.target.value) || 0) })} />
+            </div>
+            <div className="flex flex-col gap-1">
+              <span className="text-[10px] text-poe-muted">稀有怪物 ≥</span>
+              <input type="number" className="poe-input text-xs text-center w-full"
+                min={0} max={100} value={f.wsRareMin || ''} placeholder="0"
+                onChange={e => set({ wsRareMin: Math.min(100, parseInt(e.target.value) || 0) })} />
+            </div>
+            <div className="flex flex-col gap-1">
+              <span className="text-[10px] text-poe-muted">物品稀有度 ≥</span>
+              <input type="number" className="poe-input text-xs text-center w-full"
+                min={0} max={200} value={f.wsRarityMin || ''} placeholder="0"
+                onChange={e => set({ wsRarityMin: Math.min(200, parseInt(e.target.value) || 0) })} />
+            </div>
+            <div className="flex flex-col gap-1">
+              <span className="text-[10px] text-poe-muted">{lang === 'tc' ? '換界石掉落' : '引路石掉落'} ≥</span>
+              <input type="number" className="poe-input text-xs text-center w-full"
+                min={0} max={500} value={f.wsDropMin || ''} placeholder="0"
+                onChange={e => set({ wsDropMin: Math.min(500, parseInt(e.target.value) || 0) })} />
+            </div>
+          </div>
+        </Card>
+
         {/* 前缀 */}
         <Card title={`前缀 (${prefixes.length})`}>
           <div className="flex gap-1 mb-2">

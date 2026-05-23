@@ -54,11 +54,16 @@ export interface BuildInput {
   flatDmgMin: number;
   tierMin: number;
   tierMax: number;
+  wsPackMin: number;
+  wsMagicMin: number;
+  wsRareMin: number;
+  wsRarityMin: number;
+  wsDropMin: number;
   customText: string;
 }
 
 export function defaultInput(): BuildInput {
-  return { lang: 'cn', logic: 'or', highlight: true, classIds: [], rarities: [], hasQuality: false, hasSockets: false, ilvlMin: 0, ilvlMax: 0, moveSpeed: 0, resistances: [], modIds: [], mapModIds: [], flatDmgMin: 0, tierMin: 0, tierMax: 0, customText: '' };
+  return { lang: 'cn', logic: 'or', highlight: true, classIds: [], rarities: [], hasQuality: false, hasSockets: false, ilvlMin: 0, ilvlMax: 0, moveSpeed: 0, resistances: [], modIds: [], mapModIds: [], flatDmgMin: 0, tierMin: 0, tierMax: 0, wsPackMin: 0, wsMagicMin: 0, wsRareMin: 0, wsRarityMin: 0, wsDropMin: 0, customText: '' };
 }
 
 // ========================
@@ -158,6 +163,22 @@ export function buildRegex(input: Partial<BuildInput>): { regex: string; shortRe
     if (tr !== '[0-9]+') {
       // CN: 用（前缀防止 "15" 中 "5" 被误匹配
       terms.push(cn ? T(`（${tr} 阶`) : `r ${tr}\\)`);
+    }
+  }
+
+  // Waystone 基础属性阈值 (怪物群大小/魔法/稀有/稀有度/掉落率)
+  const wsStats: [number, string, string][] = [
+    [i.wsPackMin, '怪物群大小', '怪物群大小'],
+    [i.wsMagicMin, '魔法怪物', '魔法怪物'],
+    [i.wsRareMin, '稀有怪物', '稀有怪物'],
+    [i.wsRarityMin, '物品稀有度', '物品稀有度'],
+    [i.wsDropMin, '引路石掉落几率', '換界石掉落機率'],
+  ];
+  for (const [min, scKey, tcKey] of wsStats) {
+    if (min > 0) {
+      const key = tc ? tcKey : scKey;
+      const numRx = buildNumAtLeast(min);
+      terms.push(`${key}:.*\\+${numRx}%`);
     }
   }
 
