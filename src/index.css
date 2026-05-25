@@ -27,13 +27,13 @@
 }
 
 /* Light mode */
-html:not(.dark) body { background: #f5f5f0; color: #1a1a1e; }
-html:not(.dark) .bg-poe-dark { background-color: #f5f5f0; }
-html:not(.dark) .bg-poe-darker { background-color: #ebebe4; }
-html:not(.dark) .bg-poe-card { background-color: #ffffff; }
-html:not(.dark) .bg-poe-dark\/50 { background-color: #f0f0ea; }
-html:not(.dark) .bg-poe-dark\/30 { background-color: #f0f0ec; }
-html:not(.dark) .bg-poe-dark\/80 { background-color: #f2f2ec; }
+html:not(.dark) body { background: #edeadf; color: #1a1a1e; }
+html:not(.dark) .bg-poe-dark { background-color: #edeadf; }
+html:not(.dark) .bg-poe-darker { background-color: #e3e0d4; }
+html:not(.dark) .bg-poe-card { background-color: #f8f6ef; }
+html:not(.dark) .bg-poe-dark\/50 { background-color: #e8e5d8; }
+html:not(.dark) .bg-poe-dark\/30 { background-color: #e8e5da; }
+html:not(.dark) .bg-poe-dark\/80 { background-color: #eae7dc; }
 html:not(.dark) .bg-poe-darker\/50 { background-color: #dcdcd0; }
 html:not(.dark) .border-poe-border { border-color: #d4d4c4; }
 html:not(.dark) .text-poe-text { color: #1a1a1e; }
@@ -44,4 +44,4 @@ html:not(.dark) .text-poe-muted\/70,
 html:not(.dark) .text-poe-muted\/60 { color: #5c5c66; }
 html:not(.dark) .text-poe-gold\/50,
 html:not(.dark) .text-poe-gold\/30 { color: #9a8a5a; }
-html:not(.dark) .text-poe-gold-light { color: #8a7030; }
+html:not(.dark) .text-poe-gold-light { color: #7a6020; }

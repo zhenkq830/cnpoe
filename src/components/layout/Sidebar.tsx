@@ -17,6 +17,7 @@ const SUBNAV: Record<string, { to: string; label: string }[]> = {
     { to: '/builds', label: '我的BD' },
   ],
   '/guide': [
+    { to: '/guide', label: '名称转换' },
     { to: '/guide', label: '新手入门' },
     { to: '/guide', label: '赛季机制' },
     { to: '/guide', label: 'Boss攻略' },
@@ -37,7 +38,7 @@ export default function Sidebar() {
       <div className="sticky top-16 p-3 space-y-1">
         {items.length > 0 && (
           <p className="text-[10px] font-semibold text-poe-muted uppercase tracking-wider px-2 pb-2">
-            {basePath === '/regex' ? '正则工坊' : basePath === '/tools' ? '工具箱' : basePath === '/builds' ? 'BD构建' : '攻略中心'}
+            {basePath === '/regex' ? '正则工坊' : basePath === '/tools' ? '工具箱' : basePath === '/builds' ? 'BD构建' : '技能宝石'}
           </p>
         )}
         {items.map(item => {

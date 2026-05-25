@@ -12,9 +12,9 @@ import CopyrightModal from '../CopyrightModal';
 const NAV = [
   { to: '/', label: '首页', icon: '🏠' },
   { to: '/regex', label: '正则工坊', icon: '⚒' },
+  { to: '/guide', label: '技能宝石', icon: '💎' },
   { to: '/tools', label: '工具箱', icon: '🔧' },
   { to: '/builds', label: 'BD构建', icon: '📋' },
-  { to: '/guide', label: '攻略中心', icon: '📖' },
 ];
 
 export default function Navbar() {
@@ -33,11 +33,11 @@ export default function Navbar() {
             ☰
           </button>
           <Link to="/" className="flex items-center gap-2 font-bold text-lg tracking-tight">
-            <span className="text-poe-gold-light">流放</span>
-            <span className="text-poe-text">工坊</span>
+            <span className="text-poe-gold-light text-base">流放</span>
+            <span className="text-poe-gold text-base">工坊</span>
           </Link>
           <a href="https://space.bilibili.com/3493297450388177" target="_blank" rel="noopener noreferrer"
-            className="hidden sm:inline text-[11px] text-poe-gold hover:text-poe-gold-light transition-colors ml-1">
+            className="hidden sm:inline text-sm font-bold text-poe-gold hover:text-poe-gold-light transition-colors ml-2">
             B站 狮子歌哥烦恼风
           </a>
         </div>
