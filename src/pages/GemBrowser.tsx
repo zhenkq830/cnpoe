@@ -7,15 +7,26 @@ export default function GemBrowser() {
   const [convertResult, setConvertResult] = useState<GemEntry | null>(null);
   const trimmed = convertInput.trim();
 
+  // 罗马数字 ↔ 阿拉伯数字归一化 (Unicode + ASCII)
+  const norm = (s: string) => s
+    .replace(/Ⅰ/g,'1').replace(/Ⅱ/g,'2').replace(/Ⅲ/g,'3').replace(/Ⅳ/g,'4').replace(/Ⅴ/g,'5')
+    .replace(/\sIII(\s|$)/g,' 3$1').replace(/\sII(\s|$)/g,' 2$1').replace(/\sIV(\s|$)/g,' 4$1')
+    .replace(/\sI(\s|$)/g,' 1$1');
+
   const doConvert = (input: string) => {
     const clean = input.trim();
-    setConvertResult(lookup(clean) || supLookup(clean) || null);
+    const n = norm(clean);
+    setConvertResult(
+      lookup(clean) || supLookup(clean) ||
+      lookup(n) || supLookup(n) || null
+    );
   };
 
   const suggestions = (trimmed.length >= 1 && !convertResult)
-    ? [...Object.values(GEM_DB), ...Object.values(SUP_GEM_DB)].filter(v =>
-        v.cn.includes(trimmed) || v.tw.includes(trimmed) || v.en.toLowerCase().includes(trimmed.toLowerCase())
-      ).slice(0, 8)
+    ? [...Object.values(GEM_DB), ...Object.values(SUP_GEM_DB)].filter(v => {
+        const t = norm(trimmed);
+        return norm(v.cn).includes(t) || norm(v.tw).includes(t) || v.en.toLowerCase().includes(t.toLowerCase());
+      }).slice(0, 40)
     : [];
 
   return (
