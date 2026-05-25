@@ -1,5 +1,5 @@
-// Auto-generated from poe2db.tw — 335 skill gems
-export interface GemEntry { cn:string; tw:string; en:string; cnTags:string[]; twTags:string[] }
+// Auto-generated from poe2db.tw — 335 gems
+export interface GemEntry { cn:string; tw:string; en:string; cnTags:string[]; twTags:string[]; key?:string }
 export const GEM_DB: Record<string,GemEntry> = {
  "Acidic_Concoction":{"cn":"酸性灵药","tw":"酸性靈藥","en":"Acidic Concoction","cnTags":["攻击","效果区域","投射物","物理"],"twTags":["攻擊","範圍效果","投射物","物理"]},
  "Alchemists_Boon":{"cn":"炼金师的恩典","tw":"煉金師恩惠","en":"Alchemist","cnTags":["增益","永久性","光环"],"twTags":["增益效果","持續","光環"]},
@@ -292,7 +292,7 @@ export const GEM_DB: Record<string,GemEntry> = {
  "Supercharged_Slam":{"cn":"蓄威神锤","tw":"超載重擊","en":"Supercharged Slam","cnTags":["攻击","效果区域","近战","猛击","持续吟唱","层数"],"twTags":["攻擊","範圍效果","近戰","重擊","引導","獲得疊層"]},
  "Supporting_Fire":{"cn":"支援火力","tw":"支援火力","en":"Supporting Fire","cnTags":["召唤生物","永久性"],"twTags":["召喚物","持續"]},
  "Sword_Slash":{"cn":"剑挥砍","tw":"劍刃斬","en":"Sword Slash","cnTags":["攻击","效果区域","近战","打击"],"twTags":["攻擊","範圍效果","近戰","打擊"]},
- "Tame_Beast":{"cn":"驯服野兽","tw":"馴獸","en":"Tame Beast","cnTags":["召唤生物","伙伴","永久性","持续时间"],"twTags":["召喚物","盟友","持續","持續時間"]},
+ "Tame_Beast":{"cn":"驯服野兽","tw":"馴獸","en":"Tame Beast","cnTags":["召唤生物","���伴","永久性","持续时间"],"twTags":["召喚物","盟友","持續","持續時間"]},
  "Temper_Weapon":{"cn":"淬炼武器","tw":"鍛鍊武器","en":"Temper Weapon","cnTags":["攻击","增益","效果区域","近战","触发","火焰","持续吟唱"],"twTags":["攻擊","增益效果","範圍效果","近戰","觸發","火焰","引導"]},
  "Tempest_Bell":{"cn":"风雷钟","tw":"風暴之鐘","en":"Tempest Bell","cnTags":["攻击","效果区域","近战","持续性","持续时间","条件"],"twTags":["攻擊","範圍效果","近戰","持續性","持續時間","條件"]},
  "Tempest_Flurry":{"cn":"风暴乱舞","tw":"暴風亂舞","en":"Tempest Flurry","cnTags":["攻击","效果区域","近战","打击","闪电"],"twTags":["攻擊","範圍效果","近戰","打擊","閃電"]},
@@ -340,8 +340,6 @@ export const GEM_DB: Record<string,GemEntry> = {
 
 export function lookup(name:string):GemEntry|null{
  const s=name.trim();
- for(const[,v]of Object.entries(GEM_DB)){if(v.cn===s||v.tw===s||v.en===s)return v}
+ for(const[k,v]of Object.entries(GEM_DB)){if(v.cn===s||v.tw===s||v.en===s){return{...v,key:k}}}
  return null;
 }
-export function cn2tw(s:string):string{const r=lookup(s);return r?r.tw||r.cn:s}
-export function tw2cn(s:string):string{const r=lookup(s);return r?r.cn||r.tw:s}

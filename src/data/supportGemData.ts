@@ -1,5 +1,5 @@
-// Support Gems — 526 gems
-export interface SupGemEntry { cn:string; tw:string; en:string; cnTags:string[]; twTags:string[] }
+// Auto-generated from poe2db.tw — 526 gems
+export interface SupGemEntry { cn:string; tw:string; en:string; cnTags:string[]; twTags:string[]; key?:string }
 export const SUP_GEM_DB: Record<string,SupGemEntry> = {
  "Abiding_Hex":{"cn":"恒远魔蛊","tw":"永久咒術","en":"Abiding Hex","cnTags":["辅助","诅咒"],"twTags":["輔助","詛咒"]},
  "Accelerated_Growth":{"cn":"迅猛绽放","tw":"飛速生長","en":"Accelerated Growth","cnTags":["辅助","法术","效果区域","触发","植物"],"twTags":["輔助","法術","範圍效果","觸發","植物"]},
@@ -121,7 +121,7 @@ export const SUP_GEM_DB: Record<string,SupGemEntry> = {
  "Considered_Casting":{"cn":"审慎施法","tw":"細思施法","en":"Considered Casting","cnTags":["辅助","法术"],"twTags":["輔助","法術"]},
  "Controlled_Destruction":{"cn":"精准破坏","tw":"精準破壞","en":"Controlled Destruction","cnTags":["辅助","法术"],"twTags":["輔助","法術"]},
  "Controlled_Hazard":{"cn":"受控危技","tw":"危險抑制","en":"Controlled Hazard","cnTags":["辅助","危害"],"twTags":["輔助","危險"]},
- "Cool_Headed":{"cn":"冷静头脑","tw":"冷靜","en":"Cool Headed","cnTags":["辅助","增益","永久性"],"twTags":["輔助","增益效果","持續"]},
+ "Cool_Headed":{"cn":"冷静头脑","tw":"冷靜","en":"Cool Headed","cnTags":["辅助","增益","永久��"],"twTags":["輔助","增益效果","持續"]},
  "Cooldown_Recovery_I":{"cn":"冷却回复 I","tw":"冷卻時間恢復 I","en":"Cooldown Recovery I","cnTags":["辅助"],"twTags":["輔助"]},
  "Cooldown_Recovery_II":{"cn":"冷却回复 II","tw":"冷卻時間恢復 II","en":"Cooldown Recovery II","cnTags":["辅助"],"twTags":["輔助"]},
  "Corpse_Conservation":{"cn":"灵盒留存","tw":"屍體保存","en":"Corpse Conservation","cnTags":["辅助"],"twTags":["輔助"]},
@@ -188,7 +188,7 @@ export const SUP_GEM_DB: Record<string,SupGemEntry> = {
  "Empowered_Sparks_II":{"cn":"强化火花 II","tw":"強化電球II","en":"Empowered Sparks II","cnTags":["辅助"],"twTags":["輔助"]},
  "Encroaching_Ground":{"cn":"侵蚀地面","tw":"進逼地面","en":"Encroaching Ground","cnTags":["辅助","效果区域"],"twTags":["輔助","範圍效果"]},
  "Enduring_Impact_I":{"cn":"持续冲击 I","tw":"堅忍衝擊 I","en":"Enduring Impact I","cnTags":["辅助"],"twTags":["輔助"]},
- "Enduring_Impact_II":{"cn":"持续冲击 II","tw":"堅忍衝擊 II","en":"Enduring Impact II","cnTags":["辅助"],"twTags":["輔助"]},
+ "Enduring_Impact_II":{"cn":"持��冲击 II","tw":"堅忍衝擊 II","en":"Enduring Impact II","cnTags":["辅助"],"twTags":["輔助"]},
  "Energy_Capacitor":{"cn":"能量电容","tw":"儲能","en":"Energy Capacitor","cnTags":["辅助"],"twTags":["輔助"]},
  "Energy_Retention":{"cn":"能量保存","tw":"能量保留","en":"Energy Retention","cnTags":["辅助","触发"],"twTags":["輔助","觸發"]},
  "Enraged_Warcry_I":{"cn":"燃怒战吼 I","tw":"激怒戰吼 I","en":"Enraged Warcry I","cnTags":["辅助","战吼"],"twTags":["輔助","戰吼"]},
@@ -413,7 +413,7 @@ export const SUP_GEM_DB: Record<string,SupGemEntry> = {
  "Refraction_III":{"cn":"折射 III","tw":"折射 III","en":"Refraction III","cnTags":["辅助","增益","永久性"],"twTags":["輔助","增益效果","持續"]},
  "Reinforced_Totems_I":{"cn":"增强图腾 I","tw":"強化圖騰 I","en":"Reinforced Totems I","cnTags":["辅助","图腾"],"twTags":["輔助","圖騰"]},
  "Reinforced_Totems_II":{"cn":"增强图腾 II","tw":"強化圖騰 II","en":"Reinforced Totems II","cnTags":["辅助","图腾"],"twTags":["輔助","圖騰"]},
- "Remnant_Potency_I":{"cn":"残片效能 I","tw":"痕跡強度 I","en":"Remnant Potency I","cnTags":["辅助","残片"],"twTags":["輔助","痕跡"]},
+ "Remnant_Potency_I":{"cn":"残片效能 I","tw":"痕跡強度 I","en":"Remnant Potency I","cnTags":["辅���","残片"],"twTags":["輔助","痕跡"]},
  "Remnant_Potency_II":{"cn":"残片效能 II","tw":"痕跡強度 II","en":"Remnant Potency II","cnTags":["辅助","残片"],"twTags":["輔助","痕跡"]},
  "Remnant_Potency_III":{"cn":"残片效能 III","tw":"痕跡強度 III","en":"Remnant Potency III","cnTags":["辅助","残片"],"twTags":["輔助","痕跡"]},
  "Rending_Apex":{"cn":"撕裂巅峰","tw":"撕裂頂點","en":"Rending Apex","cnTags":["辅助","攻击","近战","打击"],"twTags":["輔助","攻擊","近戰","打擊"]},
@@ -491,7 +491,7 @@ export const SUP_GEM_DB: Record<string,SupGemEntry> = {
  "Tireless":{"cn":"冷酷","tw":"孜孜不倦","en":"Tireless","cnTags":["辅助","战吼"],"twTags":["輔助","戰吼"]},
  "Tuls_Stillness":{"cn":"托沃的寂静","tw":"托沃的寧靜","en":"Tul","cnTags":["辅助","血统","冰霜","混沌"],"twTags":["輔助","族裔","冰冷","混沌"]},
  "Uhtreds_Augury":{"cn":"乌崔德的占卜","tw":"烏特雷的占卜術","en":"Uhtred","cnTags":["辅助","血统"],"twTags":["輔助","族裔"]},
- "Uhtreds_Exodus":{"cn":"乌崔德的出走","tw":"烏特雷的出走","en":"Uhtred","cnTags":["辅助","血统"],"twTags":["輔助","族裔"]},
+ "Uhtreds_Exodus":{"cn":"乌崔德的出走","tw":"烏特雷的出走","en":"Uhtred","cnTags":["辅助","血统"],"twTags":["輔助","族��"]},
  "Uhtreds_Omen":{"cn":"乌崔德的预兆","tw":"烏特雷的徵兆","en":"Uhtred","cnTags":["辅助","血统"],"twTags":["輔助","族裔"]},
  "Unleash":{"cn":"释出","tw":"釋放","en":"Unleash","cnTags":["辅助","法术"],"twTags":["輔助","法術"]},
  "Upheaval_I":{"cn":"剧变 I","tw":"動亂 I","en":"Upheaval I","cnTags":["辅助"],"twTags":["輔助"]},
@@ -531,6 +531,6 @@ export const SUP_GEM_DB: Record<string,SupGemEntry> = {
 
 export function supLookup(name:string):SupGemEntry|null{
  const s=name.trim();
- for(const[,v]of Object.entries(SUP_GEM_DB)){if(v.cn===s||v.tw===s||v.en===s)return v}
+ for(const[k,v]of Object.entries(SUP_GEM_DB)){if(v.cn===s||v.tw===s||v.en===s){return{...v,key:k}}}
  return null;
 }

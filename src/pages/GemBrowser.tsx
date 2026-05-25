@@ -72,15 +72,18 @@ export default function GemBrowser() {
           <div className="mt-4 grid grid-cols-3 gap-4 text-center">
             <div className="bg-poe-dark/40 rounded-lg p-3">
               <p className="text-[10px] text-poe-muted mb-1.5">简体中文</p>
-              <p className="text-base font-bold text-poe-text">{convertResult.cn || '—'}</p>
+              <a href={`https://poe2db.tw/cn/${convertResult.key}`} target="_blank" rel="noopener"
+                className="text-base font-bold text-poe-gold-light hover:underline">{convertResult.cn || '—'}</a>
             </div>
             <div className="bg-poe-dark/40 rounded-lg p-3">
               <p className="text-[10px] text-poe-muted mb-1.5">繁体中文</p>
-              <p className="text-base font-bold text-poe-text">{convertResult.tw || '—'}</p>
+              <a href={`https://poe2db.tw/tw/${convertResult.key}`} target="_blank" rel="noopener"
+                className="text-base font-bold text-poe-gold-light hover:underline">{convertResult.tw || '—'}</a>
             </div>
             <div className="bg-poe-dark/40 rounded-lg p-3">
               <p className="text-[10px] text-poe-muted mb-1.5">English</p>
-              <p className="text-base font-bold text-poe-text">{convertResult.en || '—'}</p>
+              <a href={`https://poe2db.tw/us/${convertResult.key}`} target="_blank" rel="noopener"
+                className="text-base font-bold text-poe-gold-light hover:underline">{convertResult.en || '—'}</a>
             </div>
 
             {/* Tags */}
@@ -96,6 +99,8 @@ export default function GemBrowser() {
         )}
 
       </div>
+
+      <p className="text-center text-xs text-poe-gold/70">💡 点击技能名称可跳转编年史对应页面</p>
 
       {/* Active gem list */}
       <details className="poe-card p-4">
