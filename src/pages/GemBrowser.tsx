@@ -1,22 +1,19 @@
 import { useState } from 'react';
 import { GEM_DB, type GemEntry, lookup } from '../data/gemData';
+import { SUP_GEM_DB, type SupGemEntry, supLookup } from '../data/supportGemData';
 
 export default function GemBrowser() {
   const [convertInput, setConvertInput] = useState('');
   const [convertResult, setConvertResult] = useState<GemEntry | null>(null);
-  const [lastInput, setLastInput] = useState('');
-
   const trimmed = convertInput.trim();
 
   const doConvert = (input: string) => {
     const clean = input.trim();
-    setLastInput(clean);
-    setConvertResult(lookup(clean));
+    setConvertResult(lookup(clean) || supLookup(clean) || null);
   };
 
-  // 按输入的首字模糊搜索建议
   const suggestions = (trimmed.length >= 1 && !convertResult)
-    ? Object.values(GEM_DB).filter(v =>
+    ? [...Object.values(GEM_DB), ...Object.values(SUP_GEM_DB)].filter(v =>
         v.cn.includes(trimmed) || v.tw.includes(trimmed) || v.en.toLowerCase().includes(trimmed.toLowerCase())
       ).slice(0, 8)
     : [];
@@ -25,7 +22,7 @@ export default function GemBrowser() {
     <div className="space-y-6">
       <div>
         <h1 className="text-xl font-bold text-poe-gold-light">技能宝石名称转换</h1>
-        <p className="text-xs text-poe-muted mt-1">输入简体/繁体/英文任意一种，显示全部三种名称 · 335 个技能</p>
+        <p className="text-xs text-poe-muted mt-1">输入简体/繁体/英文任意一种，显示全部三种名称 · 335 主动 + 526 辅助</p>
       </div>
 
       {/* Converter */}
@@ -87,23 +84,32 @@ export default function GemBrowser() {
           </div>
         )}
 
-        {lastInput && !convertResult && (
-          <p className="mt-3 text-xs text-poe-red text-center">未找到 "{lastInput}"</p>
-        )}
       </div>
 
-      {/* Quick list */}
+      {/* Active gem list */}
       <details className="poe-card p-4">
         <summary className="text-xs text-poe-muted cursor-pointer hover:text-poe-text">
-          浏览全部 {Object.keys(GEM_DB).length} 个技能
+          浏览全部 {Object.keys(GEM_DB).length} 个主动技能
         </summary>
         <div className="mt-3 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-1 max-h-96 overflow-y-auto">
           {Object.entries(GEM_DB).sort((a, b) => a[1].cn.localeCompare(b[1].cn, 'zh')).map(([en, v]) => (
             <button key={en} onClick={() => { setConvertInput(v.cn); doConvert(v.cn); }}
               className="text-left text-xs px-2 py-1 rounded text-poe-muted hover:text-poe-gold-light hover:bg-poe-gold/5 transition-colors truncate"
-            >
-              {v.cn}
-            </button>
+            >{v.cn}</button>
+          ))}
+        </div>
+      </details>
+
+      {/* Support gem list */}
+      <details className="poe-card p-4">
+        <summary className="text-xs text-poe-muted cursor-pointer hover:text-poe-text">
+          浏览全部 {Object.keys(SUP_GEM_DB).length} 个辅助技能
+        </summary>
+        <div className="mt-3 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-1 max-h-96 overflow-y-auto">
+          {Object.entries(SUP_GEM_DB).sort((a, b) => a[1].cn.localeCompare(b[1].cn, 'zh')).map(([en, v]) => (
+            <button key={en} onClick={() => { setConvertInput(v.cn); doConvert(v.cn); }}
+              className="text-left text-xs px-2 py-1 rounded text-poe-muted hover:text-poe-gold-light hover:bg-poe-gold/5 transition-colors truncate"
+            >{v.cn}</button>
           ))}
         </div>
       </details>
