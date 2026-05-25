@@ -1,6 +1,26 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { GEM_DB, type GemEntry, lookup } from '../data/gemData';
 import { SUP_GEM_DB, type SupGemEntry, supLookup } from '../data/supportGemData';
+
+function CopyBtn({ text }: { text: string }) {
+  const [copied, setCopied] = useState(false);
+  const copy = useCallback(async (e: React.MouseEvent) => {
+    e.preventDefault();
+    try { await navigator.clipboard.writeText(text); } catch {
+      const ta = document.createElement('textarea'); ta.value = text;
+      ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      document.execCommand('copy'); document.body.removeChild(ta);
+    }
+    setCopied(true); setTimeout(() => setCopied(false), 2000);
+  }, [text]);
+  return (
+    <button onClick={copy}
+      className="text-xs px-2 py-0.5 rounded bg-poe-gold/10 text-poe-gold/60 hover:text-poe-gold-light hover:bg-poe-gold/20 transition-colors">
+      {copied ? '已复制' : '复制'}
+    </button>
+  );
+}
 
 export default function GemBrowser() {
   const [convertInput, setConvertInput] = useState('');
@@ -72,18 +92,27 @@ export default function GemBrowser() {
           <div className="mt-4 grid grid-cols-3 gap-4 text-center">
             <div className="bg-poe-dark/40 rounded-lg p-3">
               <p className="text-[10px] text-poe-muted mb-1.5">简体中文</p>
-              <a href={`https://poe2db.tw/cn/${convertResult.key}`} target="_blank" rel="noopener"
-                className="text-base font-bold text-poe-gold-light hover:underline">{convertResult.cn || '—'}</a>
+              <div className="flex items-center justify-center gap-2">
+                <a href={`https://poe2db.tw/cn/${convertResult.key}`} target="_blank" rel="noopener"
+                  className="text-base font-bold text-poe-gold-light hover:underline">{convertResult.cn || '—'}</a>
+                {convertResult.cn && <CopyBtn text={convertResult.cn} />}
+              </div>
             </div>
             <div className="bg-poe-dark/40 rounded-lg p-3">
               <p className="text-[10px] text-poe-muted mb-1.5">繁体中文</p>
-              <a href={`https://poe2db.tw/tw/${convertResult.key}`} target="_blank" rel="noopener"
-                className="text-base font-bold text-poe-gold-light hover:underline">{convertResult.tw || '—'}</a>
+              <div className="flex items-center justify-center gap-2">
+                <a href={`https://poe2db.tw/tw/${convertResult.key}`} target="_blank" rel="noopener"
+                  className="text-base font-bold text-poe-gold-light hover:underline">{convertResult.tw || '—'}</a>
+                {convertResult.tw && <CopyBtn text={convertResult.tw} />}
+              </div>
             </div>
             <div className="bg-poe-dark/40 rounded-lg p-3">
               <p className="text-[10px] text-poe-muted mb-1.5">English</p>
-              <a href={`https://poe2db.tw/us/${convertResult.key}`} target="_blank" rel="noopener"
-                className="text-base font-bold text-poe-gold-light hover:underline">{convertResult.en || '—'}</a>
+              <div className="flex items-center justify-center gap-2">
+                <a href={`https://poe2db.tw/us/${convertResult.key}`} target="_blank" rel="noopener"
+                  className="text-base font-bold text-poe-gold-light hover:underline">{convertResult.en || '—'}</a>
+                {convertResult.en && <CopyBtn text={convertResult.en} />}
+              </div>
             </div>
 
             {/* Tags */}

@@ -39,6 +39,10 @@ html:not(.dark) .border-poe-border { border-color: #d4d4c4; }
 html:not(.dark) .text-poe-text { color: #1a1a1e; }
 html:not(.dark) .text-poe-muted { color: #52525b; }
 html:not(.dark) .text-poe-green { color: #2a8a4a; }
+html:not(.dark) .text-poe-gold\/60 { color: #7a6020; }
+html:not(.dark) .text-poe-gold\/10 { color: #8a7030; background-color: rgba(201,160,64,0.08); }
+html:not(.dark) .bg-poe-gold\/10 { background-color: rgba(201,160,64,0.08); }
+html:not(.dark) .bg-poe-dark\/40 { background-color: #e8e5d8; }
 /* Light mode: override opacity-based utilities with solid readable colors */
 html:not(.dark) .text-poe-muted\/70,
 html:not(.dark) .text-poe-muted\/60 { color: #5c5c66; }
