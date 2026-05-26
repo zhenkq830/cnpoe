@@ -5,3 +5,51 @@ dist
 .claude
 
 .vercel
+
+# Temp data extraction files
+_gems*.html
+_support_*.html
+_bows_*.html
+_items_*.html
+_liquid_*.html
+_modifiers_*.html
+_augment_*.html
+_gem_*.json
+_items.json
+_search.json
+_mod_data.json
+_rune_data.json
+
+# Temp scripts
+strip_*.cjs
+parse_*.cjs
+fix_*.cjs
+rebuild_*.cjs
+tc_*.cjs
+scan_*.cjs
+regenerate*.cjs
+cleanup*.cjs
+build_tc*.cjs
+final_*.cjs
+restore_*.cjs
+update_gems.cjs
+extract_*.cjs
+merge_*.cjs
+check_*.cjs
+test_*.cjs
+diff_*.cjs
+build_poe2*.cjs
+rebuild_all_data.cjs
+
+# Temp text files
+ws_*.txt
+tc_*.txt
+*.txt
+equip_*.txt
+
+# Temp images
+*.png
+
+# Temp data dumps
+ninja.txt
+tc_mapping.json
