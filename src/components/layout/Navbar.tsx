@@ -13,7 +13,7 @@ const NAV = [
   { to: '/', label: '首页', icon: '🏠' },
   { to: '/regex', label: '正则工坊', icon: '⚒' },
   { to: '/guide', label: '技能宝石', icon: '💎' },
-  { to: '/tools', label: '工具箱', icon: '🔧' },
+  { to: '/translate', label: '装备翻译', icon: '🔧' },
   { to: '/builds', label: 'BD构建', icon: '📋' },
 ];
 
@@ -43,7 +43,7 @@ export default function Navbar() {
         </div>
 
         {/* Center: Nav links (desktop) */}
-        <div className="hidden lg:flex items-center gap-1">
+        <div className="hidden lg:flex items-center gap-3">
           {NAV.map(n => {
             const active = n.to === '/' ? loc.pathname === '/' : loc.pathname.startsWith(n.to);
             return (

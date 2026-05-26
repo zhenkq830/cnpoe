@@ -30,7 +30,7 @@ function Footer() {
           {/* Left: copyright */}
           <div className="text-xs text-poe-muted text-center sm:text-left">
             <p className="font-bold text-poe-text mb-1">流放工坊</p>
-            <p>PoE2 中文玩家工具站 — 开源项目</p>
+            <p>PoE2 中文玩家工具站</p>
           </div>
 
           {/* Center: QQ groups */}
@@ -76,15 +76,37 @@ function Footer() {
   );
 }
 
+function BilibiliSidebar() {
+  return (
+    <aside className="hidden xl:block w-44 shrink-0">
+      <div className="sticky top-16 py-3 pl-2 pr-0 space-y-3">
+        <div className="poe-card p-4 text-center space-y-3">
+          <p className="text-xs text-poe-muted font-medium">作者 B 站</p>
+          <a href="https://space.bilibili.com/3493297450388177" target="_blank" rel="noopener noreferrer"
+            className="block text-sm font-bold text-poe-gold-light hover:text-poe-gold transition-colors">
+            狮子歌哥烦恼风
+          </a>
+          <p className="text-xs text-poe-muted/70 leading-relaxed">
+            如果觉得好用<br />帮忙点个关注就行，感谢
+          </p>
+        </div>
+      </div>
+    </aside>
+  );
+}
+
 export default function PageLayout({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
       <div className="flex flex-1">
         <Sidebar />
-        <main className="flex-1 max-w-5xl mx-auto w-full px-4 py-6">
-          {children}
-        </main>
+        <div className="flex flex-1 justify-center">
+          <main className="flex-1 max-w-5xl w-full px-4 py-6">
+            {children}
+          </main>
+          <BilibiliSidebar />
+        </div>
       </div>
       <Footer />
       <FloatingQQButton />

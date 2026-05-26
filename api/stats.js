@@ -38,7 +38,7 @@ export default async function handler(req, res) {
       .map(([name, count]) => ({ name, count }))
       .sort((a, b) => b.count - a.count);
 
-    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Origin', 'https://cnpoe.com');
     res.status(200).json({ updated: new Date().toISOString(), top: sorted });
   } catch (e) {
     res.status(500).json({ error: 'Internal error' });

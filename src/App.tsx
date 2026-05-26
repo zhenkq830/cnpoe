@@ -6,6 +6,7 @@ import HomePage from './pages/HomePage';
 import RegexForgePage from './pages/RegexForgePage';
 import PlaceholderPage from './pages/PlaceholderPage';
 import GemBrowser from './pages/GemBrowser';
+import ItemTranslator from './pages/ItemTranslator';
 
 function ThemeWatcher() {
   const theme = useAppStore(s => s.theme);
@@ -26,6 +27,7 @@ export default function App() {
           <Route path="/tools" element={<PlaceholderPage title="工具箱" icon="🔧" desc="伤害计算器、天赋模拟、词缀查询等实用工具" />} />
           <Route path="/builds" element={<PlaceholderPage title="BD构建" icon="📋" desc="热门 BD 分享、装备搭配推荐、天赋树导入" />} />
           <Route path="/guide" element={<GemBrowser />} />
+          <Route path="/translate" element={<ItemTranslator />} />
         </Routes>
       </PageLayout>
     </BrowserRouter>
