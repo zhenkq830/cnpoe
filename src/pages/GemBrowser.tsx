@@ -53,7 +53,7 @@ export default function GemBrowser() {
     <div className="space-y-6">
       <div>
         <h1 className="text-xl font-bold text-poe-gold-light">技能宝石名称转换</h1>
-        <p className="text-xs text-poe-muted mt-1">输入简体/繁体/英文任意一种，显示全部三种名称 · 335 主动 + 526 辅助</p>
+        <p className="text-xs text-poe-muted mt-1">输入简体/繁体/英文任意一种，显示全部三种名称</p>
       </div>
 
       {/* Converter */}
