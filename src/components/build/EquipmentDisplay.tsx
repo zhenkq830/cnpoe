@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 
 /* ================================================================
    Types
@@ -27,12 +27,18 @@ const SLOTS = [
 ] as const;
 
 /* 像素坐标 — 原图 629x642, 用于覆盖在 2211.png 上 */
+/* 装备槽像素坐标 — 原图 960×987, 等比缩放到容器 360px 宽, scale=0.375 */
+const S = 360/960; // ≈0.375
 const SLOT_PX: Record<string,{x:number;y:number;w:number;h:number}> = {
-  Helmet: {x:315,y:125,w:72,h:72}, Amulet: {x:420,y:200,w:52,h:52},
-  Weapon: {x:510,y:320,w:72,h:144}, Offhand:{x:120,y:320,w:72,h:144},
-  Body:   {x:315,y:340,w:72,h:72}, Ring1:  {x:440,y:240,w:52,h:52},
-  Ring2:  {x:190,y:240,w:52,h:52}, Gloves: {x:200,y:440,w:52,h:52},
-  Belt:   {x:315,y:430,w:72,h:52}, Boots:  {x:430,y:440,w:52,h:52},
+  Weapon:  {x:Math.round(169*S),y:Math.round(303*S),w:Math.round(211*S),h:Math.round(415*S)},
+  Helmet:  {x:Math.round(508*S),y:Math.round(193*S),w:Math.round(209*S),h:Math.round(215*S)},
+  Offhand: {x:Math.round(850*S),y:Math.round(303*S),w:Math.round(219*S),h:Math.round(415*S)},
+  Ring2:   {x:Math.round(336*S),y:Math.round(458*S),w:Math.round(109*S),h:Math.round(105*S)},
+  Body:    {x:Math.round(283*S),y:Math.round(631*S),w:Math.round(209*S),h:Math.round(210*S)},
+  Belt:    {x:Math.round(508*S),y:Math.round(681*S),w:Math.round(209*S),h:Math.round(110*S)},
+  Ring1:   {x:Math.round(676*S),y:Math.round(458*S),w:Math.round(109*S),h:Math.round(105*S)},
+  Amulet:  {x:Math.round(676*S),y:Math.round(353*S),w:Math.round(109*S),h:Math.round(105*S)},
+  Boots:   {x:Math.round(726*S),y:Math.round(631*S),w:Math.round(209*S),h:Math.round(210*S)},
 };
 
 function itemIcon(item: ItemData): string { return item.icon || ''; }
@@ -70,12 +76,6 @@ function Tooltip({ item, x, y }: { item: ItemData; x: number; y: number }) {
 export default function EquipmentDisplay({ items, priority }: { items: ItemData[]; priority?: { slot:string; label:string }[] }) {
   const [focusSlot, setFocusSlot] = useState<string|null>(null);
   const [tooltip, setTooltip] = useState<{item:ItemData;x:number;y:number}|null>(null);
-  const imgRef = useRef<HTMLImageElement>(null);
-  const [scale, setScale] = useState(1);
-  useEffect(() => {
-    const update = () => { if (imgRef.current) setScale(imgRef.current.clientWidth / 629); };
-    update(); window.addEventListener('resize', update); return () => window.removeEventListener('resize', update);
-  }, []);
   const map = Object.fromEntries(items.map(i => [i.slot, i]));
   const focused = focusSlot ? map[focusSlot] : undefined;
 
@@ -84,19 +84,19 @@ export default function EquipmentDisplay({ items, priority }: { items: ItemData[
       {/* Paper doll */}
       <div className="xl:col-span-2 flex flex-col items-center">
         <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-[0.2em] mb-4">装备配置</p>
-        <div className="relative mx-auto" style={{ maxWidth: 629 }}>
-          <img ref={imgRef} src="/items/2211.png" alt="" className="w-full h-auto block" onLoad={() => { if (imgRef.current) setScale(imgRef.current.clientWidth / 629); }} />
+        {/* Paper doll area — 629x642 参考尺寸 */}
+        <div className="relative mx-auto" style={{ width: 360, height: 420 }}>
           {SLOTS.map(s => {
             const it = map[s.id];
-            const px = SLOT_PX[s.id] || {x:315,y:321,w:72,h:72};
+            const px = SLOT_PX[s.id] || {x:180,y:260,w:64,h:64};
             const clr = it ? R[it.rarity] : R.Normal;
             const isFocused = focusSlot === s.id;
             return (
               <div key={s.id}
                 className="absolute -translate-x-1/2 -translate-y-1/2 cursor-pointer select-none transition-all duration-200 hover:scale-105 rounded-xl"
                 style={{
-                  left: px.x * scale, top: px.y * scale,
-                  width: px.w * scale, height: px.h * scale,
+                  left: px.x, top: px.y,
+                  width: px.w, height: px.h,
                   zIndex: isFocused ? 20 : 10,
                   transform: isFocused ? 'translate(-50%,-50%) scale(1.12)' : 'translate(-50%,-50%)',
                 }}

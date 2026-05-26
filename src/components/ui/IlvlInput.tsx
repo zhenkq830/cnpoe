@@ -8,7 +8,6 @@ const PRESETS: { label: string; min: number; max: number }[] = [
   { label: '81+', min: 81, max: 0 },
   { label: '82+', min: 82, max: 0 },
   { label: '85+', min: 85, max: 0 },
-  { label: '90+', min: 90, max: 0 },
 ];
 
 export default function IlvlInput({ ilvlMin, ilvlMax, onChange }: Props) {
@@ -54,7 +53,7 @@ export default function IlvlInput({ ilvlMin, ilvlMax, onChange }: Props) {
               key={p.label}
               type="button"
               onClick={() => onChange(p.min, p.max)}
-              className={`px-2 py-0.5 rounded text-[10px] font-medium transition-all ${
+              className={`px-2 py-0.5 rounded text-[10px] font-medium font-mono transition-all ${
                 active
                   ? 'bg-poe-gold/20 text-poe-gold-light border border-poe-gold/40'
                   : 'bg-poe-dark/50 text-poe-muted border border-poe-border hover:text-poe-text'
